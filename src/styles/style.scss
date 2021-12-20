@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mulish:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700;1,800;1,900&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;173;200;300;335;400;497;500;600;697;700;751;783;800;862;900&display=swap");
-$primary-color: #ddd;
+$primary-color: #d95dff;
 $dark-gray: #333;
 $light-gray: #777;
 
@@ -49,6 +49,7 @@ header {
   .logo {
     font-size: 24px;
     font-weight: 900;
+    color: $primary-color;
   }
 }
 .hero-banner {
@@ -59,6 +60,8 @@ header {
   text-align: center;
   h1 {
     font-size: 64px;
+    color: $dark-gray;
+    color: #fff;
   }
   p {
     font-size: 12px;
@@ -66,5 +69,30 @@ header {
     margin: 0 auto;
     line-height: 1.5;
     padding: 20px 0;
+    color: #777;
+  }
+}
+body {
+  background: $dark-gray;
+}
+.nav {
+  ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    li {
+      margin: 0 15px;
+      a {
+        color: #fff;
+        font-size: 14px;
+        text-transform: uppercase;
+        &:hover {
+          color: $primary-color;
+        }
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
