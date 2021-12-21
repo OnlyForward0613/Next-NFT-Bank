@@ -12,6 +12,8 @@ export default function NFTMap() {
             name={item.name}
             state={item.state}
             description={item.description}
+            reward={item.reward}
+            stakedTime={item.stakedTime}
           />
         ))}
       </div>
@@ -31,12 +33,14 @@ const nfts = [
     name: "NFT #23",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
     state: 1,
+    reward: 25,
     stakedTime: 1640053026,
   },
   {
     img: "/s3.png",
     name: "NFT #23",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    reward: 32,
     state: 2,
   },
   {

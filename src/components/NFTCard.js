@@ -1,9 +1,21 @@
-import { DoActionButton, UnstakeButton, ClaimButton } from "./styleHook";
-import Countdown from 'react-countdown';
+import { useState } from "react"
+import { DoActionButton, UnstakeButton, ClaimButton } from "./styleHook"
+import Countdown from 'react-countdown'
 
-export default function NFTCard({ image, name, description, state, ...props }) {
+export default function NFTCard({ image, name, description, state, reward, stakedTime, ...props }) {
+  const [days, setDays] = useState(0)
+  const [hours, setHours] = useState(0)
+  const [minute, setMinute] = useState(0)
+  const [second, setSecond] = useState(0)
+
+  const handleTime = (e) => {
+    setDays(e.days < 10 ? `0${e.days}` : e.days)
+    setHours(e.hours < 10 ? `0${e.hours}` : e.hours)
+    setMinute(e.minutes < 10 ? `0${e.minutes}` : e.minutes)
+    setSecond(e.seconds < 10 ? `0${e.seconds}` : e.seconds)
+  }
   return (
-    <div className="nft-card">
+    <div className={state === 0 ? "nft-card" : "nft-card staked"}>
       {/* eslint-disable-next-line */}
       <img
         alt=""
@@ -11,15 +23,17 @@ export default function NFTCard({ image, name, description, state, ...props }) {
       />
       <p className="name">{name}</p>
       <p></p>
-      {state === 1 &&
+      {state !== 0 &&
         <>
           <div className="cost-ribbon">
-            <p>35<span>%</span></p>
+            <p>{reward}<span>%</span></p>
             <p className="reward">reward</p>
           </div>
-          <p className="left-days">
-            <span>354</span> day: <span>11</span> hour : <span>34</span> min : <span>13</span> sec
-          </p>
+          {state === 1 &&
+            <p className="left-days">
+              <span>{days}</span> day: <span>{hours}</span> hour : <span>{minute}</span> min : <span>{second}</span> sec
+            </p>
+          }
         </>
       }
       <div className="card-action">
@@ -38,6 +52,10 @@ export default function NFTCard({ image, name, description, state, ...props }) {
             Claim
           </ClaimButton>
         }
+      </div>
+
+      <div style={{ display: "none" }}>
+        <Countdown date="2022-12-20" onTick={(e) => handleTime(e)} />
       </div>
     </div >
   )
