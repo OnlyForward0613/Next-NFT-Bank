@@ -20,11 +20,13 @@ export default function Header({
               <a>Home</a>
             </Link>
           </li>
-          <li>
-            <Link href="/bank">
-              <a>BANK</a>
-            </Link>
-          </li>
+          {connected &&
+            <li>
+              <Link href="/bank">
+                <a>BANK</a>
+              </Link>
+            </li>
+          }
           <li>
             <ConnectButton onClick={connectWallet} disabled={connected}>
               {connected ?
