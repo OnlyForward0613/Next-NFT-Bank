@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { green, pink } from '@mui/material/colors';
+import { green, red, blueGrey } from '@mui/material/colors';
 import { styled } from '@mui/system';
 
 export const ConnectButton = styled(Button)(({ theme }) => ({
@@ -62,24 +62,42 @@ export const DoActionButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-export const PilActionButton = styled(Button)(({ theme }) => ({
+export const UnstakeButton = styled(Button)(({ theme }) => ({
   color: "#fff",
-  borderRadius: 5,
+  borderRadius: 3,
   fontSize: 12,
   fontWeight: 900,
-  textTransform: "none",
-  backgroundColor: pink[600],
+  textTransform: "uppercase",
+  backgroundColor: red[600],
   height: 30,
   position: "relative",
-  marginTop: 10,
   zIndex: 15,
-  borderColor: `${pink[800]} !important`,
+  borderColor: `${red[800]} !important`,
   '&:hover': {
-    backgroundColor: pink[800],
+    backgroundColor: red[800],
   },
   '&:disabled': {
     color: "#fff",
-    backgroundColor: pink[600],
+    backgroundColor: red[600],
+  }
+}));
+export const ClaimButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  borderRadius: 3,
+  fontSize: 12,
+  fontWeight: 900,
+  textTransform: "uppercase",
+  backgroundColor: blueGrey[600],
+  height: 30,
+  position: "relative",
+  zIndex: 15,
+  borderColor: `${blueGrey[800]} !important`,
+  '&:hover': {
+    backgroundColor: blueGrey[800],
+  },
+  '&:disabled': {
+    color: "#fff",
+    backgroundColor: blueGrey[600],
   }
 }));
 

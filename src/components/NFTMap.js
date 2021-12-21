@@ -10,6 +10,7 @@ export default function NFTMap() {
             key={key}
             image={item.img}
             name={item.name}
+            state={item.state}
             description={item.description}
           />
         ))}
@@ -22,31 +23,38 @@ const nfts = [
   {
     img: "/s1.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 0,
   },
   {
     img: "/s2.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 1,
+    stakedTime: 1640053026,
   },
   {
     img: "/s3.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 2,
   },
   {
     img: "/s1.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 0,
   },
   {
     img: "/s2.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 0,
   },
   {
     img: "/s3.png",
     name: "NFT #23",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+    state: 0,
   },
 ]

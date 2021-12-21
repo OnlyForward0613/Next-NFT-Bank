@@ -52,6 +52,48 @@ header {
     color: $primary-color;
   }
 }
+
+.mobile-nav {
+  display: none;
+  button.ham {
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 25px;
+    top: 25px;
+  }
+}
+
+.hamburger {
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 99;
+}
+.mobile-dropdown {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000ed;
+  z-index: 90;
+  height: 0;
+  overflow: hidden;
+  transition: all 0.3s;
+  ul {
+    list-style: none;
+    li {
+      margin: 40px 0;
+      a {
+        color: #fff;
+        padding: 10px;
+      }
+    }
+  }
+}
 .hero-banner {
   min-height: 100vh;
   display: flex;
@@ -154,6 +196,7 @@ body {
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0 4px 10px #00000059;
+  position: relative;
   img {
     object-fit: contain;
     width: auto;
@@ -172,50 +215,48 @@ body {
 .card-action {
   text-align: center;
 }
-.mobile-nav {
-  display: none;
-  button.ham {
-    border: none;
-    background: transparent;
-    position: absolute;
-    right: 25px;
-    top: 25px;
-  }
-}
-
-.hamburger {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 99;
-}
-.mobile-dropdown {
-  position: fixed;
-  width: 100%;
-  left: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000000ed;
-  z-index: 90;
-  height: 0;
-  overflow: hidden;
-  transition: all 0.3s;
-  ul {
-    list-style: none;
-    li {
-      margin: 40px 0;
-      a {
-        color: #fff;
-        padding: 10px;
-      }
-    }
-  }
-}
 .mobile-dropdown.active {
   height: 100vh;
   transition: all 0.3s;
+}
+.cost-ribbon {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 2;
+  background: #004c61;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-direction: column;
+  p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    span {
+      font-size: 10px;
+      margin-left: 3px;
+    }
+  }
+  p.reward {
+    font-weight: 300;
+    font-size: 12px;
+    border-top: 1px solid #ccc;
+  }
+}
+.left-days {
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+  padding-bottom: 10px;
+  span {
+    font-weight: 600;
+    font-size: 18px;
+  }
 }
 @media (max-width: 992px) {
   .nft-card {
