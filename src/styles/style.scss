@@ -263,6 +263,68 @@ body {
     font-family: sans-serif;
   }
 }
+.stake-modal {
+  display: flex;
+}
+.modal-image {
+  width: 200px;
+  height: 200px;
+  img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+}
+.modal-content {
+  width: calc(100% - 220px);
+  margin-left: 20px;
+  p {
+    font-size: 10px;
+    color: #88ffb7;
+    line-height: 1.5;
+  }
+  h5 {
+    font-size: 12px;
+    color: #fff;
+    line-height: 1.5;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+}
+.reward-value {
+  font-size: 14px !important;
+  span {
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
+.agree-mode {
+  display: flex;
+  align-items: start;
+  margin-top: 20px;
+  p {
+    color: #fff;
+  }
+}
+input.reward-input {
+  font-size: 18px;
+  width: 80px;
+  text-align: right;
+  font-weight: 600;
+  color: #fff;
+  background: transparent;
+  border: 1px solid #ccc;
+  outline: none;
+  padding: 5px 5px;
+  border-radius: 3px;
+}
+.modal-action {
+  text-align: center;
+  margin-top: 20px;
+}
 @media (max-width: 992px) {
   .nft-card {
     width: calc(33% - 20px);

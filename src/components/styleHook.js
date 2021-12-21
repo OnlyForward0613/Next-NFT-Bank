@@ -40,6 +40,26 @@ export const MintButton = styled(Button)(({ theme }) => ({
     backgroundColor: green[600],
   }
 }));
+export const BigStakeButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  borderRadius: 0,
+  fontSize: 22,
+  fontWeight: 700,
+  textTransform: "uppercase",
+  backgroundColor: green[600],
+  width: 240,
+  height: 50,
+  position: "relative",
+  fontFamily: "Raleway",
+  zIndex: 15,
+  '&:hover': {
+    backgroundColor: green[800],
+  },
+  '&:disabled': {
+    color: "#fff",
+    backgroundColor: green[600],
+  }
+}));
 
 export const DoActionButton = styled(Button)(({ theme }) => ({
   color: "#fff",

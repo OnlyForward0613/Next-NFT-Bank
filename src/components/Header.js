@@ -26,11 +26,6 @@ export default function Header({
           {connected &&
             <>
               <li>
-                <Link href="/mint">
-                  <a>MINT</a>
-                </Link>
-              </li>
-              <li>
                 <Link href="/bank">
                   <a>BANK</a>
                 </Link>
@@ -87,11 +82,6 @@ export default function Header({
             </li>
             {connected &&
               <>
-                <li>
-                  <Link href="/mint">
-                    <a onClick={() => setOpen(false)}>MINT</a>
-                  </Link>
-                </li>
                 <li>
                   <Link href="/bank">
                     <a onClick={() => setOpen(false)}>BANK</a>
