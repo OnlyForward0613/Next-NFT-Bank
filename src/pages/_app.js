@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify'
 import Loading from '../components/Loading'
 import Header from '../components/Header'
 import Web3 from 'web3'
-import { CHAIN_ID } from '../../config'
 import { errorAlert } from '../components/toastGroup'
 
 let provider = undefined
@@ -57,7 +56,7 @@ function MyApp({ Component, pageProps }) {
     connectWallet()
 
     ethereum.on('chainChanged', (chainId) => {
-      if (parseInt(chainId) === CHAIN_ID) {
+      if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
         connectWallet()
       } else {
         setConnected(false)
@@ -70,11 +69,11 @@ function MyApp({ Component, pageProps }) {
   const checkNetwork = async () => {
     const web3 = new Web3(Web3.givenProvider);
     const chainId = await web3.eth.getChainId()
-    if (chainId !== CHAIN_ID) {
+    if (chainId === 56 || chainId === 97) {
+      return true
+    } else {
       errorAlert(error[0])
       return false
-    } else {
-      return true
     }
   }
 
@@ -85,7 +84,9 @@ function MyApp({ Component, pageProps }) {
         connectWallet={connectWallet}
         connected={connected}
       />
-      <Component {...pageProps} />
+      <Component {...pageProps}
+        connected={connected}
+      />
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
       <Loading loading={pageLoading} />
     </>

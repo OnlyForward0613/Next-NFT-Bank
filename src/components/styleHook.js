@@ -43,14 +43,15 @@ export const MintButton = styled(Button)(({ theme }) => ({
 
 export const DoActionButton = styled(Button)(({ theme }) => ({
   color: "#fff",
-  borderRadius: 5,
+  borderRadius: 3,
   fontSize: 12,
-  fontWeight: 900,
-  textTransform: "none",
+  fontWeight: 600,
+  textTransform: "uppercase",
   backgroundColor: green[600],
   height: 30,
   position: "relative",
   zIndex: 15,
+  fontFamily: "Raleway",
   borderColor: `${green[800]} !important`,
   '&:hover': {
     backgroundColor: green[800],

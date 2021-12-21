@@ -21,11 +21,18 @@ export default function Header({
             </Link>
           </li>
           {connected &&
-            <li>
-              <Link href="/bank">
-                <a>BANK</a>
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link href="/mint">
+                  <a>MINT</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/bank">
+                  <a>BANK</a>
+                </Link>
+              </li>
+            </>
           }
           <li>
             <ConnectButton onClick={connectWallet} disabled={connected}>
@@ -37,6 +44,6 @@ export default function Header({
           </li>
         </ul>
       </div>
-    </header>
+    </header >
   )
 }
