@@ -1,23 +1,20 @@
 import { Container } from "@mui/material";
 
-export default function TotalList() {
+export default function TotalList({
+  total,
+  groupNFT,
+  ...props
+}) {
   return (
     <div className="total-list">
       <Container>
-        <p className="total-nft">Total NFTs:<span>17</span></p>
+        <p className="total-nft">Total NFTs:<span>{total}</span></p>
         <div className="total-list-content">
-          <div className="list-item">
-            <p>Owl NFTs:<span>4</span></p>
-          </div>
-          <div className="list-item">
-            <p>PrettyKitty NFTs:<span>5</span></p>
-          </div>
-          <div className="list-item">
-            <p>BoardZilla NFTs:<span>1</span></p>
-          </div>
-          <div className="list-item">
-            <p>OMG NFTs:<span>2</span></p>
-          </div>
+          {Object.keys(groupNFT).map((item, key) => (
+            <div className="list-item" key={key}>
+              <p>{item}:<span>{groupNFT[Object.keys(groupNFT)[key]].length}</span></p>
+            </div>
+          ))}
         </div>
       </Container>
     </div>

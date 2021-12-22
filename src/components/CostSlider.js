@@ -110,7 +110,7 @@ export default function CostSlider() {
   return (
     <Box style={{ paddingTop: 40 }}>
       <PrettoSlider
-        defaultValue={10}
+        defaultValue={1}
         scale={calculateValue}
         step={0.1}
         getAriaValueText={valueLabelFormat}

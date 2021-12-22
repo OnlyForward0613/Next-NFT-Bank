@@ -1,17 +1,41 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { DoActionButton, UnstakeButton, BigStakeButton } from "./styleHook"
 import Countdown from 'react-countdown'
 import { Modal, Box, Checkbox } from "@mui/material"
 import CostSlider from "./CostSlider"
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles'
 
-export default function NFTCard({ image, name, description, state, reward, stakedTime, ...props }) {
+export default function NFTCard({ state, data, contract, ...props }) {
   const [days, setDays] = useState(0)
   const [hours, setHours] = useState(0)
   const [minute, setMinute] = useState(0)
   const [second, setSecond] = useState(0)
-
+  console.log(contract)
   const [open, setOpen] = useState(false)
+
+  const [image, setImage] = useState("")
+  const [name, setName] = useState("")
+  const [description, setDescription] = useState("")
+  const [reward, setReward] = useState("")
+  const [stakedTime, setStakedTime] = useState("")
+  const [tokenAddress, setTokenAddress] = useState("")
+  const [tokenId, setTokenId] = useState("")
+  const [hash, setHash] = useState("")
+
+  const setDetail = async (data) => {
+    setName(data.name + " #" + data.token_id)
+    setTokenAddress(data.token_address)
+    setTokenId(data.token_id)
+    setHash(data.token_uri)
+
+    await fetch(data.token_uri)
+      .then(resp =>
+        resp.json()
+      ).then((json) => {
+        setImage(json.image)
+        setDescription(json.description)
+      })
+  }
 
   const handleTime = (e) => {
     setDays(e.days < 10 ? `0${e.days}` : e.days)
@@ -19,6 +43,9 @@ export default function NFTCard({ image, name, description, state, reward, stake
     setMinute(e.minutes < 10 ? `0${e.minutes}` : e.minutes)
     setSecond(e.seconds < 10 ? `0${e.seconds}` : e.seconds)
   }
+  useEffect(() => {
+    setDetail(data)
+  })
   return (
     <div className={state !== 1 ? "nft-card" : "nft-card staked"}>
       {/* eslint-disable-next-line */}
@@ -72,7 +99,7 @@ const style = {
   boxShadow: 24,
   borderRadius: "12px",
   p: 4,
-};
+}
 
 export function CardModal({ name, image, description, open, close, ...props }) {
   const [agree, setAgree] = useState(false)
@@ -149,7 +176,7 @@ const BpIcon = styled('span')(({ theme }) => ({
     background:
       theme.palette.mode === 'dark' ? 'rgba(57,75,89,.5)' : 'rgba(206,217,224,.5)',
   },
-}));
+}))
 
 const BpCheckedIcon = styled(BpIcon)({
   backgroundColor: '#52af77',

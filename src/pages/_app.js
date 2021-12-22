@@ -5,9 +5,13 @@ import { ToastContainer } from 'react-toastify'
 import Loading from '../components/Loading'
 import Header from '../components/Header'
 import Web3 from 'web3'
+import { ethers } from 'ethers'
 import { errorAlert } from '../components/toastGroup'
+import { MoralisProvider } from "react-moralis"
+import { APP_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
 
 let provider = undefined
+let contract = undefined
 const error = [
   "The wrong network, please switch to the Binance Smart Chain network."
 ]
@@ -19,25 +23,23 @@ function MyApp({ Component, pageProps }) {
   const connectWallet = async () => {
 
     if (await checkNetwork()) {
-      const providerOptions = {
-        /* See Provider Options Section */
-      }
-      setConnected(true)
-      const web3Modal = new Web3Modal({
-        network: "mainnet", // optional
-        cacheProvider: true, // optional
-        providerOptions // required
-      })
-      provider = await web3Modal.connect()
-      provider.on("accountsChanged", (accounts) => {
-        console.log(accounts)
+      const web3Modal = new Web3Modal();
+      const connection = await web3Modal.connect();
+      provider = new ethers.providers.Web3Provider(connection);
+      const signer = provider.getSigner();
+      contract = new ethers.Contract(
+        SMARTCONTRACT_ADDRESS,
+        SMARTCONTRACT_ABI,
+        signer
+      );
+      ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length === 0) {
           setConnected(false)
         } else {
           setConnected(true)
           setSignerAddress(accounts[0])
         }
-      });
+      })
     }
   }
   useEffect(() => {
@@ -48,10 +50,10 @@ function MyApp({ Component, pageProps }) {
       } else {
         setConnected(false)
       }
-    });
+    })
     if (ethereum.selectedAddress !== null) {
-      setConnected(true)
       setSignerAddress(ethereum.selectedAddress)
+      setConnected(true)
     }
     connectWallet()
 
@@ -67,7 +69,7 @@ function MyApp({ Component, pageProps }) {
   }, [])
 
   const checkNetwork = async () => {
-    const web3 = new Web3(Web3.givenProvider);
+    const web3 = new Web3(Web3.givenProvider)
     const chainId = await web3.eth.getChainId()
     if (chainId === 56 || chainId === 97) {
       return true
@@ -78,7 +80,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <>
+    <MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
       <Header
         signerAddress={signerAddress}
         connectWallet={connectWallet}
@@ -86,10 +88,13 @@ function MyApp({ Component, pageProps }) {
       />
       <Component {...pageProps}
         connected={connected}
+        startLoading={() => setPageLoading(true)}
+        closeLoading={() => setPageLoading(false)}
+        contract={contract}
       />
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
       <Loading loading={pageLoading} />
-    </>
+    </MoralisProvider>
   )
 }
 
