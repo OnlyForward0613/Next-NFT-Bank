@@ -40,10 +40,6 @@ const marks = [
   },
 ]
 
-function valuetext(value) {
-  return `${value}%`
-}
-
 function calculateValue(value) {
   return value
 }
@@ -71,41 +67,37 @@ function valueLabelFormat(value) {
   return label
 }
 
-export default function CostSlider() {
-  const [value, setValue] = React.useState(1)
+export default function CostSlider({
+  setAmount,
+  ...props
+}) {
   const [real, setReal] = React.useState(10)
   const [step, setStep] = React.useState(0)
   const steps = [0.1, 0.12, 0.15, 0.2, 0.25, 0.35, 0.42, 0.5]
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-    let temp
     if (newValue < 5) {
-      temp = 10 + newValue * 2
-      setStep(0)
+      setData(10 + newValue * 2, 0)
     } else if (newValue >= 5 && newValue < 10) {
-      temp = 20 + (newValue - 5) * 2
-      setStep(1)
+      setData(20 + (newValue - 5) * 2, 1)
     } else if (newValue >= 10 && newValue < 15) {
-      temp = 30 + (newValue - 10) * 4
-      setStep(2)
+      setData(30 + (newValue - 10) * 4, 2)
     } else if (newValue >= 15 && newValue < 22) {
-      temp = 50 + (newValue - 15) * 7
-      setStep(3)
+      setData(50 + (newValue - 15) * 7, 3)
     } else if (newValue >= 22 && newValue < 32) {
-      temp = 100 + (newValue - 22) * 40
-      setStep(4)
+      setData(100 + (newValue - 22) * 40, 4)
     } else if (newValue >= 32 && newValue < 42) {
-      temp = 500 + (newValue - 32) * 30
-      setStep(5)
+      setData(500 + (newValue - 32), 5)
     } else if (newValue >= 42 && newValue < 50) {
-      temp = 800 + (newValue - 42) * 25
-      setStep(6)
+      setData(800 + (newValue - 42) * 25, 6)
     } else if (newValue === 50) {
-      temp = 1000
-      setStep(7)
+      setData(1000, 7)
     }
-    setReal(temp.toFixed(2))
+  }
+  const setData = (count, step) => {
+    setReal(count.toFixed(2))
+    setStep(step)
+    setAmount(count.toFixed(2))
   }
   return (
     <Box style={{ paddingTop: 40 }}>

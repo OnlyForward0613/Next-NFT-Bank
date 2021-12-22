@@ -4,13 +4,13 @@ import Countdown from 'react-countdown'
 import { Modal, Box, Checkbox } from "@mui/material"
 import CostSlider from "./CostSlider"
 import { styled } from '@mui/material/styles'
+import ClipLoader from "react-spinners/ClipLoader"
 
 export default function NFTCard({ state, data, contract, ...props }) {
   const [days, setDays] = useState(0)
   const [hours, setHours] = useState(0)
   const [minute, setMinute] = useState(0)
   const [second, setSecond] = useState(0)
-  console.log(contract)
   const [open, setOpen] = useState(false)
 
   const [image, setImage] = useState("")
@@ -21,13 +21,17 @@ export default function NFTCard({ state, data, contract, ...props }) {
   const [tokenAddress, setTokenAddress] = useState("")
   const [tokenId, setTokenId] = useState("")
   const [hash, setHash] = useState("")
+  const [action, setAction] = useState(0)
+  const [balance, setBalance] = useState(0)
 
   const setDetail = async (data) => {
     setName(data.name + " #" + data.token_id)
     setTokenAddress(data.token_address)
     setTokenId(data.token_id)
     setHash(data.token_uri)
-
+    const sttt = await contract.activities(data.token_uri)
+    // const bal = await contract.balanceOf()z
+    setAction(sttt.action)
     await fetch(data.token_uri)
       .then(resp =>
         resp.json()
@@ -47,20 +51,20 @@ export default function NFTCard({ state, data, contract, ...props }) {
     setDetail(data)
   })
   return (
-    <div className={state !== 1 ? "nft-card" : "nft-card staked"}>
+    <div className={action !== 1 ? "nft-card" : "nft-card staked"}>
       {/* eslint-disable-next-line */}
       <img
         alt=""
         src={image}
       />
       <p className="name">{name}</p>
-      {state === 1 &&
+      {action === 1 &&
         <>
           <div className="cost-ribbon">
             <p>{reward}<span>%</span></p>
             <p className="reward">reward</p>
           </div>
-          {state === 1 &&
+          {action === 1 &&
             <p className="left-days">
               <span>{days}</span> day: <span>{hours}</span> hour : <span>{minute}</span> min : <span>{second}</span> sec
             </p>
@@ -68,23 +72,33 @@ export default function NFTCard({ state, data, contract, ...props }) {
         </>
       }
       <div className="card-action">
-        {state !== 1 &&
+        {action !== 1 &&
           <DoActionButton onClick={() => setOpen(true)}>
             Stake
           </DoActionButton>
         }
-        {state === 1 &&
+        {action === 1 &&
           <UnstakeButton>
             Unstake
           </UnstakeButton>
         }
       </div>
-      {state === 1 &&
+      {action === 1 &&
         <div style={{ display: "none" }}>
           <Countdown date={stakedTime} onTick={(e) => handleTime(e)} />
         </div>
       }
-      <CardModal name={name} description={description} image={image} open={open} close={() => setOpen(false)} />
+      <CardModal
+        name={name}
+        description={description}
+        image={image}
+        contract={contract}
+        tokenAddress={tokenAddress}
+        tokenId={tokenId}
+        hash={hash}
+        open={open}
+        close={() => setOpen(false)}
+      />
     </div>
   )
 }
@@ -101,10 +115,39 @@ const style = {
   p: 4,
 }
 
-export function CardModal({ name, image, description, open, close, ...props }) {
+export function CardModal({
+  name,
+  image,
+  description,
+  open,
+  close,
+  contract,
+  tokenAddress,
+  tokenId,
+  balance,
+  hash,
+  ...props }) {
   const [agree, setAgree] = useState(false)
+  const [amount, setAmount] = useState(10)
+  const [loading, setLoading] = useState(false)
+  const [agreeVali, setAgreeVali] = useState(false)
+
   const handleChange = (e) => {
     setAgree(e.target.checked)
+    setAgreeVali(false)
+  }
+  const stake = async () => {
+    if (agree) {
+      setLoading(true)
+      try {
+        await contract.stakebyHash(hash, tokenAddress, tokenId, (amount * Math.pow(10, 18)).toString())
+      } catch (err) {
+        console.log(err)
+      }
+      setLoading(false)
+    } else {
+      setAgreeVali(true)
+    }
   }
   return (
     <Modal
@@ -125,7 +168,9 @@ export function CardModal({ name, image, description, open, close, ...props }) {
             <h5>{name}</h5>
             <p>Description</p>
             <h5>{description}</h5>
-            <CostSlider />
+            <CostSlider
+              setAmount={(value) => setAmount(value)}
+            />
             <div className="agree-mode">
               <Checkbox
                 checked={agree}
@@ -138,10 +183,17 @@ export function CardModal({ name, image, description, open, close, ...props }) {
               <p>
                 I understand this is a 12 monthly storage option and that if I wish to withdraw my NFTs prior to that I will not receive my initial fire or earned fees.
               </p>
+              {agreeVali &&
+                <p className="check-validation">This field is required!</p>
+              }
             </div>
             <div className="modal-action">
-              <BigStakeButton>
-                Stake
+              <BigStakeButton onClick={() => stake()} disabled={loading}>
+                {loading ?
+                  <ClipLoader loading={loading} size={24} color="#fff" />
+                  :
+                  "Stake"
+                }
               </BigStakeButton>
             </div>
           </div>

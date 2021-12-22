@@ -60,6 +60,7 @@ function MyApp({ Component, pageProps }) {
     ethereum.on('chainChanged', (chainId) => {
       if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
         connectWallet()
+        setConnected(true)
       } else {
         setConnected(false)
         errorAlert(error)

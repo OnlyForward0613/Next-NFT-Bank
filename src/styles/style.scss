@@ -21,7 +21,7 @@ a {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  z-index: 100000;
+  z-index: 99;
   position: fixed;
   background: #3e3e3ee3;
   width: 100%;
@@ -301,8 +301,17 @@ body {
   display: flex;
   align-items: start;
   margin-top: 20px;
+  position: relative;
   p {
     color: #fff;
+  }
+  p.check-validation {
+    position: absolute;
+    left: -22px;
+    top: -16px;
+    color: #ff4f4f;
+    font-weight: 600;
+    margin-left: 28px;
   }
 }
 input.reward-input {

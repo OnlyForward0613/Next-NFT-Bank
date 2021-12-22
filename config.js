@@ -1,5 +1,5 @@
 export const CHAIN_ID = 97
-export const SMARTCONTRACT_ADDRESS = "0x3800D314F41D3eed89A3671024D8E8c12E618CcF"
+export const SMARTCONTRACT_ADDRESS = "0xA1CE868f12A4e8bdfF02070B68A2691023baBD54"
 export const SMARTCONTRACT_ABI = [
     {
         "inputs": [
@@ -42,11 +42,6 @@ export const SMARTCONTRACT_ABI = [
             {
                 "internalType": "uint256",
                 "name": "tokenId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "rwd",
                 "type": "uint256"
             },
             {
@@ -117,7 +112,17 @@ export const SMARTCONTRACT_ABI = [
             },
             {
                 "internalType": "uint256",
+                "name": "percent",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
                 "name": "reward",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
                 "type": "uint256"
             },
             {
