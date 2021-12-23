@@ -69,6 +69,7 @@ function valueLabelFormat(value) {
 
 export default function CostSlider({
   setAmount,
+  balance,
   ...props
 }) {
   const [real, setReal] = React.useState(10)
@@ -112,7 +113,10 @@ export default function CostSlider({
         max={50}
         onChange={handleChange}
       />
-      <p className="reward-value">Value:&nbsp;$&nbsp;<span>{real}</span></p>
+      <div className="balence-info">
+        <p className="reward-value">Value:&nbsp;$&nbsp;<span>{real}</span></p>
+        <p className="reward-value">Your balance:&nbsp;$&nbsp;<span>{balance}</span></p>
+      </div>
       <p className="reward-value">You can earn&nbsp;$&nbsp;<span>{(real * steps[step]).toFixed(2)}</span> after 12 months.</p>
     </Box>
   )

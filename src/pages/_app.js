@@ -8,10 +8,13 @@ import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { errorAlert } from '../components/toastGroup'
 import { MoralisProvider } from "react-moralis"
-import { APP_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
+import { APP_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 
 let provider = undefined
 let contract = undefined
+let contract_20 = undefined
+let signer = undefined
+
 const error = [
   "The wrong network, please switch to the Binance Smart Chain network."
 ]
@@ -23,15 +26,20 @@ function MyApp({ Component, pageProps }) {
   const connectWallet = async () => {
 
     if (await checkNetwork()) {
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
+      const web3Modal = new Web3Modal()
+      const connection = await web3Modal.connect()
+      provider = new ethers.providers.Web3Provider(connection)
+      signer = provider.getSigner()
       contract = new ethers.Contract(
         SMARTCONTRACT_ADDRESS,
         SMARTCONTRACT_ABI,
         signer
-      );
+      )
+      contract_20 = new ethers.Contract(
+        SMARTCONTRACT_ADDRESS_ERC20,
+        SMARTCONTRACT_ABI_ERC20,
+        signer
+      )
       ethereum.on("accountsChanged", (accounts) => {
         if (accounts.length === 0) {
           setConnected(false)
@@ -92,6 +100,9 @@ function MyApp({ Component, pageProps }) {
         startLoading={() => setPageLoading(true)}
         closeLoading={() => setPageLoading(false)}
         contract={contract}
+        contract_20={contract_20}
+        address={signerAddress}
+        signer={signer}
       />
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
       <Loading loading={pageLoading} />

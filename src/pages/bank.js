@@ -9,6 +9,9 @@ export default function Bank({
   startLoading,
   closeLoading,
   contract,
+  signer,
+  contract_20,
+  address,
   ...props
 }) {
   const { data: NFTBalances } = useNFTBalances()
@@ -27,6 +30,9 @@ export default function Bank({
     if (NFTBalances && NFTBalances.result.length !== 0) {
       setNFTArray(NFTBalances.result)
       closeLoading()
+    } else if (NFTBalances && NFTBalances.result.length === 0) {
+      setNFTArray([])
+      closeLoading()
     }
     // eslint-disable-next-line
   }, [NFTBalances])
@@ -40,11 +46,15 @@ export default function Bank({
       <TotalList
         total={total}
         groupNFT={groupNFT}
+        contract_20={contract_20}
       />
       <NFTMap
         nfts={nfts}
         groupNFT={groupNFT}
         total={total}
+        address={address}
+        contract_20={contract_20}
+        signer={signer}
         contract={contract}
       />
     </>

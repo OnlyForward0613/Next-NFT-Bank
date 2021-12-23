@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react"
 import { DoActionButton, UnstakeButton, BigStakeButton } from "./styleHook"
 import Countdown from 'react-countdown'
-import { Modal, Box, Checkbox } from "@mui/material"
+import { Modal, Box, Checkbox, IconButton } from "@mui/material"
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import CostSlider from "./CostSlider"
 import { styled } from '@mui/material/styles'
 import ClipLoader from "react-spinners/ClipLoader"
+import { errorAlert, successAlert } from './toastGroup'
+import { ethers } from "ethers"
+import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
 
-export default function NFTCard({ state, data, contract, ...props }) {
+export default function NFTCard({ state, data, contract, contract_20, filterState, signer, address, ...props }) {
   const [days, setDays] = useState(0)
   const [hours, setHours] = useState(0)
   const [minute, setMinute] = useState(0)
   const [second, setSecond] = useState(0)
   const [open, setOpen] = useState(false)
-
   const [image, setImage] = useState("")
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -24,14 +27,35 @@ export default function NFTCard({ state, data, contract, ...props }) {
   const [action, setAction] = useState(0)
   const [balance, setBalance] = useState(0)
 
+  const [indiContract, setIndiContract] = useState([])
+  const [contract20, setContract20] = useState([])
+
   const setDetail = async (data) => {
     setName(data.name + " #" + data.token_id)
     setTokenAddress(data.token_address)
     setTokenId(data.token_id)
     setHash(data.token_uri)
     const sttt = await contract.activities(data.token_uri)
-    // const bal = await contract.balanceOf()z
+    const bal = await contract_20.balanceOf(address)
+    setBalance(ethers.utils.formatEther(bal.toString()))
     setAction(sttt.action)
+
+    const contractTmp = new ethers.Contract(
+      data.token_address,
+      SMARCONTRACT_INI_ABI,
+      signer
+    )
+
+    setIndiContract(contractTmp)
+
+    const contractE20 = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS_ERC20,
+      SMARTCONTRACT_ABI_ERC20,
+      signer
+    )
+
+    setContract20(contractE20)
+
     await fetch(data.token_uri)
       .then(resp =>
         resp.json()
@@ -93,9 +117,13 @@ export default function NFTCard({ state, data, contract, ...props }) {
         description={description}
         image={image}
         contract={contract}
+        indiContract={indiContract}
         tokenAddress={tokenAddress}
+        contract20={contract20}
         tokenId={tokenId}
         hash={hash}
+        balance={balance}
+        address={address}
         open={open}
         close={() => setOpen(false)}
       />
@@ -121,10 +149,13 @@ export function CardModal({
   description,
   open,
   close,
+  indiContract,
   contract,
+  contract20,
   tokenAddress,
   tokenId,
   balance,
+  address,
   hash,
   ...props }) {
   const [agree, setAgree] = useState(false)
@@ -137,12 +168,27 @@ export function CardModal({
     setAgreeVali(false)
   }
   const stake = async () => {
+    console.log(indiContract)
     if (agree) {
       setLoading(true)
       try {
-        await contract.stakebyHash(hash, tokenAddress, tokenId, (amount * Math.pow(10, 18)).toString())
+        await indiContract.approve(SMARTCONTRACT_ADDRESS, tokenId)
+        try {
+          await contract20.approve(SMARTCONTRACT_ADDRESS, (amount * Math.pow(10, 18)).toString())
+          try {
+            await contract.stakebyHash(hash, tokenAddress, tokenId, (amount * Math.pow(10, 18)).toString())
+            successAlert("Congratuation! You done the staking")
+            close()
+          } catch (err) {
+            alert(err)
+          }
+        } catch (err) {
+          alert(err)
+        }
       } catch (err) {
         console.log(err)
+        setLoading(false)
+        errorAlert(err.data !== undefined ? err.data.message : "We found the Error. Please try again!")
       }
       setLoading(false)
     } else {
@@ -156,6 +202,11 @@ export function CardModal({
     >
       <Box sx={style}>
         <div className="stake-modal">
+          <div className="modal-close">
+            <IconButton onClick={() => close()}>
+              <CloseRoundedIcon style={{ fill: "#fff" }} />
+            </IconButton>
+          </div>
           <div className="modal-image">
             {/* eslint-disable-next-line */}
             <img
@@ -170,6 +221,7 @@ export function CardModal({
             <h5>{description}</h5>
             <CostSlider
               setAmount={(value) => setAmount(value)}
+              balance={balance}
             />
             <div className="agree-mode">
               <Checkbox
@@ -181,7 +233,8 @@ export function CardModal({
                 icon={<BpIcon />}
               />
               <p>
-                I understand this is a 12 monthly storage option and that if I wish to withdraw my NFTs prior to that I will not receive my initial fire or earned fees.
+                I understand this is a 12 monthly storage option and that if I wish to withdraw my NFTs
+                prior to that I will not receive my initial fire or earned fees.
               </p>
               {agreeVali &&
                 <p className="check-validation">This field is required!</p>
