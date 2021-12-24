@@ -70,6 +70,7 @@ function valueLabelFormat(value) {
 export default function CostSlider({
   setAmount,
   balance,
+  disabled,
   ...props
 }) {
   const [real, setReal] = React.useState(10)
@@ -111,6 +112,7 @@ export default function CostSlider({
         valueLabelDisplay="on"
         marks={marks}
         max={50}
+        disabled={disabled}
         onChange={handleChange}
       />
       <div className="balence-info">

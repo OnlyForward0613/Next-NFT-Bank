@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }) {
     if (await checkNetwork()) {
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
+      setConnected(true)
       provider = new ethers.providers.Web3Provider(connection)
       signer = provider.getSigner()
       contract = new ethers.Contract(
@@ -51,29 +52,40 @@ function MyApp({ Component, pageProps }) {
     }
   }
   useEffect(() => {
-    ethereum.on('accountsChanged', function (accounts) {
-      if (accounts.length !== 0) {
-        setSignerAddress(accounts[0])
-        connectWallet()
-      } else {
-        setConnected(false)
-      }
-    })
-    if (ethereum.selectedAddress !== null) {
-      setSignerAddress(ethereum.selectedAddress)
-      setConnected(true)
-    }
-    connectWallet()
-
-    ethereum.on('chainChanged', (chainId) => {
-      if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
-        connectWallet()
+    if (typeof (window.ethereum) !== undefined) {
+      window.ethereum.on('accountsChanged', function (accounts) {
+        if (accounts.length !== 0) {
+          setSignerAddress(accounts[0])
+          connectWallet()
+        } else {
+          setConnected(false)
+        }
+      })
+      if (ethereum.selectedAddress !== null) {
+        setSignerAddress(ethereum.selectedAddress)
         setConnected(true)
-      } else {
-        setConnected(false)
-        errorAlert(error)
       }
-    })
+      connectWallet()
+
+      window.ethereum.on('chainChanged', (chainId) => {
+        if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
+          connectWallet()
+        } else {
+          setConnected(false)
+          errorAlert(error)
+        }
+      })
+      ethereum.on("accountsChanged", (accounts) => {
+        if (accounts.length === 0) {
+          setConnected(false)
+        } else {
+          setConnected(true)
+          setSignerAddress(accounts[0])
+        }
+      })
+    } else {
+      errorAlert("Please install Metamask!")
+    }
     // eslint-disable-next-line
   }, [])
 

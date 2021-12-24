@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Container } from "@mui/material";
 import NFTCard from "./NFTCard";
 
@@ -11,16 +12,19 @@ export default function NFTMap({
   signer,
   ...props
 }) {
+  const [pageRerender, setPageRerender] = useState("")
   return (
     <Container>
       <div className="nft-map">
-        {nfts.length !== 0 ? nfts.map((item, key) => (
+        {nfts.length !== 0 ? nfts.reverse().map((item, key) => (
           <NFTCard
             key={key}
             data={item}
             state={0}
             contract={contract}
             address={address}
+            pageRerender={pageRerender}
+            reRender={(e) => setPageRerender(e)}
             signer={signer}
             contract_20={contract_20}
           />
