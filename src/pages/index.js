@@ -3,6 +3,8 @@ import HeroBanner from '../components/HeroBanner'
 
 export default function Home({
   connected,
+  checkNetwork,
+  closeLoading,
   ...props
 }) {
   return (
@@ -12,7 +14,7 @@ export default function Home({
         <meta name="description" content="NFT Bank" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <HeroBanner connected={connected} />
+      <HeroBanner connected={connected} checkNetwork={checkNetwork} closeLoading={closeLoading} />
     </>
   )
 }

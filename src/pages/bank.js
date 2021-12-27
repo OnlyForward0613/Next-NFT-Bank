@@ -7,7 +7,6 @@ import TotalList from '../components/TotalList'
 var _ = require('lodash')
 
 let allNFT = []
-let repeat = true
 
 export default function Bank({
   startLoading,
@@ -19,6 +18,12 @@ export default function Bank({
   address,
   ...props
 }) {
+
+  const useForceUpdate = () => {
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+  }
+
   const router = useRouter()
   const { data: NFTBalances } = useNFTBalances()
   const [nfts, setNfts] = useState([])
@@ -55,9 +60,10 @@ export default function Bank({
   }
 
   useEffect(() => {
+    allNFT = []
     startLoading()
     if (NFTBalances && NFTBalances.result.length !== 0) {
-      if (contract !== undefined && repeat) {
+      if (contract !== undefined) {
         for (var i = 0; i < NFTBalances.result.length; i++) {
           allNFT.push({
             cid: -1,
@@ -71,22 +77,20 @@ export default function Bank({
           })
         }
         setStakedNFTs()
-        repeat = false
       }
       closeLoading()
     } else if (NFTBalances && NFTBalances.result.length === 0) {
-      setNFTArray([])
       closeLoading()
     }
     // eslint-disable-next-line
   }, [contract, NFTBalances])
 
-  useEffect(() => {
-    if (!connected) {
-      router.push("/")
-    }
-    // eslint-disable-next-line
-  }, [connected])
+  // useEffect(() => {
+  //   if (!connected) {
+  //     router.push("/")
+  //   }
+  //   // eslint-disable-next-line
+  // }, [connected])
   return (
     <>
       <Head>
@@ -107,6 +111,7 @@ export default function Bank({
         contract_20={contract_20}
         signer={signer}
         contract={contract}
+        useForceUpdate={useForceUpdate}
       />
     </>
   )

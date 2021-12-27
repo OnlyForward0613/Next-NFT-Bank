@@ -10,6 +10,7 @@ export default function NFTMap({
   contract_20,
   address,
   signer,
+  useForceUpdate,
   ...props
 }) {
   const [pageRerender, setPageRerender] = useState("")
@@ -25,12 +26,13 @@ export default function NFTMap({
             address={address}
             pageRerender={pageRerender}
             reRender={(e) => setPageRerender(e)}
+            useForceUpdate={useForceUpdate}
             signer={signer}
             contract_20={contract_20}
           />
         )) :
           <h3 className="empty-text">
-            You don&apos;t have any NFTs on this Wallet adderss
+            You don&apos;t have any NFTs on this Wallet
           </h3>
         }
       </div>

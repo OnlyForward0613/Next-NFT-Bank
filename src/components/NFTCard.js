@@ -11,7 +11,7 @@ import { ethers } from "ethers"
 import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
 import Swal from 'sweetalert2'
 
-export default function NFTCard({ state, data, contract, contract_20, filterState, signer, address, reRender, ...props }) {
+export default function NFTCard({ state, data, contract, contract_20, filterState, signer, address, reRender, useForceUpdate, ...props }) {
   const [days, setDays] = useState(0)
   const [cid, setCid] = useState(-1)
   const [hours, setHours] = useState(0)
@@ -91,12 +91,18 @@ export default function NFTCard({ state, data, contract, contract_20, filterStat
     setSecond(e.seconds < 10 ? `0${e.seconds}` : e.seconds)
   }
 
+  const forceUpdate = useForceUpdate()
+
   const unstake = async () => {
     setUnloading(true)
     try {
       const res = await contract.unStake(address, cid)
       await res.wait()
       successAlert("You unstaked successfully!")
+      setTimeout(() => {
+        location.reload()
+      }, 5000);
+      forceUpdate()
     } catch (err) {
       alertBox(err)
     }
@@ -109,6 +115,7 @@ export default function NFTCard({ state, data, contract, contract_20, filterStat
       const res = await contract.autoClaim(address, cid)
       await res.wait()
       successAlert("You won! You received the Reward!", true)
+      forceUpdate()
     } catch (err) {
       alertBox(err)
     }
@@ -188,6 +195,7 @@ export default function NFTCard({ state, data, contract, contract_20, filterStat
         balance={balance}
         address={address}
         alertBox={(e) => alertBox(e)}
+        useForceUpdate={useForceUpdate}
         open={open}
         reRender={reRender}
         close={() => setOpen(false)}
@@ -224,6 +232,7 @@ export function CardModal({
   hash,
   realName,
   reRender,
+  useForceUpdate,
   ...props }) {
   const [agree, setAgree] = useState(false)
   const [amount, setAmount] = useState(10)
@@ -249,8 +258,10 @@ export function CardModal({
               const nftApprove = await contract.stakebyHash(hash, realName, tokenAddress, tokenId, (amount * Math.pow(10, 18)).toString())
               await nftApprove.wait()
               successAlert("Congratulation! You staked successfully.")
-              reRender("stake")
               close()
+              setTimeout(() => {
+                location.reload()
+              }, 5000);
             } catch (err) {
               alertBox(err)
             }
@@ -285,12 +296,12 @@ export function CardModal({
   return (
     <Modal
       open={open}
-      onClose={close}
+    // onClose={close}
     >
       <Box sx={style}>
         <div className="stake-modal">
           <div className="modal-close">
-            <IconButton onClick={() => close()}>
+            <IconButton onClick={() => close()} disabled={loading}>
               <CloseRoundedIcon style={{ fill: "#fff" }} />
             </IconButton>
           </div>

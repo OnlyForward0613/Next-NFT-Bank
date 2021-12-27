@@ -31,7 +31,7 @@ export const MintButton = styled(Button)(({ theme }) => ({
   width: 240,
   height: 60,
   position: "relative",
-  zIndex: 15,
+  zIndex: 2,
   '&:hover': {
     backgroundColor: green[800],
   },
@@ -51,7 +51,7 @@ export const BigStakeButton = styled(Button)(({ theme }) => ({
   height: 50,
   position: "relative",
   fontFamily: "Raleway",
-  zIndex: 15,
+  zIndex: 2,
   '&:hover': {
     backgroundColor: green[800],
   },
@@ -70,7 +70,7 @@ export const DoActionButton = styled(Button)(({ theme }) => ({
   backgroundColor: green[600],
   height: 30,
   position: "relative",
-  zIndex: 15,
+  zIndex: 2,
   fontFamily: "Raleway",
   borderColor: `${green[800]} !important`,
   '&:hover': {
@@ -92,7 +92,7 @@ export const UnstakeButton = styled(Button)(({ theme }) => ({
   fontFamily: "Raleway",
   height: 30,
   position: "relative",
-  zIndex: 15,
+  zIndex: 2,
   borderColor: `${red[800]} !important`,
   '&:hover': {
     backgroundColor: red[800],
@@ -112,7 +112,7 @@ export const ClaimButton = styled(Button)(({ theme }) => ({
   backgroundColor: blueGrey[600],
   height: 30,
   position: "relative",
-  zIndex: 15,
+  zIndex: 2,
   borderColor: `${blueGrey[800]} !important`,
   '&:hover': {
     backgroundColor: blueGrey[800],
@@ -142,6 +142,7 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   backgroundColor: pink[600],
   borderColor: `${pink[800]} !important`,
+  zIndex: 2,
   '&:hover': {
     backgroundColor: pink[800],
   },

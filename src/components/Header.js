@@ -14,7 +14,9 @@ export default function Header({
   return (
     <header>
       <div className="logo">
-        NFT Bank
+        <Link href="/">
+          <a>NFT Bank</a>
+        </Link>
       </div>
       <div className="nav">
         <ul>
@@ -51,7 +53,7 @@ export default function Header({
             }
           </ConnectButton>
           <div className="hamburger" style={{ position: !open ? "absolute" : "fixed" }}>
-            <button onClick={() => setOpen(!open)} className="ham">
+            <button onClick={() => setOpen(!open)} className="ham" style={{ right: !open ? 10 : 25, top: !open ? 10 : 25 }}>
               {!open ?
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <rect x="1" y="2" width="16" height="2" rx="1" fill="#fff" />
