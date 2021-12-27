@@ -1,37 +1,35 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useNFTBalances } from 'react-moralis'
 import NFTMap from '../components/NFTMap'
 import TotalList from '../components/TotalList'
+import Web3Modal from "web3modal"
+import Web3 from 'web3'
+import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
+import { ethers } from 'ethers'
 var _ = require('lodash')
 
-let allNFT = []
 
 export default function Bank({
   startLoading,
   closeLoading,
-  contract,
   connected,
   signer,
-  contract_20,
   address,
   ...props
 }) {
 
+  let allNFT = []
   const useForceUpdate = () => {
     const [value, setValue] = useState(0); // integer state
     return () => setValue(value => value + 1); // update the state to force render
   }
-
-  const router = useRouter()
   const { data: NFTBalances } = useNFTBalances()
   const [nfts, setNfts] = useState([])
   const [total, setTotal] = useState(0)
   const [groupNFT, setGruopNFT] = useState([])
 
   const [forceRender, setForceRender] = useState(1)
-
   const setNFTArray = (nftList) => {
     setNfts(nftList)
     setTotal(nftList.length)
@@ -39,10 +37,23 @@ export default function Bank({
     setGruopNFT(grouped)
   }
   const setStakedNFTs = async () => {
+    allNFT = []
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS,
+      SMARTCONTRACT_ABI,
+      signer
+    )
+    const web3 = new Web3(Web3.givenProvider)
+    const accounts = await web3.eth.getAccounts()
     const total = await contract.staked()
+
     if (parseInt(total.toString()) !== 0) {
       for (var i = 0; i < total; i++) {
-        const nftData = await contract.activities(address, i)
+        const nftData = await contract.activities(accounts[0], i)
         if (nftData.action !== 0) {
           allNFT.push({
             cid: i,
@@ -59,33 +70,28 @@ export default function Bank({
       }
       setNFTArray(allNFT)
     }
+    closeLoading()
   }
 
   useEffect(() => {
     startLoading()
-    if (contract !== undefined) {
-      allNFT = []
-      if (NFTBalances && NFTBalances.result.length !== 0) {
-        for (var i = 0; i < NFTBalances.result.length; i++) {
-          allNFT.push({
-            cid: -1,
-            name: NFTBalances.result[i].name,
-            action: 0,
-            token_address: NFTBalances.result[i].token_address,
-            token_id: NFTBalances.result[i].token_id,
-            percent: 0,
-            timestamp: "0",
-            token_uri: NFTBalances.result[i].token_uri,
-          })
-        }
+    setStakedNFTs()
+    if (NFTBalances && NFTBalances.result.length !== 0) {
+      for (var i = 0; i < NFTBalances.result.length; i++) {
+        allNFT.push({
+          cid: -1,
+          name: NFTBalances.result[i].name,
+          action: 0,
+          token_address: NFTBalances.result[i].token_address,
+          token_id: NFTBalances.result[i].token_id,
+          percent: 0,
+          timestamp: "0",
+          token_uri: NFTBalances.result[i].token_uri,
+        })
       }
-      setStakedNFTs()
-      closeLoading()
-    } else if (NFTBalances && NFTBalances.result.length === 0) {
-      closeLoading()
     }
     // eslint-disable-next-line
-  }, [contract, NFTBalances])
+  }, [NFTBalances])
 
   // useEffect(() => {
   //   if (!connected) {
@@ -103,16 +109,13 @@ export default function Bank({
       <TotalList
         total={total}
         groupNFT={groupNFT}
-        contract_20={contract_20}
       />
       <NFTMap
         nfts={nfts}
         groupNFT={groupNFT}
         total={total}
         address={address}
-        contract_20={contract_20}
         signer={signer}
-        contract={contract}
         forceRender={forceRender}
         setForce={(e) => setForceRender(e)}
         useForceUpdate={useForceUpdate}

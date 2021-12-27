@@ -4,15 +4,14 @@ import Countdown from 'react-countdown'
 import ClipLoader from "react-spinners/ClipLoader"
 import { errorAlert, successAlert, warningAlert } from './toastGroup'
 import { ethers } from "ethers"
-import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
+import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
 import Swal from 'sweetalert2'
 import CardModal from "./CardModal"
+import Web3Modal from "web3modal"
 
 export default function NFTCard({
   state,
   data,
-  contract,
-  contract_20,
   filterState,
   signer,
   address,
@@ -68,6 +67,17 @@ export default function NFTCard({
     setTokenAddress(data.token_address)
     setTokenId(data.token_id)
     setHash(data.token_uri)
+
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract_20 = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS_ERC20,
+      SMARTCONTRACT_ABI_ERC20,
+      signer
+    )
+
     const bal = await contract_20.balanceOf(address)
     setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
     const contractTmp = new ethers.Contract(
@@ -104,6 +114,15 @@ export default function NFTCard({
 
   const unstake = async () => {
     setUnloading(true)
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS,
+      SMARTCONTRACT_ABI,
+      signer
+    )
     try {
       const res = await contract.unStake(address, cid)
       await res.wait()
@@ -119,6 +138,15 @@ export default function NFTCard({
 
   const autoClaim = async () => {
     setUnloading(true)
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS,
+      SMARTCONTRACT_ABI,
+      signer
+    )
     try {
       const res = await contract.autoClaim(address, cid)
       await res.wait()
@@ -193,10 +221,8 @@ export default function NFTCard({
         realName={realName}
         description={description}
         image={image}
-        contract={contract}
         indiContract={indiContract}
         tokenAddress={tokenAddress}
-        contract20={contract20}
         tokenId={tokenId}
         hash={hash}
         balance={balance}

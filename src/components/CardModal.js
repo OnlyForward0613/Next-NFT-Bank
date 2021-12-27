@@ -1,10 +1,12 @@
 import { Box, Checkbox, IconButton, Modal } from "@mui/material"
 import { useState } from "react"
 import { ClipLoader } from "react-spinners"
-import { SMARTCONTRACT_ADDRESS } from "../../config"
+import { SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
 import CostSlider from "./CostSlider"
 import { BigStakeButton, BpCheckedIcon, BpIcon } from "./styleHook"
 import { errorAlert, successAlert, warningAlert } from "./toastGroup"
+import Web3Modal from "web3modal"
+import { ethers } from "ethers"
 
 export default function CardModal({
   name,
@@ -13,8 +15,6 @@ export default function CardModal({
   open,
   close,
   indiContract,
-  contract,
-  contract20,
   tokenAddress,
   tokenId,
   balance,
@@ -35,6 +35,22 @@ export default function CardModal({
   }
   const stake = async () => {
     // console.log(parseFloat(balance), parseFloat(amount))
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract20 = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS_ERC20,
+      SMARTCONTRACT_ABI_ERC20,
+      signer
+    )
+
+    const contract = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS,
+      SMARTCONTRACT_ABI,
+      signer
+    )
+
     if (parseFloat(balance) > parseFloat(amount)) {
       if (agree) {
         setLoading(true)

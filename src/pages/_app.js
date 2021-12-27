@@ -94,8 +94,6 @@ function MyApp({ Component, pageProps }) {
         connected={connected}
         startLoading={() => setPageLoading(true)}
         closeLoading={() => setPageLoading(false)}
-        contract={contract}
-        contract_20={contract_20}
         address={signerAddress}
         signer={signer}
       />

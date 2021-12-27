@@ -6,8 +6,6 @@ export default function NFTMap({
   nfts,
   groupNFT,
   total,
-  contract,
-  contract_20,
   address,
   signer,
   useForceUpdate,
@@ -24,13 +22,11 @@ export default function NFTMap({
             key={key}
             data={item}
             state={0}
-            contract={contract}
             address={address}
             pageRerender={pageRerender}
             reRender={(e) => setPageRerender(e)}
             useForceUpdate={useForceUpdate}
             signer={signer}
-            contract_20={contract_20}
             forceRender={forceRender}
             setForce={(e) => setForce(e)}
           />
