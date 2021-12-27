@@ -77,6 +77,7 @@ export default function Bank({
     startLoading()
     setStakedNFTs()
     if (NFTBalances && NFTBalances.result.length !== 0) {
+      startLoading()
       for (var i = 0; i < NFTBalances.result.length; i++) {
         allNFT.push({
           cid: -1,

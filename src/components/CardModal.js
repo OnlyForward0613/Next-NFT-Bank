@@ -58,10 +58,12 @@ export default function CardModal({
           const indiApprove = await indiContract.approve(SMARTCONTRACT_ADDRESS, tokenId)
           await indiApprove.wait()
           try {
-            const erc20Approve = await contract20.approve(SMARTCONTRACT_ADDRESS, (amount * Math.pow(10, 18)).toString())
+            const isr = amount * Math.pow(10, 18)
+            const erc20Approve = await contract20.approve(SMARTCONTRACT_ADDRESS, isr.toLocaleString('fullwide', { useGrouping: false }))
             await erc20Approve.wait()
             try {
-              const nftApprove = await contract.stakebyHash(hash, realName, tokenAddress, tokenId, (amount * Math.pow(10, 18)).toString())
+              const isr = amount * Math.pow(10, 18)
+              const nftApprove = await contract.stakebyHash(hash, realName, tokenAddress, tokenId, isr.toLocaleString('fullwide', { useGrouping: false }))
               await nftApprove.wait()
               successAlert("Congratulation! You staked successfully.")
               close()
