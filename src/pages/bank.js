@@ -90,7 +90,10 @@ export default function Bank({
           token_uri: NFTBalances.result[i].token_uri,
         })
       }
+    } else if (NFTBalances && NFTBalances.result.length === 0) {
+      closeLoading()
     }
+    closeLoading()
     // eslint-disable-next-line
   }, [NFTBalances])
 
