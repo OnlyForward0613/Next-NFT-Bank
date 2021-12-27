@@ -23,7 +23,7 @@ a {
   height: 100vh;
   z-index: 99;
   position: fixed;
-  background: #3e3e3ee3;
+  background: rgba(34, 34, 34, 0.568);
   width: 100%;
   left: 0;
   top: 0;
@@ -111,6 +111,7 @@ header {
     object-fit: cover;
     opacity: 0.2;
     z-index: 2;
+    filter: grayscale(1);
     pointer-events: none;
   }
   h1 {
@@ -349,8 +350,8 @@ input.reward-input {
 }
 .modal-close {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 5px;
+  top: 5px;
 }
 .item-filter {
   display: flex;
@@ -377,6 +378,10 @@ h3.empty-text {
   width: 100%;
   padding: 20px 0;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
 }
 .filter-item.active button {
   color: #fff;

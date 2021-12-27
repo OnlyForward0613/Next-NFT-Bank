@@ -30,6 +30,8 @@ export default function Bank({
   const [total, setTotal] = useState(0)
   const [groupNFT, setGruopNFT] = useState([])
 
+  const [forceRender, setForceRender] = useState(1)
+
   const setNFTArray = (nftList) => {
     setNfts(nftList)
     setTotal(nftList.length)
@@ -60,10 +62,10 @@ export default function Bank({
   }
 
   useEffect(() => {
-    allNFT = []
     startLoading()
-    if (NFTBalances && NFTBalances.result.length !== 0) {
-      if (contract !== undefined) {
+    if (contract !== undefined) {
+      allNFT = []
+      if (NFTBalances && NFTBalances.result.length !== 0) {
         for (var i = 0; i < NFTBalances.result.length; i++) {
           allNFT.push({
             cid: -1,
@@ -76,8 +78,8 @@ export default function Bank({
             token_uri: NFTBalances.result[i].token_uri,
           })
         }
-        setStakedNFTs()
       }
+      setStakedNFTs()
       closeLoading()
     } else if (NFTBalances && NFTBalances.result.length === 0) {
       closeLoading()
@@ -111,6 +113,8 @@ export default function Bank({
         contract_20={contract_20}
         signer={signer}
         contract={contract}
+        forceRender={forceRender}
+        setForce={(e) => setForceRender(e)}
         useForceUpdate={useForceUpdate}
       />
     </>

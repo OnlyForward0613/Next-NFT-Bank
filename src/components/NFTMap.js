@@ -11,6 +11,8 @@ export default function NFTMap({
   address,
   signer,
   useForceUpdate,
+  forceRender,
+  setForce,
   ...props
 }) {
   const [pageRerender, setPageRerender] = useState("")
@@ -29,6 +31,8 @@ export default function NFTMap({
             useForceUpdate={useForceUpdate}
             signer={signer}
             contract_20={contract_20}
+            forceRender={forceRender}
+            setForce={(e) => setForce(e)}
           />
         )) :
           <h3 className="empty-text">

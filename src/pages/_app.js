@@ -24,7 +24,6 @@ function MyApp({ Component, pageProps }) {
   const [signerAddress, setSignerAddress] = useState("")
 
   const connectWallet = async () => {
-
     if (await checkNetwork()) {
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
@@ -41,19 +40,11 @@ function MyApp({ Component, pageProps }) {
         SMARTCONTRACT_ABI_ERC20,
         signer
       )
-      ethereum.on("accountsChanged", (accounts) => {
-        if (accounts.length === 0) {
-          setConnected(false)
-        } else {
-          setConnected(true)
-          setSignerAddress(accounts[0])
-        }
-      })
     }
   }
   useEffect(() => {
-    if (typeof (window.ethereum) !== undefined) {
-      window.ethereum.on('accountsChanged', function (accounts) {
+    if (ethereum) {
+      ethereum.on('accountsChanged', function (accounts) {
         if (accounts.length !== 0) {
           setSignerAddress(accounts[0])
           connectWallet()
@@ -67,20 +58,12 @@ function MyApp({ Component, pageProps }) {
       }
       connectWallet()
 
-      window.ethereum.on('chainChanged', (chainId) => {
+      ethereum.on('chainChanged', (chainId) => {
         if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
           connectWallet()
         } else {
           setConnected(false)
           errorAlert(error)
-        }
-      })
-      ethereum.on("accountsChanged", (accounts) => {
-        if (accounts.length === 0) {
-          setConnected(false)
-        } else {
-          setConnected(true)
-          setSignerAddress(accounts[0])
         }
       })
     } else {
