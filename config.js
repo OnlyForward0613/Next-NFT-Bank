@@ -1,4 +1,4 @@
-export const CHAIN_ID = 97
+export const CHAIN_ID = 56
 export const SMARTCONTRACT_ADDRESS = "0x61a235161C49E45dAEd28c9a7AABcf656424C374"
 export const SMARTCONTRACT_ABI = [
     {
@@ -658,8 +658,8 @@ export const SMARTCONTRACT_ABI_ERC20 = [
 ]
 export const SMARTCONTRACT_ADDRESS_ERC20 = "0x35D28B879DECE33a9a5e59F866283dCFb797294D"
 
-export const SERVER_URL = "https://na6ncqoydc1h.usemoralis.com:2053/server"
-export const APP_ID = "EywSVoYCXSRdtCa2NgzRm82Dku6xx9Ke6RHO2W2g"
+export const SERVER_URL = "https://odv0blkhfxrp.usemoralis.com:2053/server"
+export const APP_ID = "GtJNSkS50nydMgoWHu5hfFQU94KmoflSWWFCkCgi"
 
 export const SMARCONTRACT_INI_ABI = [
     {

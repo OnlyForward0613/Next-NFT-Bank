@@ -8,7 +8,7 @@ import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { errorAlert } from '../components/toastGroup'
 import { MoralisProvider } from "react-moralis"
-import { APP_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
+import { APP_ID, CHAIN_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 
 let provider = undefined
 let contract = undefined
@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }) {
       connectWallet()
 
       ethereum.on('chainChanged', (chainId) => {
-        if (parseInt(chainId) === 56 || parseInt(chainId) === 97) {
+        if (parseInt(chainId) === CHAIN_ID) {
           connectWallet()
         } else {
           setConnected(false)
@@ -75,7 +75,7 @@ function MyApp({ Component, pageProps }) {
   const checkNetwork = async () => {
     const web3 = new Web3(Web3.givenProvider)
     const chainId = await web3.eth.getChainId()
-    if (chainId === 56 || chainId === 97) {
+    if (chainId === CHAIN_ID) {
       return true
     } else {
       errorAlert(error[0])
