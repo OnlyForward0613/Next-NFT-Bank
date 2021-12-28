@@ -9,12 +9,12 @@ import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
 import { ethers } from 'ethers'
 var _ = require('lodash')
 
-
-export default function Bank({
+export default function NFTLIST({
   startLoading,
   closeLoading,
   connected,
   signer,
+  totalDusty,
   address,
   ...props
 }) {
@@ -33,13 +33,16 @@ export default function Bank({
   const [checkAble, setCheckAble] = useState(false)
 
   const [forceRender, setForceRender] = useState(1)
+
   const setNFTArray = (nftList) => {
     setNfts(nftList)
     setTotal(nftList.length)
     var grouped = _.mapValues(_.groupBy(nftList, 'name'), clist => clist.map(nft => _.omit(nft, 'name')))
     setGruopNFT(grouped)
   }
+
   const setStakedNFTs = async () => {
+    startLoading()
     allNFT = []
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -52,12 +55,12 @@ export default function Bank({
     )
     const web3 = new Web3(Web3.givenProvider)
     const accounts = await web3.eth.getAccounts()
-    const total = await contract.staked()
-
+    const total = await contract.staked(accounts[0])
+    console.log(total.toString(), "rksks")
     if (parseInt(total.toString()) !== 0) {
       for (var i = 0; i < total; i++) {
         const nftData = await contract.activities(accounts[0], i)
-        if (nftData.action !== 0) {
+        if (nftData.action === 1) {
           allNFT.push({
             cid: i,
             name: nftData.name,
@@ -66,21 +69,19 @@ export default function Bank({
             token_uri: nftData.hash,
             reward: nftData.reward.toString(),
             action: nftData.action,
+            reward: nftData.reward.toString(),
             percent: nftData.percent.toString(),
             timestamp: nftData.timestamp.toString()
           })
         }
       }
-      setNFTArray(allNFT)
     }
-    closeLoading()
+    setNFTArray(allNFT)
   }
 
-  useEffect(() => {
+  const setPastNFTs = () => {
     startLoading()
-    setStakedNFTs()
     if (NFTBalances && NFTBalances.result.length !== 0) {
-      startLoading()
       for (var i = 0; i < NFTBalances.result.length; i++) {
         allNFT.push({
           cid: -1,
@@ -88,14 +89,25 @@ export default function Bank({
           action: 0,
           token_address: NFTBalances.result[i].token_address,
           token_id: NFTBalances.result[i].token_id,
-          percent: 0,
+          reward: 0,
           timestamp: "0",
+          percent: 0,
           token_uri: NFTBalances.result[i].token_uri,
         })
       }
+      closeLoading()
     } else if (NFTBalances && NFTBalances.result.length === 0) {
       closeLoading()
     }
+  }
+  const getNFTLIST = () => {
+    startLoading()
+    setNfts([])
+    setStakedNFTs()
+    setPastNFTs()
+  }
+  useEffect(() => {
+    getNFTLIST()
     // eslint-disable-next-line
   }, [NFTBalances])
 
@@ -106,16 +118,16 @@ export default function Bank({
   //   // eslint-disable-next-line
   // }, [connected])
   return (
-    <>
+    <div className='page-content'>
       <Head>
         <title>NFT Bank | Bank</title>
         <meta name="description" content="NFT Bank" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TotalList
+      {/* <TotalList
         total={total}
         groupNFT={groupNFT}
-      />
+      /> */}
       <NFTMap
         nfts={nfts}
         groupNFT={groupNFT}
@@ -129,7 +141,9 @@ export default function Bank({
         useForceUpdate={useForceUpdate}
         checkAble={checkAble}
         setCheckAble={(e) => setCheckAble(e)}
+        totalDusty={totalDusty}
+        getNFTLIST={() => getNFTLIST()}
       />
-    </>
+    </div>
   )
 }

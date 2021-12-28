@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { green, red, blueGrey } from '@mui/material/colors';
+import { green, red, blueGrey, blue } from '@mui/material/colors';
 import { styled } from '@mui/system';
 
 export const ConnectButton = styled(Button)(({ theme }) => ({
@@ -8,16 +8,17 @@ export const ConnectButton = styled(Button)(({ theme }) => ({
   fontSize: 18,
   fontWeight: 900,
   textTransform: "none",
-  backgroundColor: green[600],
+  backgroundColor: blue[600],
   padding: "3px 24px",
   position: "relative",
+  fontFamily: "Open Sans",
   zIndex: 15,
   '&:hover': {
-    backgroundColor: green[800],
+    backgroundColor: blue[800],
   },
   '&:disabled': {
     color: "#fff",
-    backgroundColor: green[600],
+    backgroundColor: blue[600],
   }
 }));
 
@@ -33,6 +34,7 @@ export const GotoButton = styled(Button)(({ theme }) => ({
   position: "relative",
   zIndex: 2,
   border: "1px solid #fff",
+  fontFamily: "Open Sans",
   '&:hover': {
     backgroundColor: green[800],
   },
@@ -51,7 +53,7 @@ export const BigStakeButton = styled(Button)(({ theme }) => ({
   width: 240,
   height: 50,
   position: "relative",
-  fontFamily: "Raleway",
+  fontFamily: "Open Sans",
   zIndex: 2,
   '&:hover': {
     backgroundColor: green[800],
@@ -72,7 +74,7 @@ export const DoActionButton = styled(Button)(({ theme }) => ({
   height: 30,
   position: "relative",
   zIndex: 2,
-  fontFamily: "Raleway",
+  fontFamily: "Open Sans",
   borderColor: `${green[800]} !important`,
   '&:hover': {
     backgroundColor: green[800],
@@ -90,8 +92,8 @@ export const UnstakeButton = styled(Button)(({ theme }) => ({
   fontWeight: 600,
   textTransform: "uppercase",
   backgroundColor: red[600],
-  fontFamily: "Raleway",
   height: 30,
+  fontFamily: "Open Sans",
   position: "relative",
   zIndex: 2,
   borderColor: `${red[800]} !important`,
@@ -114,6 +116,7 @@ export const ClaimButton = styled(Button)(({ theme }) => ({
   height: 30,
   position: "relative",
   zIndex: 2,
+  fontFamily: "Open Sans",
   borderColor: `${blueGrey[800]} !important`,
   '&:hover': {
     backgroundColor: blueGrey[800],
@@ -132,6 +135,7 @@ export const MenuButton = styled(Button)(({ theme }) => ({
   marginRight: 20,
   position: "relative",
   borderBottom: "1px solid #ccc",
+  fontFamily: "Open Sans",
 }));
 
 export const ActionButton = styled(Button)(({ theme }) => ({
@@ -143,6 +147,7 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   backgroundColor: pink[600],
   borderColor: `${pink[800]} !important`,
+  fontFamily: "Open Sans",
   zIndex: 2,
   '&:hover': {
     backgroundColor: pink[800],
@@ -255,3 +260,16 @@ export const MulCheckedIcon = styled(BpIcon)({
     backgroundColor: '#52af77',
   },
 });
+
+export const SidebarButton = styled(Button)(({ theme }) => ({
+  fontSize: 16,
+  fontWeight: 900,
+  borderRadius: 0,
+  textTransform: "uppercase",
+  padding: "10px 24px",
+  marginRight: 20,
+  color: "#fff",
+  position: "relative",
+  fontFamily: "Open Sans",
+  borderBottom: "1px solid #00000052",
+}));

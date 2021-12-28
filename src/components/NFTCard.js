@@ -31,6 +31,7 @@ export default function NFTCard({
   const [image, setImage] = useState("")
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [reward, setReward] = useState(0)
   const [percent, setPercent] = useState(0)
   const [stakedTime, setStakedTime] = useState("")
   const [tokenAddress, setTokenAddress] = useState("")
@@ -61,6 +62,7 @@ export default function NFTCard({
   const setDetail = async (data) => {
     setCid(data.cid)
     setAction(data.action)
+    setReward(data.reward)
     setPercent(data.percent)
     setStakedTime(data.timestamp)
     setName(data.name + " #" + data.token_id)
@@ -197,8 +199,28 @@ export default function NFTCard({
           {action === 1 &&
             <>
               <div className="cost-ribbon">
-                <p>{percent}<span>%</span></p>
-                <p className="reward">reward</p>
+                <p>{ethers.utils.formatEther(reward)}</p>
+                {percent > 42 &&
+                  // eslint-disable-next-line
+                  <img
+                    src="./gold-reward.png"
+                    alt=""
+                  />
+                }
+                {percent > 20 && percent <= 42 &&
+                  // eslint-disable-next-line
+                  <img
+                    src="./silver-reward.png"
+                    alt=""
+                  />
+                }
+                {percent <= 20 &&
+                  // eslint-disable-next-line
+                  <img
+                    src="./bronze-reward.png"
+                    alt=""
+                  />
+                }
               </div>
               {action === 1 &&
                 <p className="left-days">

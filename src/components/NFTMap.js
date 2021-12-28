@@ -1,7 +1,6 @@
-import { useState } from "react"
-import { Container } from "@mui/material"
+import { useEffect, useState } from "react"
 import NFTCard from "./NFTCard"
-// import ItemFilter from "./ItemFilter"
+import ItemFilter from "./ItemFilter"
 
 export default function NFTMap({
   nfts,
@@ -16,17 +15,38 @@ export default function NFTMap({
   setFilterState,
   checkAble,
   setCheckAble,
+  totalDusty,
+  getNFTLIST,
   ...props
 }) {
   const [pageRerender, setPageRerender] = useState("")
+  const [all, setAll] = useState(0)
+  const [unstaked, setUnstaked] = useState(0)
+  const [staked, setStaked] = useState(0)
+  useEffect(() => {
+    let allN = 0
+    let unstakedN = 0
+    let stakedN = 0
+    for (var i = 0; i < nfts.length; i++) {
+      allN++
+      if (nfts[i].action === 0) unstakedN++
+      if (nfts[i].action === 1) stakedN++
+    }
+    setAll(allN)
+    setUnstaked(unstakedN)
+    setStaked(stakedN)
+  }, [nfts])
   return (
-    <Container>
-      {/* <ItemFilter
+    <div className="map-page">
+      <ItemFilter
         filterState={filterState}
         setFilterState={(e) => setFilterState(e)}
         checkAble={checkAble}
         setCheckAble={(e) => setCheckAble(e)}
-      /> */}
+        all={all}
+        unstaked={unstaked}
+        staked={staked}
+      />
       <div className="nft-map">
         {nfts.length !== 0 ? nfts.reverse().map((item, key) => (
           <NFTCard
@@ -43,6 +63,7 @@ export default function NFTMap({
             setForce={(e) => setForce(e)}
             checkAble={checkAble}
             setCheckAble={(e) => setCheckAble(e)}
+            getNFTLIST={() => getNFTLIST()}
           />
         )) :
           <h3 className="empty-text">
@@ -50,6 +71,6 @@ export default function NFTMap({
           </h3>
         }
       </div>
-    </Container>
+    </div>
   )
 }
