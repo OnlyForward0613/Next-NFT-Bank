@@ -3,7 +3,7 @@ import FAQItem from '../components/FAQItem';
 
 export default function FAQ() {
   return (
-    <div id="faq" className="faq">
+    <div id="faq" className="faq page-content">
       <Container>
         <div className="section-title">
           <h1>Frequently asked questions</h1>

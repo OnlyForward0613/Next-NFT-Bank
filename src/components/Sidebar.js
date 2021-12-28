@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { SidebarButton } from "./styleHook";
 
-export default function Sidebar() {
+export default function Sidebar({ connected, ...props }) {
   const router = useRouter()
   const goto = (url) => {
     router.push(url)
@@ -15,11 +15,13 @@ export default function Sidebar() {
               Home
             </SidebarButton>
           </li>
-          <li>
-            <SidebarButton fullWidth onClick={() => goto("/nfts-list")}>
-              My NFTs
-            </SidebarButton>
-          </li>
+          {connected &&
+            <li>
+              <SidebarButton fullWidth onClick={() => goto("/nfts-list")}>
+                My NFTs
+              </SidebarButton>
+            </li>
+          }
           <li>
             <SidebarButton fullWidth onClick={() => goto("/faq")}>
               F.A.Q

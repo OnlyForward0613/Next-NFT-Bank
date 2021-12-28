@@ -118,7 +118,9 @@ function MyApp({ Component, pageProps }) {
         signerBalance={signerBalance}
       />
       <MainContent>
-        <Sidebar />
+        <Sidebar
+          connected={connected}
+        />
         <Component {...pageProps}
           connected={connected}
           startLoading={() => setPageLoading(true)}

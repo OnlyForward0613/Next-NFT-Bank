@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, Skeleton } from "@mui/material";
 import { ethers } from "ethers";
 
 export default function HomePage({
@@ -8,6 +8,10 @@ export default function HomePage({
   connected,
   address,
   totalDusty,
+  totalNFTs,
+  userStaked,
+  loading,
+  totalReward,
   ...props
 }) {
   return (
@@ -23,29 +27,36 @@ export default function HomePage({
       </div>
       <Container>
         <div className="homepage">
-          <div className="home-row">
-            <div className="dashboard-item user-box">
-              <h2>Your Total NFTs&nbsp;({address.slice(0, 4) + "..." + address.slice(39, 42)})</h2>
-              <p>
-                {connected ? 30 : <span>N/A</span>}
-              </p>
-              <div className="sub-box">
-                <div className="sub-box-item">
-                  <h4>STAKED</h4>
-                  <p>4</p>
-                </div>
-                <div className="sub-box-item">
-                  <h4>UNSTAKED</h4>
-                  <p>4</p>
+          {connected &&
+            <div className="home-row">
+              <div className="dashboard-item user-box">
+                <h2>Your Total NFTs&nbsp;({address.slice(0, 4) + "..." + address.slice(39, 42)})</h2>
+                <p>
+                  {connected ?
+                    (!loading ? totalNFTs : <Skeleton width={80} height={45} style={{ margin: "5px auto" }} animation="wave" />)
+                    : <span>N/A</span>}
+                </p>
+                <div className="sub-box">
+                  <div className="sub-box-item">
+                    <h4>STAKED</h4>
+                    <p>
+                      {!loading ? userStaked : <Skeleton width={60} height={33} style={{ margin: "5px auto" }} animation="wave" />}
+                    </p>
+                  </div>
+                  <div className="sub-box-item">
+                    <h4>UNSTAKED</h4>
+                    <p>
+                      {!loading ? (totalNFTs - userStaked) : <Skeleton width={60} height={33} style={{ margin: "5px auto" }} animation="wave" />}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="dashboard-item user-box display-center">
-              <h2>Total Reward&nbsp;($Dusty)</h2>
-              <p>
-                {connected ? 44430 : <span>N/A</span>}
-              </p>
-              {/* <div className="sub-box">
+              <div className="dashboard-item user-box display-center">
+                <h2>Total Reward&nbsp;($Dusty)</h2>
+                <p>
+                  {!loading ? totalReward : <Skeleton width={120} height={45} style={{ margin: "5px auto" }} animation="wave" />}
+                </p>
+                {/* <div className="sub-box">
                 <div className="sub-box-item">
                   <h4>STAKED</h4>
                   <p>4</p>
@@ -55,8 +66,9 @@ export default function HomePage({
                   <p>4</p>
                 </div>
               </div> */}
+              </div>
             </div>
-          </div>
+          }
           <div className="home-row">
             <div className="dashboard-item">
               <h2>How many wallets hold <span>$Dusty</span></h2>

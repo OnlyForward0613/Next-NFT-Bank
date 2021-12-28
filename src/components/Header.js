@@ -28,26 +28,12 @@ export default function Header({
       </div>
       <div className="nav">
         <ul>
-          {/* <li>
-            <Link href="/">
-              <a>Home</a>
-            </Link>
-          </li>
-          {connected &&
-            <>
-              <li>
-                <Link href="/bank">
-                  <a>BANK</a>
-                </Link>
-              </li>
-            </>
-          } */}
           {connected &&
             <li>
-              <p className="signer-balance">Your $Dusty: <span>{signerBalance}</span></p>
+              <p className="signer-balance"><span>Your $Dusty:</span>&nbsp;<span>{signerBalance}</span></p>
             </li>
           }
-          <li>
+          <li className="connect-button">
             <ConnectButton onClick={connectWallet} disabled={connected}>
               {connected ?
                 signerAddress.slice(0, 4) + "..." + signerAddress.slice(39, 42) :
@@ -98,8 +84,13 @@ export default function Header({
             {connected &&
               <>
                 <li>
-                  <Link href="/bank">
-                    <a onClick={() => setOpen(false)}>BANK</a>
+                  <Link href="/nfts-list">
+                    <a onClick={() => setOpen(false)}>MY NFTs</a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq">
+                    <a onClick={() => setOpen(false)}>FAQ</a>
                   </Link>
                 </li>
               </>

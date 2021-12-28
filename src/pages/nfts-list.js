@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useNFTBalances } from 'react-moralis'
 import NFTMap from '../components/NFTMap'
-import TotalList from '../components/TotalList'
+// import TotalList from '../components/TotalList'
 import Web3Modal from "web3modal"
 import Web3 from 'web3'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
@@ -20,10 +20,6 @@ export default function NFTLIST({
 }) {
 
   let allNFT = []
-  const useForceUpdate = () => {
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update the state to force render
-  }
   const { data: NFTBalances } = useNFTBalances()
   const [nfts, setNfts] = useState([])
   const [total, setTotal] = useState(0)
@@ -31,8 +27,6 @@ export default function NFTLIST({
   const [filterState, setFilterState] = useState(2)
 
   const [checkAble, setCheckAble] = useState(false)
-
-  const [forceRender, setForceRender] = useState(1)
 
   const setNFTArray = (nftList) => {
     setNfts(nftList)
@@ -134,11 +128,9 @@ export default function NFTLIST({
         total={total}
         address={address}
         signer={signer}
-        forceRender={forceRender}
         setForce={(e) => setForceRender(e)}
         filterState={filterState}
         setFilterState={(e) => setFilterState(e)}
-        useForceUpdate={useForceUpdate}
         checkAble={checkAble}
         setCheckAble={(e) => setCheckAble(e)}
         totalDusty={totalDusty}

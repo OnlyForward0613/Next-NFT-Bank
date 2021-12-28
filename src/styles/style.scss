@@ -27,7 +27,7 @@ a {
   height: 100vh;
   z-index: 99;
   position: fixed;
-  background: rgba(34, 34, 34, 0.685);
+  background: #121827;
   width: 100%;
   left: 0;
   top: 0;
@@ -95,6 +95,7 @@ header {
     list-style: none;
     li {
       margin: 40px 0;
+      text-align: center;
       a {
         color: #fff;
         padding: 10px;
@@ -420,19 +421,6 @@ h3.empty-text {
     margin-left: 10px;
   }
 }
-@media (max-width: 1080px) {
-  .nft-card {
-    width: calc(50% - 20px);
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-  .mobile-nav {
-    display: block;
-  }
-  .nav {
-    display: none;
-  }
-}
 @media (max-width: 776px) {
   .nft-card {
     width: 100%;
@@ -580,9 +568,11 @@ p.signer-balance {
   display: flex;
   align-items: center;
   span {
-    margin-left: 6px;
-    font-size: 20px;
-    font-weight: 900;
+    &:last-child {
+      margin-left: 6px;
+      font-size: 20px;
+      font-weight: 900;
+    }
   }
 }
 
@@ -689,5 +679,60 @@ p.signer-balance {
         font-size: 32px;
       }
     }
+  }
+}
+@media (max-width: 992px) {
+  .nft-card {
+    width: calc(50% - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  .mobile-nav {
+    display: block;
+  }
+  .nav .connect-button {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  .page-content {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+.header-logo i {
+  display: block;
+}
+@media (max-width: 768px) {
+  .header-logo i {
+    display: none;
+  }
+  .home-row {
+    flex-direction: column;
+    margin: 0;
+  }
+  .signer-balance {
+    span {
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+
+  .dashboard-item {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .nft-card {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
   }
 }
