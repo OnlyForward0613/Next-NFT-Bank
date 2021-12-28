@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Mulish:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600;1,700;1,800;1,900&family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;173;200;300;335;400;497;500;600;697;700;751;783;800;862;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 $primary-color: #d95dff;
 $dark-gray: #333;
 $light-gray: #777;
@@ -6,8 +6,7 @@ $light-gray: #777;
 * {
   margin: 0;
   padding: 0;
-  font-family: "Raleway", BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  font-family: "Open Sans", sans-serif;
   box-sizing: border-box;
 }
 
@@ -15,7 +14,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
+.display-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 .loading {
   display: flex;
   align-items: center;
@@ -23,7 +27,7 @@ a {
   height: 100vh;
   z-index: 99;
   position: fixed;
-  background: #222;
+  background: #121827;
   width: 100%;
   left: 0;
   top: 0;
@@ -42,7 +46,8 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 15px;
-  position: absolute;
+  position: fixed;
+  background-color: #00021d;
   left: 0;
   top: 0;
   width: 100%;
@@ -90,6 +95,7 @@ header {
     list-style: none;
     li {
       margin: 40px 0;
+      text-align: center;
       a {
         color: #fff;
         padding: 10px;
@@ -129,7 +135,7 @@ header {
   }
 }
 body {
-  background: $dark-gray;
+  background: #101626;
 }
 .nav {
   ul {
@@ -214,7 +220,7 @@ body {
   img {
     object-fit: cover;
     width: 100%;
-    height: 240px;
+    height: 320px;
     border-radius: 6px;
   }
   p.name {
@@ -228,6 +234,11 @@ body {
   border-color: #ccc;
   box-shadow: -4px -4px 6px red, -4px 4px 6px #5ce133, 4px -4px 6px #72ebeb, 4px 4px 6px #c27381;
 }
+@media (max-width: 1440px) {
+  .nft-card img {
+    height: 240px;
+  }
+}
 .card-action {
   text-align: center;
 }
@@ -240,9 +251,7 @@ body {
   right: 20px;
   top: 20px;
   z-index: 2;
-  background: #004c61;
-  width: 60px;
-  height: 60px;
+  width: 90px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -251,17 +260,24 @@ body {
   flex-direction: column;
   p {
     color: #fff;
-    font-size: 18px;
+    position: relative;
+    font-size: 20px;
     font-weight: 600;
+    padding-top: 20px;
+    text-shadow: 0 2px 4px #00000080;
+    z-index: 6;
     span {
       font-size: 10px;
       margin-left: 3px;
     }
   }
-  p.reward {
-    font-weight: 300;
-    font-size: 12px;
-    border-top: 1px solid #ccc;
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: auto;
+    z-index: 4;
   }
 }
 .left-days {
@@ -372,6 +388,11 @@ input.reward-input {
   &:hover {
     color: #ddd;
   }
+  &:disabled {
+    &:hover {
+      color: #5f5f5f;
+    }
+  }
 }
 h3.empty-text {
   text-align: center;
@@ -386,24 +407,325 @@ h3.empty-text {
 .filter-item.active button {
   color: #fff;
 }
-@media (max-width: 992px) {
+.check-able {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 4px;
+  left: 15px;
+  top: 15px;
+}
+@media (max-width: 1200px) {
   .nft-card {
     width: calc(33% - 20px);
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 776px) {
+  .nft-card {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+.main-content {
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  width: 240px;
+  height: 100vh;
+  background: #121827;
+  box-shadow: 0 4px 20px #00000082;
+}
+.page-content {
+  width: calc(100% - 240px);
+  margin-left: 240px;
+}
+
+.sidebar-content {
+  padding-top: 70px;
+}
+
+.header-logo {
+  display: flex;
+  svg {
+    margin-right: 10px;
+  }
+}
+.map-page {
+  padding: 80px 15px;
+}
+.homebanner {
+  padding: 100px 10px 30px;
+  text-align: center;
+  position: relative;
+  h1 {
+    font-size: 40px;
+    color: #fff;
+    font-weight: 900;
+    position: relative;
+    z-index: 4;
+  }
+  p {
+    font-size: 16px;
+    font-weight: 700;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+    padding-top: 10px;
+    position: relative;
+    color: #ddd;
+    z-index: 4;
+  }
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    padding-top: 60px;
+    opacity: 0.3;
+  }
+}
+.home-row {
+  display: flex;
+  margin: 40px 0;
+  &:first-child {
+    margin-top: 10px;
+  }
+}
+.homepage {
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+.dashboard-item {
+  box-shadow: 0 4px 12px #00000070;
+  padding: 15px;
+  padding: 15px;
+  margin-top: 20px;
+  width: calc(50% - 10px);
+  border-radius: 15px;
+  background: #131e3b;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  &:nth-child(2n) {
+    margin-left: 10px;
+    margin-right: 0;
+  }
+  h2 {
+    color: #fff;
+    font-size: 20px;
+    z-index: 4;
+    position: relative;
+  }
+  p {
+    font-size: 40px;
+    text-align: right;
+    color: #fff;
+    font-weight: 900;
+    z-index: 4;
+    position: relative;
+    span {
+      color: #ffffff4a;
+    }
+  }
+  svg {
+    position: absolute;
+    opacity: 0.2;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1;
+  }
+}
+.token-info {
+  position: absolute;
+  bottom: 0;
+  padding: 15px;
+  border-top: 1px solid #000000a3;
+  width: 100%;
+  h5 {
+    color: #fff;
+    font-size: 18px;
+  }
+  p {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 800;
+  }
+}
+p.signer-balance {
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  span {
+    &:last-child {
+      margin-left: 6px;
+      font-size: 20px;
+      font-weight: 900;
+    }
+  }
+}
+
+.faq {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  position: relative;
+  margin-left: 240px;
+  width: 100%;
+  svg {
+    width: 27px;
+    height: 27px;
+  }
+  img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    margin-right: 40px;
+    margin-top: 40px;
+  }
+}
+.faq-content {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.faq-item {
+  border: 2px solid #fff;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  .faq-question {
+    display: flex;
+    align-items: center;
+    p {
+      margin-left: 15px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      width: calc(100% - 30px);
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  .faq-answer {
+    padding-left: 10px;
+    transition: all 0.3s;
+    p {
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 2;
+      &:first-child {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+.section-title {
+  text-align: center;
+  padding: 30px 0;
+  h1 {
+    color: #fff;
+    padding-bottom: 20px;
+  }
+  p {
+    color: #fff;
+    line-height: 1.5;
+  }
+  a {
+    color: $primary-color;
+  }
+}
+.user-box {
+  text-align: center;
+  background-color: #021e27;
+  h2 {
+    text-align: center;
+  }
+  p {
+    text-align: center;
+  }
+  .sub-box {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    .sub-box-item {
+      align-items: center;
+      text-align: center;
+      width: calc(50% - 5px);
+      margin-left: 5px;
+      margin-right: 5px;
+      h4 {
+        color: #fff;
+      }
+      p {
+        text-align: center;
+        font-size: 32px;
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .nft-card {
+    width: calc(50% - 20px);
     margin-right: 10px;
     margin-left: 10px;
   }
   .mobile-nav {
     display: block;
   }
-  .nav {
+  .nav .connect-button {
     display: none;
   }
+  .sidebar {
+    display: none;
+  }
+  .page-content {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
-@media (max-width: 776px) {
-  .nft-card {
-    width: calc(50% - 20px);
-    margin-right: 10px;
-    margin-left: 10px;
+.header-logo i {
+  display: block;
+}
+@media (max-width: 768px) {
+  .header-logo i {
+    display: none;
+  }
+  .home-row {
+    flex-direction: column;
+    margin: 0;
+  }
+  .signer-balance {
+    span {
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+
+  .dashboard-item {
+    width: 100%;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    margin-bottom: 20px;
   }
 }
 

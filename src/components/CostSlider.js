@@ -89,7 +89,7 @@ export default function CostSlider({
     } else if (newValue >= 22 && newValue < 32) {
       setData(100 + (newValue - 22) * 40, 4)
     } else if (newValue >= 32 && newValue < 42) {
-      setData(500 + (newValue - 32), 5)
+      setData(500 + (newValue - 32) * 30, 5)
     } else if (newValue >= 42 && newValue < 50) {
       setData(800 + (newValue - 42) * 25, 6)
     } else if (newValue === 50) {

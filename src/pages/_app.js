@@ -9,6 +9,8 @@ import { ethers } from 'ethers'
 import { errorAlert } from '../components/toastGroup'
 import { MoralisProvider } from "react-moralis"
 import { APP_ID, CHAIN_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
+import Sidebar from '../components/Sidebar'
+import MainContent from '../components/MainContent'
 
 let provider = undefined
 let contract = undefined
@@ -22,12 +24,21 @@ function MyApp({ Component, pageProps }) {
   const [pageLoading, setPageLoading] = useState(false)
   const [connected, setConnected] = useState(false)
   const [signerAddress, setSignerAddress] = useState("")
+  const [signerBalance, setSignerBalance] = useState(0)
+  const [totalSupply, setTotalSupply] = useState(0)
+  const [totalDusty, setTotalDusty] = useState(0)
+  const [staked, setStaked] = useState(0)
+  const [earlyRemoved, setEarlyRemoved] = useState(0)
+  const [dbalance, setdBalance] = useState(0)
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
+      const web3 = new Web3(Web3.givenProvider)
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
+      const accounts = await web3.eth.getAccounts()
       setConnected(true)
+      setSignerAddress(accounts[0])
       provider = new ethers.providers.Web3Provider(connection)
       signer = provider.getSigner()
       contract = new ethers.Contract(
@@ -40,6 +51,21 @@ function MyApp({ Component, pageProps }) {
         SMARTCONTRACT_ABI_ERC20,
         signer
       )
+      const bal = await contract_20.balanceOf(accounts[0])
+      setSignerBalance(ethers.utils.formatEther(bal))
+
+      const totalS = await contract_20.totalSupply()
+      setTotalSupply(ethers.utils.formatEther(totalS))
+
+      const early = await contract.earlyRemoved()
+      setEarlyRemoved(early.toString())
+
+      const totalN = await contract_20.balanceOf(SMARTCONTRACT_ADDRESS)
+      setTotalDusty(totalN.toString())
+
+      const sta = await contract.totalStaked()
+      setStaked(sta.toString())
+
     }
   }
   useEffect(() => {
@@ -89,14 +115,26 @@ function MyApp({ Component, pageProps }) {
         signerAddress={signerAddress}
         connectWallet={connectWallet}
         connected={connected}
+        signerBalance={signerBalance}
       />
-      <Component {...pageProps}
-        connected={connected}
-        startLoading={() => setPageLoading(true)}
-        closeLoading={() => setPageLoading(false)}
-        address={signerAddress}
-        signer={signer}
-      />
+      <MainContent>
+        <Sidebar
+          connected={connected}
+        />
+        <Component {...pageProps}
+          connected={connected}
+          startLoading={() => setPageLoading(true)}
+          closeLoading={() => setPageLoading(false)}
+          address={signerAddress}
+          signer={signer}
+          signerBalance={signerBalance}
+          totalSupply={totalSupply}
+          staked={staked}
+          dbalance={dbalance}
+          earlyRemoved={earlyRemoved}
+          totalDusty={totalDusty}
+        />
+      </MainContent>
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
       <Loading loading={pageLoading} />
     </MoralisProvider>

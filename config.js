@@ -1,75 +1,6 @@
-export const CHAIN_ID = 56
-export const SMARTCONTRACT_ADDRESS = "0x61a235161C49E45dAEd28c9a7AABcf656424C374"
+export const CHAIN_ID = 97
+export const SMARTCONTRACT_ADDRESS = "0x6b92290cB7477563B226F2ffA8Eb9B6a8B7B42AD"
 export const SMARTCONTRACT_ABI = [
-    {
-        "inputs": [],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "activities",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "NFTAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "NFTId",
-                "type": "uint256"
-            },
-            {
-                "internalType": "string",
-                "name": "hash",
-                "type": "string"
-            },
-            {
-                "internalType": "string",
-                "name": "name",
-                "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "timestamp",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "percent",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "reward",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "enum Bank.Actions",
-                "name": "action",
-                "type": "uint8"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
     {
         "inputs": [
             {
@@ -136,6 +67,119 @@ export const SMARTCONTRACT_ABI = [
     },
     {
         "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "addr",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "cid",
+                "type": "uint256"
+            }
+        ],
+        "name": "unStake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "withdraw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "activities",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "NFTAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "NFTId",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "hash",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "percent",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "reward",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            },
+            {
+                "internalType": "enum Bank.Actions",
+                "name": "action",
+                "type": "uint8"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "earlyRemoved",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
         "name": "staked",
         "outputs": [
             {
@@ -161,28 +205,16 @@ export const SMARTCONTRACT_ABI = [
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "addr",
-                "type": "address"
-            },
+        "inputs": [],
+        "name": "totalStaked",
+        "outputs": [
             {
                 "internalType": "uint256",
-                "name": "cid",
+                "name": "",
                 "type": "uint256"
             }
         ],
-        "name": "unStake",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [],
-        "stateMutability": "nonpayable",
+        "stateMutability": "view",
         "type": "function"
     }
 ]
@@ -658,8 +690,8 @@ export const SMARTCONTRACT_ABI_ERC20 = [
 ]
 export const SMARTCONTRACT_ADDRESS_ERC20 = "0x35D28B879DECE33a9a5e59F866283dCFb797294D"
 
-export const SERVER_URL = "https://odv0blkhfxrp.usemoralis.com:2053/server"
-export const APP_ID = "GtJNSkS50nydMgoWHu5hfFQU94KmoflSWWFCkCgi"
+export const SERVER_URL = "https://na6ncqoydc1h.usemoralis.com:2053/server"
+export const APP_ID = "EywSVoYCXSRdtCa2NgzRm82Dku6xx9Ke6RHO2W2g"
 
 export const SMARCONTRACT_INI_ABI = [
     {
