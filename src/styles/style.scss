@@ -23,7 +23,7 @@ a {
   height: 100vh;
   z-index: 99;
   position: fixed;
-  background: #222;
+  background: rgba(34, 34, 34, 0.685);
   width: 100%;
   left: 0;
   top: 0;
@@ -385,6 +385,13 @@ h3.empty-text {
 }
 .filter-item.active button {
   color: #fff;
+}
+.check-able {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 4px;
+  left: 15px;
+  top: 15px;
 }
 @media (max-width: 992px) {
   .nft-card {

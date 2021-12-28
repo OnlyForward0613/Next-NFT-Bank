@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { DoActionButton, UnstakeButton } from "./styleHook"
+import { MulCheckIcon, MulCheckedIcon, DoActionButton, UnstakeButton } from "./styleHook"
 import Countdown from 'react-countdown'
 import ClipLoader from "react-spinners/ClipLoader"
 import { errorAlert, successAlert, warningAlert } from './toastGroup'
@@ -8,6 +8,7 @@ import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMART
 import Swal from 'sweetalert2'
 import CardModal from "./CardModal"
 import Web3Modal from "web3modal"
+import { Checkbox } from "@mui/material"
 
 export default function NFTCard({
   state,
@@ -175,64 +176,77 @@ export default function NFTCard({
     // eslint-disable-next-line
   }, [])
   return (
-    <div className={action !== 1 ? "nft-card" : "nft-card staked"}>
-      {/* eslint-disable-next-line */}
-      <img
-        alt=""
-        src={image}
-      />
-      <p className="name">{name}</p>
-      {action === 1 &&
-        <>
-          <div className="cost-ribbon">
-            <p>{percent}<span>%</span></p>
-            <p className="reward">reward</p>
+    <>
+      {(filterState === action || filterState === 2) &&
+        <div className={action !== 1 ? "nft-card" : "nft-card staked"}>
+          {/* <div className="check-able">
+            <Checkbox
+              checked={true}
+              // onChange={handleChange}
+              size="sm"
+              color="success"
+              style={{ fontSize: 40 }}
+            />
+          </div> */}
+          {/* eslint-disable-next-line */}
+          <img
+            alt=""
+            src={image}
+          />
+          <p className="name">{name}</p>
+          {action === 1 &&
+            <>
+              <div className="cost-ribbon">
+                <p>{percent}<span>%</span></p>
+                <p className="reward">reward</p>
+              </div>
+              {action === 1 &&
+                <p className="left-days">
+                  <span>{days}</span> day: <span>{hours}</span> hour : <span>{minute}</span> min : <span>{second}</span> sec
+                </p>
+              }
+            </>
+          }
+          <div className="card-action">
+            {action !== 1 &&
+              <DoActionButton onClick={() => setOpen(true)}>
+                Stake
+              </DoActionButton>
+            }
+            {action === 1 &&
+              <UnstakeButton onClick={() => openUnstake()} disabled={unloading}>
+                {unloading ?
+                  <ClipLoader loading={unloading} size={12} color="#fff" />
+                  :
+                  "Unstake"
+                }
+              </UnstakeButton>
+            }
           </div>
           {action === 1 &&
-            <p className="left-days">
-              <span>{days}</span> day: <span>{hours}</span> hour : <span>{minute}</span> min : <span>{second}</span> sec
-            </p>
+            <div style={{ display: "none" }}>
+              <Countdown date={new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000)} onTick={(e) => handleTime(e)} onComplete={() => autoClaim()} />
+            </div>
           }
-        </>
-      }
-      <div className="card-action">
-        {action !== 1 &&
-          <DoActionButton onClick={() => setOpen(true)}>
-            Stake
-          </DoActionButton>
-        }
-        {action === 1 &&
-          <UnstakeButton onClick={() => openUnstake()} disabled={unloading}>
-            {unloading ?
-              <ClipLoader loading={unloading} size={12} color="#fff" />
-              :
-              "Unstake"
-            }
-          </UnstakeButton>
-        }
-      </div>
-      {action === 1 &&
-        <div style={{ display: "none" }}>
-          <Countdown date={new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000)} onTick={(e) => handleTime(e)} onComplete={() => autoClaim()} />
+          <CardModal
+            name={name}
+            realName={realName}
+            description={description}
+            image={image}
+            indiContract={indiContract}
+            tokenAddress={tokenAddress}
+            tokenId={tokenId}
+            hash={hash}
+            balance={balance}
+            address={address}
+            alertBox={(e) => alertBox(e)}
+            useForceUpdate={useForceUpdate}
+            open={open}
+            reRender={reRender}
+            close={() => setOpen(false)}
+          />
         </div>
       }
-      <CardModal
-        name={name}
-        realName={realName}
-        description={description}
-        image={image}
-        indiContract={indiContract}
-        tokenAddress={tokenAddress}
-        tokenId={tokenId}
-        hash={hash}
-        balance={balance}
-        address={address}
-        alertBox={(e) => alertBox(e)}
-        useForceUpdate={useForceUpdate}
-        open={open}
-        reRender={reRender}
-        close={() => setOpen(false)}
-      />
-    </div>
+    </>
   )
 }

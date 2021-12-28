@@ -28,6 +28,9 @@ export default function Bank({
   const [nfts, setNfts] = useState([])
   const [total, setTotal] = useState(0)
   const [groupNFT, setGruopNFT] = useState([])
+  const [filterState, setFilterState] = useState(2)
+
+  const [checkAble, setCheckAble] = useState(false)
 
   const [forceRender, setForceRender] = useState(1)
   const setNFTArray = (nftList) => {
@@ -93,7 +96,6 @@ export default function Bank({
     } else if (NFTBalances && NFTBalances.result.length === 0) {
       closeLoading()
     }
-    closeLoading()
     // eslint-disable-next-line
   }, [NFTBalances])
 
@@ -122,7 +124,11 @@ export default function Bank({
         signer={signer}
         forceRender={forceRender}
         setForce={(e) => setForceRender(e)}
+        filterState={filterState}
+        setFilterState={(e) => setFilterState(e)}
         useForceUpdate={useForceUpdate}
+        checkAble={checkAble}
+        setCheckAble={(e) => setCheckAble(e)}
       />
     </>
   )
