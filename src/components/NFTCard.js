@@ -180,7 +180,7 @@ export default function NFTCard({
   return (
     <>
       {(filterState === action || filterState === 2) &&
-        <div className={action !== 1 ? "nft-card" : "nft-card staked"}>
+        <div className={action !== 1 ? "nft-card" : "nft-card nft-card-active"}>
           {/* <div className="check-able">
             <Checkbox
               checked={true}
@@ -199,7 +199,7 @@ export default function NFTCard({
           {action === 1 &&
             <>
               <div className="cost-ribbon">
-                <p>{ethers.utils.formatEther(reward)}</p>
+                <p>{parseFloat(ethers.utils.formatEther(reward)).toFixed(1)}</p>
                 {percent > 42 &&
                   // eslint-disable-next-line
                   <img
