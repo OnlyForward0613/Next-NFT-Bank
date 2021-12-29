@@ -451,7 +451,8 @@ h3.empty-text {
 
 .header-logo {
   display: flex;
-  svg {
+  img {
+    width: 36px;
     margin-right: 10px;
   }
 }
