@@ -1,9 +1,15 @@
 import { Container } from '@mui/material';
+import Head from 'next/head';
 import FAQItem from '../components/FAQItem';
 
 export default function FAQ() {
   return (
     <div id="faq" className="faq page-content">
+      <Head>
+        <title>NFT Bank | Frequently answered questions</title>
+        <meta name="description" content="Frequently answered questions" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Container>
         <div className="section-title">
           <h1>Frequently asked questions</h1>

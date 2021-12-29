@@ -113,7 +113,7 @@ export default function NFTLIST({
   return (
     <div className='page-content'>
       <Head>
-        <title>NFT Bank | Bank</title>
+        <title>NFT Bank | NFTs List</title>
         <meta name="description" content="NFT Bank" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
