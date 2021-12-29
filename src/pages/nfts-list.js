@@ -50,7 +50,6 @@ export default function NFTLIST({
     const web3 = new Web3(Web3.givenProvider)
     const accounts = await web3.eth.getAccounts()
     const total = await contract.staked(accounts[0])
-    console.log(total.toString(), "rksks")
     if (parseInt(total.toString()) !== 0) {
       for (var i = 0; i < total; i++) {
         const nftData = await contract.activities(accounts[0], i)
