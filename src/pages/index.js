@@ -14,6 +14,7 @@ export default function Home({
   totalSupply,
   staked,
   address,
+  holders,
   earlyRemoved,
   totalDusty,
   dbalance,
@@ -114,6 +115,7 @@ export default function Home({
         dbalance={dbalance}
         address={address}
         totalDusty={totalDusty}
+        holders={holders}
         totalNFTs={totalNFTs}
         userStaked={userStaked}
         totalReward={totalReward}

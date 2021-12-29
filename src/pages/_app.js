@@ -30,6 +30,7 @@ function MyApp({ Component, pageProps }) {
   const [staked, setStaked] = useState(0)
   const [earlyRemoved, setEarlyRemoved] = useState(0)
   const [dbalance, setdBalance] = useState(0)
+  const [holders, setHolders] = useState(0)
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
@@ -57,6 +58,10 @@ function MyApp({ Component, pageProps }) {
       const totalS = await contract_20.totalSupply()
       setTotalSupply(ethers.utils.formatEther(totalS))
 
+      const totlass = await contract_20.holders()
+      setHolders(totlass.toString())
+
+
       const early = await contract.earlyRemoved()
       setEarlyRemoved(early.toString())
 
@@ -70,6 +75,7 @@ function MyApp({ Component, pageProps }) {
   }
   useEffect(() => {
     if (ethereum) {
+      connectWallet()
       ethereum.on('accountsChanged', function (accounts) {
         if (accounts.length !== 0) {
           setSignerAddress(accounts[0])
@@ -131,6 +137,7 @@ function MyApp({ Component, pageProps }) {
           totalSupply={totalSupply}
           staked={staked}
           dbalance={dbalance}
+          holders={holders}
           earlyRemoved={earlyRemoved}
           totalDusty={totalDusty}
         />
