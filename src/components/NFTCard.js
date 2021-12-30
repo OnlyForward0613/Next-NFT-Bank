@@ -98,7 +98,10 @@ export default function NFTCard({
 
     setContract20(contractE20)
 
-    await fetch(data.token_uri)
+    const urdd = data.token_uri.split("/")
+    const uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+
+    await fetch(uri)
       .then(resp =>
         resp.json()
       ).then((json) => {

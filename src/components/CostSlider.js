@@ -116,10 +116,10 @@ export default function CostSlider({
         onChange={handleChange}
       />
       <div className="balence-info">
-        <p className="reward-value">Value:&nbsp;$&nbsp;<span>{real}</span></p>
-        <p className="reward-value">Your balance:&nbsp;$&nbsp;<span>{balance}</span></p>
+        <p className="reward-value">Value:&nbsp;$Dusty&nbsp;<span>{real}</span></p>
+        <p className="reward-value">Your balance:&nbsp;$Dusty&nbsp;<span>{balance}</span></p>
       </div>
-      <p className="reward-value">You can earn&nbsp;$&nbsp;<span>{(real * steps[step]).toFixed(2)}</span> after 12 months.</p>
+      <p className="reward-value">You can earn&nbsp;$Dusty&nbsp;<span>{(real * steps[step]).toFixed(2)}</span> after 12 months.</p>
     </Box>
   )
 }
