@@ -70,7 +70,6 @@ export default function NFTLIST({
       }
     }
     setNFTArray(allNFT)
-    closeLoading()
   }
 
   const setPastNFTs = () => {

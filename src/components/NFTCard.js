@@ -98,14 +98,25 @@ export default function NFTCard({
 
     setContract20(contractE20)
 
-    const urdd = data.token_uri.split("/")
-    const uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
-
+    const urdd = data.token_uri.split("://")
+    let uri = ''
+    if (urdd[0] === "ipfs") {
+      uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+    } else {
+      uri = data.token_uri
+    }
     await fetch(uri)
       .then(resp =>
         resp.json()
       ).then((json) => {
-        setImage(json.image)
+        let img = json.image
+        const urddd = img.split("://")
+        if (urddd[0] === "ipfs") {
+          img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
+        } else {
+          img = data.token_uri
+        }
+        setImage(img)
         setDescription(json.description)
       })
   }
