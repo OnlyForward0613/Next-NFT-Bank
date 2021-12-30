@@ -71,6 +71,7 @@ export default function NFTCard({
     setTokenId(data.token_id)
     setHash(data.token_uri)
 
+
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
@@ -118,6 +119,8 @@ export default function NFTCard({
         }
         setImage(img)
         setDescription(json.description)
+        setImage(data.image ? data.image : img)
+        setDescription(data.description ? data.description : json.description)
       })
   }
 

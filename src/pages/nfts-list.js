@@ -75,6 +75,7 @@ export default function NFTLIST({
   const setPastNFTs = () => {
     startLoading()
     if (NFTBalances && NFTBalances.result.length !== 0) {
+      console.log(NFTBalances.result[0].image)
       for (var i = 0; i < NFTBalances.result.length; i++) {
         allNFT.push({
           cid: -1,
@@ -83,6 +84,8 @@ export default function NFTLIST({
           token_address: NFTBalances.result[i].token_address,
           token_id: NFTBalances.result[i].token_id,
           reward: 0,
+          image: NFTBalances.result[i].image,
+          description: NFTBalances.result[i].description,
           timestamp: "0",
           percent: 0,
           token_uri: NFTBalances.result[i].token_uri,
