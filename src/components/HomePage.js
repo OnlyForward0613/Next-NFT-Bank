@@ -1,5 +1,6 @@
 import { Container, Skeleton } from "@mui/material";
 import { ethers } from "ethers";
+import GuideBanner from "./GuideBanner";
 
 export default function HomePage({
   totalSupply,
@@ -19,13 +20,14 @@ export default function HomePage({
     <div className="full-page">
       <div className="homebanner">
         <h1><i>Dusty Vaults</i></h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <p>Safely deposit your NFT&apos;s in our secure vault for the next 12 months and earn up to 50% per annum in $Dusty.  It&apos;s time for your NFT&apos;s to pay you back!</p>
         {/* eslint-disable-next-line */}
         <img
           src="./safe.png"
           alt=""
         />
       </div>
+      <GuideBanner />
       <Container>
         <div className="homepage">
           {connected &&
@@ -34,20 +36,20 @@ export default function HomePage({
                 <h2>Your Total NFTs&nbsp;({address.slice(0, 4) + "..." + address.slice(39, 42)})</h2>
                 <p>
                   {connected ?
-                    (!loading ? totalNFTs : <Skeleton width={80} height={45} style={{ margin: "5px auto" }} animation="wave" />)
+                    (!loading ? totalNFTs : <Skeleton width={80} height={45} sx={{ bgcolor: '#ffffff20' }} style={{ margin: "5px auto", backgroundColor: "ffffff3d" }} />)
                     : <span>N/A</span>}
                 </p>
                 <div className="sub-box">
                   <div className="sub-box-item">
                     <h4>STAKED</h4>
                     <p>
-                      {!loading ? userStaked : <Skeleton width={60} height={33} style={{ margin: "5px auto" }} animation="wave" />}
+                      {!loading ? userStaked : <Skeleton width={60} height={33} sx={{ bgcolor: '#ffffff20' }} style={{ margin: "5px auto", backgroundColor: "ffffff3d" }} />}
                     </p>
                   </div>
                   <div className="sub-box-item">
                     <h4>UNSTAKED</h4>
                     <p>
-                      {!loading ? (totalNFTs - userStaked) : <Skeleton width={60} height={33} style={{ margin: "5px auto" }} animation="wave" />}
+                      {!loading ? (totalNFTs - userStaked) : <Skeleton width={60} sx={{ bgcolor: '#ffffff20' }} height={33} style={{ margin: "5px auto", backgroundColor: "ffffff3d" }} />}
                     </p>
                   </div>
                 </div>
@@ -55,7 +57,7 @@ export default function HomePage({
               <div className="dashboard-item user-box display-center">
                 <h2>Total Reward&nbsp;($Dusty)</h2>
                 <p>
-                  {!loading ? parseFloat(totalReward).toFixed(3) : <Skeleton width={120} height={45} style={{ margin: "5px auto" }} animation="wave" />}
+                  {!loading ? parseFloat(totalReward).toFixed(3) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={45} style={{ margin: "5px auto", backgroundColor: "ffffff3d" }} />}
                 </p>
                 {/* <div className="sub-box">
                 <div className="sub-box-item">

@@ -102,7 +102,8 @@ export default function CostSlider({
     setAmount(count.toFixed(2))
   }
   return (
-    <Box style={{ paddingTop: 40 }}>
+    <Box>
+      <p className="your-balance">Your balance:&nbsp;$Dusty&nbsp;<span>{balance}</span></p>
       <PrettoSlider
         defaultValue={1}
         scale={calculateValue}
@@ -117,7 +118,6 @@ export default function CostSlider({
       />
       <div className="balence-info">
         <p className="reward-value">Value:&nbsp;$Dusty&nbsp;<span>{real}</span></p>
-        <p className="reward-value">Your balance:&nbsp;$Dusty&nbsp;<span>{balance}</span></p>
       </div>
       <p className="reward-value">You can earn&nbsp;$Dusty&nbsp;<span>{(real * steps[step]).toFixed(2)}</span> after 12 months.</p>
     </Box>

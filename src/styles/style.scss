@@ -320,6 +320,15 @@ body {
     margin-bottom: 10px;
   }
 }
+p.your-balance {
+  font-size: 14px;
+  text-align: right;
+  padding-bottom: 40px;
+  span {
+    font-size: 22px;
+    font-weight: 600;
+  }
+}
 .reward-value {
   font-size: 14px !important;
   span {
@@ -561,6 +570,16 @@ h3.empty-text {
     color: #fff;
     font-weight: 800;
   }
+  a {
+    text-decoration: none;
+    color: #fecc1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 5px 0;
+  }
 }
 p.signer-balance {
   color: #fff;
@@ -628,11 +647,14 @@ p.signer-balance {
     transition: all 0.3s;
     p {
       font-size: 16px;
-      font-weight: 500;
+      font-weight: 300;
       color: #fff;
       line-height: 2;
       &:first-child {
         margin-top: 20px;
+      }
+      span {
+        text-decoration: line-through;
       }
     }
   }
@@ -882,5 +904,68 @@ p.signer-balance {
       outline: none;
       margin: 0 8px;
     }
+  }
+}
+.guide-hero {
+  width: calc(100% - 30px);
+  margin-left: 15px;
+  margin-right: 15px;
+  display: flex;
+  margin-top: 30px;
+}
+.guide-item {
+  width: calc(33.3% - 10px);
+  margin-right: 5px;
+  margin-left: 5px;
+  padding: 10px;
+  background-color: #135a12;
+  border-radius: 12px;
+  box-shadow: 4px 3px 12px #000000a4;
+  position: relative;
+  p {
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  &:first-child {
+    background-color: #384eb4;
+  }
+  &:last-child {
+    background-color: #0b3964;
+  }
+  img {
+    width: 100%;
+  }
+}
+.step-arrow {
+  position: absolute;
+  right: -22px;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@media (max-width: 576px) {
+  .guide-hero {
+    flex-direction: column;
+  }
+  .guide-item {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .step-arrow {
+    position: absolute;
+    right: -22px;
+    z-index: 3;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(90deg);
+    bottom: -27px;
+    top: auto;
   }
 }
