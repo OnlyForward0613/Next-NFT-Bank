@@ -8,11 +8,6 @@ import { ethers } from 'ethers'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
 import Sidebar from '../components/Sidebar'
 
-const error = [
-  "The wrong network, please switch to the Binance Smart Chain network.",
-  "You need MetaMask to interact with this site!"
-]
-
 export default function Home({
   connected,
   checkNetwork,
@@ -21,19 +16,21 @@ export default function Home({
   address,
   holders,
   earlyRemoved,
+  contractcontract,
   totalDusty,
   dbalance,
+  homeLoading,
   ...props
 }) {
   let allNFT = []
   const { data: NFTBalances } = useNFTBalances()
-  const [totalNFTs, setTotalNFTs] = useState(0)
-  const [userStaked, setUserStaked] = useState(0)
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
 
+  const [stakedCnt, setStakedCnt] = useState(0)
+  const [unstakedCnt, setUnstakedCnt] = useState(0)
+
   const setStakedNFTs = async () => {
-    setLoading(true)
     allNFT = []
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -54,55 +51,31 @@ export default function Home({
         const nftData = await contract.activities(accounts[0], i)
         if (nftData.action === 1) {
           dd++
-          allNFT.push({
-            cid: i,
-            name: nftData.name,
-            token_address: nftData.NFTAddress,
-            token_id: nftData.NFTId.toString(),
-            token_uri: nftData.hash,
-            reward: nftData.reward.toString(),
-            action: nftData.action,
-            reward: nftData.reward.toString(),
-            percent: nftData.percent.toString(),
-            timestamp: nftData.timestamp.toString()
-          })
           mmm = mmm + parseFloat(ethers.utils.formatEther(nftData.reward.toString()))
         }
       }
-      setUserStaked(dd)
+      setStakedCnt(dd)
       setTotalReward(mmm)
     }
-    setTotalNFTs(allNFT.length)
+    setLoading(false)
+    console.log(contract, "contractcontract")
   }
 
   const setPastNFTs = () => {
     setLoading(true)
     if (NFTBalances && NFTBalances.result.length !== 0) {
-      for (var i = 0; i < NFTBalances.result.length; i++) {
-        allNFT.push({
-          cid: -1,
-          name: NFTBalances.result[i].name,
-          action: 0,
-          token_address: NFTBalances.result[i].token_address,
-          token_id: NFTBalances.result[i].token_id,
-          reward: 0,
-          timestamp: "0",
-          percent: 0,
-          token_uri: NFTBalances.result[i].token_uri,
-        })
-      }
-      setLoading(false)
+      setUnstakedCnt(NFTBalances.total)
     } else if (NFTBalances && NFTBalances.result.length === 0) {
-      setLoading(false)
+      // setLoading(false)
     }
   }
   const getNFTLIST = () => {
-    setLoading(true)
-    setStakedNFTs()
     setPastNFTs()
+    setStakedNFTs()
   }
 
   useEffect(async () => {
+    setLoading(true)
     if (typeof window.ethereum !== 'undefined') {
       if (await checkNetwork("no-alert")) {
         getNFTLIST()
@@ -128,13 +101,14 @@ export default function Home({
           staked={staked}
           earlyRemoved={earlyRemoved}
           dbalance={dbalance}
+          homeLoading={homeLoading}
           address={address}
           totalDusty={totalDusty}
           holders={holders}
-          totalNFTs={totalNFTs}
-          userStaked={userStaked}
+          stakedCnt={stakedCnt}
           totalReward={totalReward}
           loading={loading}
+          unstakedCnt={unstakedCnt}
         />
       </div>
     </>

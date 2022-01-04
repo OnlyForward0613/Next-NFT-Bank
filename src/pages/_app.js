@@ -32,9 +32,13 @@ function MyApp({ Component, pageProps }) {
   const [earlyRemoved, setEarlyRemoved] = useState(0)
   const [dbalance, setdBalance] = useState(0)
   const [holders, setHolders] = useState(0)
+  const [homeLoading, setHomeloading] = useState(false)
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
+
+      setHomeloading(true) //loading start
+
       const web3 = new Web3(Web3.givenProvider)
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
@@ -71,6 +75,8 @@ function MyApp({ Component, pageProps }) {
 
       const sta = await contract.totalStaked()
       setStaked(sta.toString())
+
+      setHomeloading(false) //loading off
 
     }
   }
@@ -134,6 +140,8 @@ function MyApp({ Component, pageProps }) {
           holders={holders}
           earlyRemoved={earlyRemoved}
           totalDusty={totalDusty}
+          contractcontract={contract}
+          homeLoading={homeLoading}
         />
       </MainContent>
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
