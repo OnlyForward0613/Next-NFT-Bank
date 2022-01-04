@@ -3,7 +3,6 @@ import NFTCard from "./NFTCard"
 import ItemFilter from "./ItemFilter"
 
 export default function NFTMap({
-  nfts,
   groupNFT,
   total,
   address,
@@ -17,6 +16,8 @@ export default function NFTMap({
   setCheckAble,
   totalDusty,
   getNFTLIST,
+  unstakedList,
+  stakedList,
   ...props
 }) {
   const [pageRerender, setPageRerender] = useState("")
@@ -24,18 +25,10 @@ export default function NFTMap({
   const [unstaked, setUnstaked] = useState(0)
   const [staked, setStaked] = useState(0)
   useEffect(() => {
-    let allN = 0
-    let unstakedN = 0
-    let stakedN = 0
-    for (var i = 0; i < nfts.length; i++) {
-      allN++
-      if (nfts[i].action === 0) unstakedN++
-      if (nfts[i].action === 1) stakedN++
-    }
-    setAll(allN)
-    setUnstaked(unstakedN)
-    setStaked(stakedN)
-  }, [nfts])
+    setAll(unstakedList.length + stakedList.length)
+    setUnstaked(unstakedList.length)
+    setStaked(stakedList.length)
+  }, [unstakedList, stakedList])
   return (
     <div className="map-page">
       <ItemFilter
@@ -48,7 +41,7 @@ export default function NFTMap({
         staked={staked}
       />
       <div className="nft-map">
-        {nfts.length !== 0 ? nfts.reverse().map((item, key) => (
+        {stakedList.length !== 0 && stakedList.reverse().map((item, key) => (
           <NFTCard
             key={key}
             data={item}
@@ -65,7 +58,27 @@ export default function NFTMap({
             setCheckAble={(e) => setCheckAble(e)}
             getNFTLIST={() => getNFTLIST()}
           />
-        )) :
+        ))}
+        {unstakedList.length !== 0 && unstakedList.reverse().map((item, key) => (
+          <NFTCard
+            key={key}
+            data={item}
+            state={0}
+            filterState={filterState}
+            address={address}
+            pageRerender={pageRerender}
+            reRender={(e) => setPageRerender(e)}
+            useForceUpdate={useForceUpdate}
+            signer={signer}
+            forceRender={forceRender}
+            setForce={(e) => setForce(e)}
+            checkAble={checkAble}
+            setCheckAble={(e) => setCheckAble(e)}
+            getNFTLIST={() => getNFTLIST()}
+          />
+        ))
+        }
+        {(stakedList.lenth + unstakedList.length) === 0 &&
           <h3 className="empty-text">
             You don&apos;t have any NFTs on this Wallet
           </h3>

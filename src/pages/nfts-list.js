@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useNFTBalances } from 'react-moralis'
 import NFTMap from '../components/NFTMap'
-// import TotalList from '../components/TotalList'
 import Web3Modal from "web3modal"
 import Web3 from 'web3'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
@@ -23,13 +22,16 @@ export default function NFTLIST({
 }) {
 
   const router = useRouter()
-
-  let allNFT = []
+  let stakedNfts = []
+  let unStakedNfts = []
   const { data: NFTBalances } = useNFTBalances()
   const [nfts, setNfts] = useState([])
   const [total, setTotal] = useState(0)
   const [groupNFT, setGruopNFT] = useState([])
   const [filterState, setFilterState] = useState(2)
+
+  const [stakedList, setStakedList] = useState([])
+  const [unstakedList, setUnstakedList] = useState([])
 
   const [checkAble, setCheckAble] = useState(false)
 
@@ -41,8 +43,8 @@ export default function NFTLIST({
   }
 
   const setStakedNFTs = async () => {
+    stakedNfts = []
     startLoading()
-    allNFT = []
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
@@ -59,7 +61,7 @@ export default function NFTLIST({
       for (var i = 0; i < total; i++) {
         const nftData = await contract.activities(accounts[0], i)
         if (nftData.action === 1) {
-          allNFT.push({
+          stakedNfts.push({
             cid: i,
             name: nftData.name,
             token_address: nftData.NFTAddress,
@@ -74,14 +76,16 @@ export default function NFTLIST({
         }
       }
     }
-    setNFTArray(allNFT)
+    setStakedList(stakedNfts)
   }
 
   const setPastNFTs = () => {
-    startLoading()
+    unStakedNfts = []
     if (NFTBalances && NFTBalances.result.length !== 0) {
+      startLoading()
+      console.log(NFTBalances)
       for (var i = 0; i < NFTBalances.result.length; i++) {
-        allNFT.push({
+        unStakedNfts.push({
           cid: -1,
           name: NFTBalances.result[i].name,
           action: 0,
@@ -95,8 +99,7 @@ export default function NFTLIST({
           token_uri: NFTBalances.result[i].token_uri,
         })
       }
-      closeLoading()
-    } else if (NFTBalances && NFTBalances.result.length === 0) {
+      setUnstakedList(unStakedNfts)
       closeLoading()
     }
   }
@@ -115,13 +118,6 @@ export default function NFTLIST({
     }
     // eslint-disable-next-line
   }, [NFTBalances])
-
-  // useEffect(() => {
-  //   if (!connected) {
-  //     router.push("/")
-  //   }
-  //   // eslint-disable-next-line
-  // }, [connected])
   return (
     <>
       <Sidebar
@@ -133,12 +129,7 @@ export default function NFTLIST({
           <meta name="description" content="NFT Bank" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        {/* <TotalList
-        total={total}
-        groupNFT={groupNFT}
-      /> */}
         <NFTMap
-          nfts={nfts}
           groupNFT={groupNFT}
           total={total}
           address={address}
@@ -150,6 +141,8 @@ export default function NFTLIST({
           setCheckAble={(e) => setCheckAble(e)}
           totalDusty={totalDusty}
           getNFTLIST={() => getNFTLIST()}
+          stakedList={stakedList}
+          unstakedList={unstakedList}
         />
       </div>
     </>

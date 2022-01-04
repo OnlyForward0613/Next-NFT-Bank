@@ -58,7 +58,6 @@ export default function Home({
       setTotalReward(mmm)
     }
     setLoading(false)
-    console.log(contract, "contractcontract")
   }
 
   const setPastNFTs = () => {
