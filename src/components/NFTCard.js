@@ -106,12 +106,13 @@ export default function NFTCard({
     } else {
       uri = data.token_uri
     }
+    console.log(data.token_uri, "token_uri")
     await fetch(uri)
       .then(resp =>
         resp.json()
       ).then((json) => {
         let img = json.image
-        console.log(json.image, "jsonImage")
+        console.log(json.image, "json_image")
         const urddd = img.split("://")
         if (urddd[0] === "ipfs") {
           img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
@@ -180,7 +181,7 @@ export default function NFTCard({
 
   const openUnstake = () => {
     Swal.fire({
-      title: 'Do you really unstake this NFT?',
+      title: 'Do you really want to remove this NFT from the vault? You will lose all $Dusty associated with it',
       showCancelButton: true,
       confirmButtonText: 'Unstake',
     }).then((result) => {
