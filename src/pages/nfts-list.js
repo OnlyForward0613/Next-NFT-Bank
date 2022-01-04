@@ -105,7 +105,7 @@ export default function NFTLIST({
   }
   const getNFTLIST = () => {
     setNfts([])
-    setStakedNFTs()
+    // setStakedNFTs()
     setPastNFTs()
   }
   useEffect(async () => {
