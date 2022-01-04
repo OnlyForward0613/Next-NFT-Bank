@@ -69,6 +69,7 @@ export default function NFTLIST({
       }
     }
     setStakedList(stakedNfts)
+    closeLoading()
   }
 
   const setPastNFTs = () => {
@@ -97,8 +98,11 @@ export default function NFTLIST({
   }
   const getNFTLIST = () => {
     setNfts([])
-    setStakedNFTs()
     setPastNFTs()
+    startLoading()
+    setTimeout(() => {
+      setStakedNFTs()
+    }, 1000);
   }
   useEffect(async () => {
     if (typeof window.ethereum !== 'undefined') {
