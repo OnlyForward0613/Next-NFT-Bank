@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { MulCheckIcon, MulCheckedIcon, DoActionButton, UnstakeButton } from "./styleHook"
+import { DoActionButton, UnstakeButton } from "./styleHook"
 import Countdown from 'react-countdown'
 import ClipLoader from "react-spinners/ClipLoader"
 import { errorAlert, successAlert, warningAlert } from './toastGroup'
@@ -8,7 +8,6 @@ import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMART
 import Swal from 'sweetalert2'
 import CardModal from "./CardModal"
 import Web3Modal from "web3modal"
-import { Checkbox } from "@mui/material"
 
 export default function NFTCard({
   state,
@@ -200,16 +199,6 @@ export default function NFTCard({
     <>
       {(filterState === action || filterState === 2) &&
         <div className={action !== 1 ? "nft-card" : "nft-card nft-card-active"}>
-          {/* <div className="check-able">
-            <Checkbox
-              checked={true}
-              // onChange={handleChange}
-              size="sm"
-              color="success"
-              style={{ fontSize: 40 }}
-            />
-          </div> */}
-          {/* eslint-disable-next-line */}
           <img
             alt=""
             src={image}

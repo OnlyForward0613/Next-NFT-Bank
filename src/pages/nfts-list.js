@@ -32,15 +32,7 @@ export default function NFTLIST({
 
   const [stakedList, setStakedList] = useState([])
   const [unstakedList, setUnstakedList] = useState([])
-
   const [checkAble, setCheckAble] = useState(false)
-
-  const setNFTArray = (nftList) => {
-    setNfts(nftList)
-    setTotal(nftList.length)
-    var grouped = _.mapValues(_.groupBy(nftList, 'name'), clist => clist.map(nft => _.omit(nft, 'name')))
-    setGruopNFT(grouped)
-  }
 
   const setStakedNFTs = async () => {
     stakedNfts = []
@@ -105,7 +97,7 @@ export default function NFTLIST({
   }
   const getNFTLIST = () => {
     setNfts([])
-    // setStakedNFTs()
+    setStakedNFTs()
     setPastNFTs()
   }
   useEffect(async () => {

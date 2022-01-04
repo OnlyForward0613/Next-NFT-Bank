@@ -36,9 +36,7 @@ function MyApp({ Component, pageProps }) {
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
-
       setHomeloading(true) //loading start
-
       const web3 = new Web3(Web3.givenProvider)
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
