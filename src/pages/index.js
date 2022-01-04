@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useNFTBalances } from 'react-moralis'
-// import HeroBanner from '../components/HeroBanner'
 import HomePage from '../components/HomePage'
 import Web3Modal from 'web3modal'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
+import Sidebar from '../components/Sidebar'
+
+const error = [
+  "The wrong network, please switch to the Binance Smart Chain network.",
+  "You need MetaMask to interact with this site!"
+]
 
 export default function Home({
   connected,
@@ -96,32 +101,42 @@ export default function Home({
     setStakedNFTs()
     setPastNFTs()
   }
-  useEffect(() => {
-    getNFTLIST()
+
+  useEffect(async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      if (await checkNetwork("no-alert")) {
+        getNFTLIST()
+      }
+    }
     // eslint-disable-next-line
   }, [NFTBalances])
+
   return (
-    <div className="page-content">
-      <Head>
-        <title>NFT Bank | Home</title>
-        <meta name="description" content="NFT Bank" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <HomePage
+    <>
+      <Sidebar
         connected={connected}
-        totalSupply={totalSupply}
-        staked={staked}
-        earlyRemoved={earlyRemoved}
-        dbalance={dbalance}
-        address={address}
-        totalDusty={totalDusty}
-        holders={holders}
-        totalNFTs={totalNFTs}
-        userStaked={userStaked}
-        totalReward={totalReward}
-        loading={loading}
       />
-      {/* <HeroBanner connected={connected} checkNetwork={checkNetwork} closeLoading={closeLoading} /> */}
-    </div>
+      <div className="page-content">
+        <Head>
+          <title>NFT Bank | Home</title>
+          <meta name="description" content="NFT Bank" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <HomePage
+          connected={connected}
+          totalSupply={totalSupply}
+          staked={staked}
+          earlyRemoved={earlyRemoved}
+          dbalance={dbalance}
+          address={address}
+          totalDusty={totalDusty}
+          holders={holders}
+          totalNFTs={totalNFTs}
+          userStaked={userStaked}
+          totalReward={totalReward}
+          loading={loading}
+        />
+      </div>
+    </>
   )
 }

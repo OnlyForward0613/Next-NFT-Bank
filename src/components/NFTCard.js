@@ -111,6 +111,7 @@ export default function NFTCard({
         resp.json()
       ).then((json) => {
         let img = json.image
+        console.log(json.image, "jsonImage")
         const urddd = img.split("://")
         if (urddd[0] === "ipfs") {
           img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]

@@ -1,6 +1,4 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
-import HelpModal from "./HelpModal";
 import { SidebarButton } from "./styleHook";
 
 export default function Sidebar({ connected, ...props }) {
@@ -8,8 +6,6 @@ export default function Sidebar({ connected, ...props }) {
   const goto = (url) => {
     router.push(url)
   }
-  const [helpModal, setHelpModal] = useState(false)
-
   return (
     <div className="sidebar">
       <div className="sidebar-content">
@@ -50,9 +46,6 @@ export default function Sidebar({ connected, ...props }) {
           </a>
         </div>
       </div>
-      {/* <HelpModal
-        opend={helpModal}
-        close={() => setHelpModal(false)} /> */}
     </div>
   )
 }

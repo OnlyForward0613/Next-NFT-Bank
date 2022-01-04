@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useNFTBalances } from 'react-moralis'
 import NFTMap from '../components/NFTMap'
@@ -7,6 +8,7 @@ import Web3Modal from "web3modal"
 import Web3 from 'web3'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
 import { ethers } from 'ethers'
+import Sidebar from '../components/Sidebar'
 var _ = require('lodash')
 
 export default function NFTLIST({
@@ -16,8 +18,11 @@ export default function NFTLIST({
   signer,
   totalDusty,
   address,
+  checkNetwork,
   ...props
 }) {
+
+  const router = useRouter()
 
   let allNFT = []
   const { data: NFTBalances } = useNFTBalances()
@@ -100,8 +105,18 @@ export default function NFTLIST({
     setStakedNFTs()
     setPastNFTs()
   }
-  useEffect(() => {
-    getNFTLIST()
+  useEffect(async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      if (connected) {
+        if (await checkNetwork()) {
+          getNFTLIST()
+        } else {
+          router.push("/")
+        }
+      } else {
+        router.push("/")
+      }
+    }
     // eslint-disable-next-line
   }, [NFTBalances])
 
@@ -112,30 +127,35 @@ export default function NFTLIST({
   //   // eslint-disable-next-line
   // }, [connected])
   return (
-    <div className='page-content'>
-      <Head>
-        <title>NFT Bank | NFTs List</title>
-        <meta name="description" content="NFT Bank" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      {/* <TotalList
+    <>
+      <Sidebar
+        connected={connected}
+      />
+      <div className='page-content'>
+        <Head>
+          <title>NFT Bank | NFTs List</title>
+          <meta name="description" content="NFT Bank" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        {/* <TotalList
         total={total}
         groupNFT={groupNFT}
       /> */}
-      <NFTMap
-        nfts={nfts}
-        groupNFT={groupNFT}
-        total={total}
-        address={address}
-        signer={signer}
-        setForce={(e) => setForceRender(e)}
-        filterState={filterState}
-        setFilterState={(e) => setFilterState(e)}
-        checkAble={checkAble}
-        setCheckAble={(e) => setCheckAble(e)}
-        totalDusty={totalDusty}
-        getNFTLIST={() => getNFTLIST()}
-      />
-    </div>
+        <NFTMap
+          nfts={nfts}
+          groupNFT={groupNFT}
+          total={total}
+          address={address}
+          signer={signer}
+          setForce={(e) => setForceRender(e)}
+          filterState={filterState}
+          setFilterState={(e) => setFilterState(e)}
+          checkAble={checkAble}
+          setCheckAble={(e) => setCheckAble(e)}
+          totalDusty={totalDusty}
+          getNFTLIST={() => getNFTLIST()}
+        />
+      </div>
+    </>
   )
 }

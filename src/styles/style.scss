@@ -969,3 +969,35 @@ p.signer-balance {
     top: auto;
   }
 }
+
+.no-mached {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  h1 {
+    font-size: 80px;
+  }
+  p {
+    margin-bottom: 20px;
+  }
+}
+
+.partnership {
+  color: #a0d1fc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  p {
+    margin-right: 10px;
+  }
+  a {
+    text-decoration: underline;
+  }
+}
