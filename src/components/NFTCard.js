@@ -98,8 +98,8 @@ export default function NFTCard({
     )
 
     setContract20(contractE20)
-
-    const urdd = data.token_uri.split("://")
+    console.log(data.token_uri, "token_ui")
+    const urdd = data.token_uri && data.token_uri.split("://")
     let uri = ''
     if (urdd[0] === "ipfs") {
       uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
@@ -111,6 +111,7 @@ export default function NFTCard({
         resp.json()
       ).then((json) => {
         let img = json.image
+        console.log(json.image, "jsonImage")
         const urddd = img.split("://")
         if (urddd[0] === "ipfs") {
           img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
@@ -211,6 +212,7 @@ export default function NFTCard({
           <img
             alt=""
             src={image}
+            referrerPolicy="no-referrer-when-downgrade"
           />
           <p className="name">{name}</p>
           {action === 1 &&

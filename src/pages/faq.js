@@ -1,42 +1,75 @@
-import { Container } from '@mui/material';
-import Head from 'next/head';
-import FAQItem from '../components/FAQItem';
+import { useState } from 'react'
+import { Container, Collapse } from '@mui/material'
+import Head from 'next/head'
+import FAQItem from '../components/FAQItem'
+import Sidebar from '../components/Sidebar'
 
-export default function FAQ() {
+export default function FAQ({ connected, ...props }) {
+  const [open, setOpen] = useState(false)
   return (
-    <div id="faq" className="faq page-content">
-      <Head>
-        <title>NFT Bank | Frequently answered questions</title>
-        <meta name="description" content="Frequently answered questions" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Container>
-        <div className="section-title">
-          <h1>Frequently asked questions</h1>
-          <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
-          <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>
-        </div>
-        <div className="faq-content">
-          {questions.map((item, key) => (
-            <FAQItem
-              question={item.question}
-              answer={item.answer}
-              key={key}
-            />
-          ))
-          }
+    <>
+      <Sidebar
+        connected={connected}
+      />
+      <div id="faq" className="faq page-content">
+        <Head>
+          <title>NFT Bank | Frequently answered questions</title>
+          <meta name="description" content="Frequently answered questions" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Container>
+          <div className="section-title">
+            <h1>Frequently asked questions</h1>
+            <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
+            <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>
+          </div>
+          <div className="faq-content">
 
-        </div>
-      </Container>
-    </div>
+
+            <div className="faq-item">
+              <div className="faq-question" onClick={() => setOpen(!open)}>
+                {!open ?
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 10C20 9.66667 19.8 9 19 9H11V1C11 0.5 10.5 0 10 0C9.5 0 9 0.5 9 1V9H1C0.5 9 0 9.5 0 10C0 10.5 0.5 11 1 11H9V19C9 19.5 9.5 20 10 20C10.5 20 11 19.5 11 19V11H19C19.8 11 20 10.3333 20 10Z" fill="white" />
+                  </svg>
+                  :
+                  <svg width="12" height="2" viewBox="0 0 20 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" width="2" height="20" rx="1" transform="rotate(90 20 0)" fill="white" />
+                  </svg>
+                }
+                <p>Who am I?</p>
+              </div>
+              <div className="faq-answer">
+                <Collapse in={open}>
+                  <p>
+                    Very existential! You have bought a bunch of pretty pictures (NFT&apos;s) because&nbsp;<span>you read a tweet from a stranger telling you they would go to the moon</span>&nbsp;you have done extensive due diligence and believe in the artistic integrity and the long term viability of the project. However, currently the rest of the world hasn&apos;t caught up and the values are languishing. You have decided to put them in storage and earn some money off them in the meantime.
+                  </p>
+                </Collapse>
+              </div>
+            </div>
+            {questions.map((item, key) => (
+              <FAQItem
+                question={item.question}
+                answer={item.answer}
+                key={key}
+              />
+            ))
+            }
+
+          </div>
+          <div className="partnership">
+            <p>For partnerships please email </p>
+            <a href="mailto:dustyvaults@gmail.com">
+              dustyvaults@gmail.com
+            </a>
+          </div>
+        </Container>
+      </div>
+    </>
   )
 }
 
 const questions = [
-  {
-    question: "Who am I?",
-    answer: "Very existential!  You have bought a bunch of pretty pictures (NFT’s) because you read a tweet from a stranger telling you they would go to the moon you have done extensive due diligence and believe in the artistic integrity and the long term viability of the project.  However, currently the rest of the world hasn’t caught up and the values are languishing.  You have decided to put them in storage and earn some money off them in the meantime."
-  },
   {
     question: "How does it work?",
     answer: "We are a safe, boring NFT vault.  That is very $Dusty.  You can pay us to store your NFT’s for the next year.  We’re going to lock them in an old vault and keep a watchful eye on them.  Like anything put in storage it will get $Dusty over time.  In fact at the end of 12 months you can withdraw your NFT, plus your original funds, plus all your accumulated $Dusty tokens. @@1 - Connect your wallet@@2 - Ensure you’re on the right network@@3 - Make sure you have some $Dusty tokens in your wallet@@4 - Select the NFT’s in your wallet that you want to store@@5 - Select how much you want to pay / receive (the more you pay for storage, the more $Dusty you receive)@@6 - Set & forget.  They’re in storage now, leave them alone and come back in a year.@@"

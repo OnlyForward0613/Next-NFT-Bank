@@ -161,7 +161,7 @@ export default function CardModal({
               />
               <p>
                 I understand this is a 12 monthly storage option and that if I wish to withdraw my NFTs
-                prior to that I will not receive my initial fire or earned fees.
+                prior to that I will not receive my initial $Dusty or earned fees.
               </p>
               {agreeVali &&
                 <p className="check-validation">This field is required!</p>

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import { useNFTBalances } from 'react-moralis'
-// import HeroBanner from '../components/HeroBanner'
 import HomePage from '../components/HomePage'
 import Web3Modal from 'web3modal'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
 import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
+import Sidebar from '../components/Sidebar'
 
 export default function Home({
   connected,
@@ -16,19 +16,21 @@ export default function Home({
   address,
   holders,
   earlyRemoved,
+  contractcontract,
   totalDusty,
   dbalance,
+  homeLoading,
   ...props
 }) {
   let allNFT = []
   const { data: NFTBalances } = useNFTBalances()
-  const [totalNFTs, setTotalNFTs] = useState(0)
-  const [userStaked, setUserStaked] = useState(0)
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
 
+  const [stakedCnt, setStakedCnt] = useState(0)
+  const [unstakedCnt, setUnstakedCnt] = useState(0)
+
   const setStakedNFTs = async () => {
-    setLoading(true)
     allNFT = []
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -49,79 +51,66 @@ export default function Home({
         const nftData = await contract.activities(accounts[0], i)
         if (nftData.action === 1) {
           dd++
-          allNFT.push({
-            cid: i,
-            name: nftData.name,
-            token_address: nftData.NFTAddress,
-            token_id: nftData.NFTId.toString(),
-            token_uri: nftData.hash,
-            reward: nftData.reward.toString(),
-            action: nftData.action,
-            reward: nftData.reward.toString(),
-            percent: nftData.percent.toString(),
-            timestamp: nftData.timestamp.toString()
-          })
           mmm = mmm + parseFloat(ethers.utils.formatEther(nftData.reward.toString()))
         }
       }
-      setUserStaked(dd)
+      setStakedCnt(dd)
       setTotalReward(mmm)
     }
-    setTotalNFTs(allNFT.length)
+    setLoading(false)
+    console.log(contract, "contractcontract")
   }
 
   const setPastNFTs = () => {
     setLoading(true)
     if (NFTBalances && NFTBalances.result.length !== 0) {
-      for (var i = 0; i < NFTBalances.result.length; i++) {
-        allNFT.push({
-          cid: -1,
-          name: NFTBalances.result[i].name,
-          action: 0,
-          token_address: NFTBalances.result[i].token_address,
-          token_id: NFTBalances.result[i].token_id,
-          reward: 0,
-          timestamp: "0",
-          percent: 0,
-          token_uri: NFTBalances.result[i].token_uri,
-        })
-      }
-      setLoading(false)
+      setUnstakedCnt(NFTBalances.total)
     } else if (NFTBalances && NFTBalances.result.length === 0) {
-      setLoading(false)
+      // setLoading(false)
     }
   }
   const getNFTLIST = () => {
-    setLoading(true)
-    setStakedNFTs()
     setPastNFTs()
+    setStakedNFTs()
   }
-  useEffect(() => {
-    getNFTLIST()
+
+  useEffect(async () => {
+    setLoading(true)
+    if (typeof window.ethereum !== 'undefined') {
+      if (await checkNetwork("no-alert")) {
+        getNFTLIST()
+      }
+    }
     // eslint-disable-next-line
   }, [NFTBalances])
+
   return (
-    <div className="page-content">
-      <Head>
-        <title>NFT Bank | Home</title>
-        <meta name="description" content="NFT Bank" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <HomePage
+    <>
+      <Sidebar
         connected={connected}
-        totalSupply={totalSupply}
-        staked={staked}
-        earlyRemoved={earlyRemoved}
-        dbalance={dbalance}
-        address={address}
-        totalDusty={totalDusty}
-        holders={holders}
-        totalNFTs={totalNFTs}
-        userStaked={userStaked}
-        totalReward={totalReward}
-        loading={loading}
       />
-      {/* <HeroBanner connected={connected} checkNetwork={checkNetwork} closeLoading={closeLoading} /> */}
-    </div>
+      <div className="page-content">
+        <Head>
+          <title>NFT Bank | Home</title>
+          <meta name="description" content="NFT Bank" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <HomePage
+          connected={connected}
+          totalSupply={totalSupply}
+          staked={staked}
+          earlyRemoved={earlyRemoved}
+          dbalance={dbalance}
+          homeLoading={homeLoading}
+          address={address}
+          totalDusty={totalDusty}
+          holders={holders}
+          stakedCnt={stakedCnt}
+          totalReward={totalReward}
+          loading={loading}
+          unstakedCnt={unstakedCnt}
+        />
+      </div>
+    </>
   )
 }

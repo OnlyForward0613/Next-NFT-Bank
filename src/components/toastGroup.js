@@ -14,6 +14,18 @@ export const errorAlert = (text) => {
   });
 }
 
+export const errorAlertCenter = (text) => {
+  toast.error(text, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "colored"
+  });
+}
+
 export const warningAlert = (text) => {
   toast.warning(text, {
     position: "top-right",

@@ -6,7 +6,7 @@ import Loading from '../components/Loading'
 import Header from '../components/Header'
 import Web3 from 'web3'
 import { ethers } from 'ethers'
-import { errorAlert } from '../components/toastGroup'
+import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import { MoralisProvider } from "react-moralis"
 import { APP_ID, CHAIN_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import Sidebar from '../components/Sidebar'
@@ -18,7 +18,8 @@ let contract_20 = undefined
 let signer = undefined
 
 const error = [
-  "The wrong network, please switch to the Binance Smart Chain network."
+  "The wrong network, please switch to the Binance Smart Chain network.",
+  "You need MetaMask to interact with this site!"
 ]
 function MyApp({ Component, pageProps }) {
   const [pageLoading, setPageLoading] = useState(false)
@@ -31,9 +32,13 @@ function MyApp({ Component, pageProps }) {
   const [earlyRemoved, setEarlyRemoved] = useState(0)
   const [dbalance, setdBalance] = useState(0)
   const [holders, setHolders] = useState(0)
+  const [homeLoading, setHomeloading] = useState(false)
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
+
+      setHomeloading(true) //loading start
+
       const web3 = new Web3(Web3.givenProvider)
       const web3Modal = new Web3Modal()
       const connection = await web3Modal.connect()
@@ -71,25 +76,21 @@ function MyApp({ Component, pageProps }) {
       const sta = await contract.totalStaked()
       setStaked(sta.toString())
 
+      setHomeloading(false) //loading off
+
     }
   }
   useEffect(() => {
-    if (ethereum) {
+    if (typeof window.ethereum !== 'undefined') {
       connectWallet()
+
       ethereum.on('accountsChanged', function (accounts) {
-        if (accounts.length !== 0) {
-          setSignerAddress(accounts[0])
-          connectWallet()
-        } else {
-          setConnected(false)
-        }
+        window.location.reload()
       })
       if (ethereum.selectedAddress !== null) {
         setSignerAddress(ethereum.selectedAddress)
         setConnected(true)
       }
-      connectWallet()
-
       ethereum.on('chainChanged', (chainId) => {
         if (parseInt(chainId) === CHAIN_ID) {
           connectWallet()
@@ -99,18 +100,19 @@ function MyApp({ Component, pageProps }) {
         }
       })
     } else {
-      errorAlert("Please install Metamask!")
+      errorAlertCenter(error[1])
     }
     // eslint-disable-next-line
   }, [])
 
-  const checkNetwork = async () => {
+  const checkNetwork = async (alert) => {
     const web3 = new Web3(Web3.givenProvider)
     const chainId = await web3.eth.getChainId()
     if (chainId === CHAIN_ID) {
       return true
     } else {
-      errorAlert(error[0])
+      if (alert !== "no-alert")
+        errorAlert(error[0])
       return false
     }
   }
@@ -124,11 +126,9 @@ function MyApp({ Component, pageProps }) {
         signerBalance={signerBalance}
       />
       <MainContent>
-        <Sidebar
-          connected={connected}
-        />
         <Component {...pageProps}
           connected={connected}
+          checkNetwork={checkNetwork}
           startLoading={() => setPageLoading(true)}
           closeLoading={() => setPageLoading(false)}
           address={signerAddress}
@@ -140,6 +140,8 @@ function MyApp({ Component, pageProps }) {
           holders={holders}
           earlyRemoved={earlyRemoved}
           totalDusty={totalDusty}
+          contractcontract={contract}
+          homeLoading={homeLoading}
         />
       </MainContent>
       <ToastContainer style={{ fontSize: 14, padding: '5px !important', lineHeight: '15px' }} />
