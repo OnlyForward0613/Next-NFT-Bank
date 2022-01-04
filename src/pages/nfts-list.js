@@ -110,11 +110,7 @@ export default function NFTLIST({
       if (connected) {
         if (await checkNetwork()) {
           getNFTLIST()
-        } else {
-          router.push("/")
         }
-      } else {
-        router.push("/")
       }
     }
     // eslint-disable-next-line
