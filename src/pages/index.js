@@ -4,31 +4,130 @@ import { useNFTBalances } from 'react-moralis'
 import HomePage from '../components/HomePage'
 import Web3Modal from 'web3modal'
 import Web3 from 'web3'
-import { ethers } from 'ethers'
-import { SMARTCONTRACT_ABI, SMARTCONTRACT_ADDRESS } from '../../config'
+import { CHAIN_ID, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import Sidebar from '../components/Sidebar'
+import MainContent from '../components/MainContent'
+import Header from '../components/Header'
+import { ethers, providers } from 'ethers'
+import { errorAlert, errorAlertCenter } from '../components/toastGroup'
+import WalletConnectProvider from '@walletconnect/web3-provider'
 
-export default function Home({
-  connected,
-  checkNetwork,
-  totalSupply,
-  staked,
-  address,
-  holders,
-  earlyRemoved,
-  contractcontract,
-  ownerDusty,
-  totalDusty,
-  dbalance,
-  homeLoading,
-  ...props
-}) {
+const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider, // required
+    options: {
+      infuraId: INFURA_ID, // required
+    },
+  },
+}
+
+let web3Modal = undefined
+let contract = undefined
+let contract_20 = undefined
+
+const error = [
+  "The wrong network, please switch to the Binance Smart Chain network.",
+  "You need MetaMask to interact with this site!"
+]
+
+export default function Home() {
+
   const { data: NFTBalances } = useNFTBalances()
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
 
   const [stakedCnt, setStakedCnt] = useState(0)
   const [unstakedCnt, setUnstakedCnt] = useState(0)
+
+  const [connected, setConnected] = useState(false)
+  const [signerAddress, setSignerAddress] = useState("")
+  const [signerBalance, setSignerBalance] = useState(0)
+  const [totalSupply, setTotalSupply] = useState(0)
+  const [totalDusty, setTotalDusty] = useState(0)
+  const [staked, setStaked] = useState(0)
+  const [earlyRemoved, setEarlyRemoved] = useState(0)
+  const [dbalance, setdBalance] = useState(0)
+  const [holders, setHolders] = useState(0)
+  const [homeLoading, setHomeloading] = useState(false)
+  const [ownerDusty, setTotalOwnerDusty] = useState(false)
+
+  const checkNetwork = async (alert) => {
+    const web3 = new Web3(Web3.givenProvider)
+    const chainId = await web3.eth.getChainId()
+    if (chainId === CHAIN_ID) {
+      return true
+    } else {
+      if (alert !== "no-alert")
+        errorAlert(error[0])
+      return false
+    }
+  }
+
+  const connectWallet = async () => {
+    if (await checkNetwork()) {
+      web3Modal = new Web3Modal({
+        network: 'mainnet', // optional
+        cacheProvider: true,
+        providerOptions, // required
+      })
+      setHomeloading(true) //loading start
+
+      const provider = await web3Modal.connect()
+      const web3Provider = new providers.Web3Provider(provider)
+
+      const signer = web3Provider.getSigner()
+      const address = await signer.getAddress()
+
+      setConnected(true)
+      setSignerAddress(address)
+
+      contract = new ethers.Contract(
+        SMARTCONTRACT_ADDRESS,
+        SMARTCONTRACT_ABI,
+        signer
+      )
+      contract_20 = new ethers.Contract(
+        SMARTCONTRACT_ADDRESS_ERC20,
+        SMARTCONTRACT_ABI_ERC20,
+        signer
+      )
+
+      const bal = await contract_20.balanceOf(address)
+      setSignerBalance(ethers.utils.formatEther(bal))
+
+      const totalS = await contract_20.totalSupply()
+      setTotalSupply(ethers.utils.formatEther(totalS))
+
+      const totlass = await contract_20.holders()
+      setHolders(totlass.toString())
+
+      const early = await contract.earlyRemoved()
+      setEarlyRemoved(early.toString())
+
+      const totalN = await contract_20.balanceOf(SMARTCONTRACT_ADDRESS)
+      setTotalDusty(totalN.toString())
+
+      const Obal = await contract.bonusPool()
+      setTotalOwnerDusty(parseFloat(Obal.toString()) + parseFloat(1114))
+
+      const sta = await contract.totalStaked()
+      setStaked(sta.toString())
+
+      setHomeloading(false) //loading off
+
+      // Subscribe to accounts change
+      provider.on("accountsChanged", (accounts) => {
+        setSignerAddress(accounts[0])
+      });
+
+      // Subscribe to chainId change
+      provider.on("chainChanged", (chainId) => {
+        window.location.reload()
+      });
+    }
+  }
 
   const setStakedNFTs = async () => {
     const web3Modal = new Web3Modal()
@@ -73,9 +172,36 @@ export default function Home({
   }
 
   useEffect(async () => {
-    setLoading(true)
     if (typeof window.ethereum !== 'undefined') {
       if (await checkNetwork("no-alert")) {
+        setLoading(true)
+        connectWallet()
+        ethereum.on('accountsChanged', function (accounts) {
+          window.location.reload()
+        })
+        if (ethereum.selectedAddress !== null) {
+          setSignerAddress(ethereum.selectedAddress)
+          setConnected(true)
+        }
+        ethereum.on('chainChanged', (chainId) => {
+          if (parseInt(chainId) === CHAIN_ID) {
+            connectWallet()
+          } else {
+            setConnected(false)
+            errorAlert(error)
+          }
+        })
+      }
+    } else {
+      errorAlertCenter(error[1])
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      if (await checkNetwork()) {
+        setLoading(true)
         getNFTLIST()
       }
     }
@@ -84,32 +210,40 @@ export default function Home({
 
   return (
     <>
-      <Sidebar
+      <Header
+        signerAddress={signerAddress}
+        connectWallet={connectWallet}
         connected={connected}
+        signerBalance={signerBalance}
       />
-      <div className="page-content">
-        <Head>
-          <title>NFT Bank | Home</title>
-          <meta name="description" content="NFT Bank" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <HomePage
+      <MainContent>
+        <Sidebar
           connected={connected}
-          totalSupply={totalSupply}
-          staked={staked}
-          earlyRemoved={earlyRemoved}
-          dbalance={dbalance}
-          homeLoading={homeLoading}
-          address={address}
-          totalDusty={totalDusty}
-          ownerDusty={ownerDusty}
-          holders={holders}
-          stakedCnt={stakedCnt}
-          totalReward={totalReward}
-          loading={loading}
-          unstakedCnt={unstakedCnt}
         />
-      </div>
+        <div className="page-content">
+          <Head>
+            <title>Dusty Vaults | Home</title>
+            <meta name="description" content="NFT Bank" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <HomePage
+            connected={connected}
+            totalSupply={totalSupply}
+            staked={staked}
+            earlyRemoved={earlyRemoved}
+            dbalance={dbalance}
+            homeLoading={homeLoading}
+            address={signerAddress}
+            totalDusty={totalDusty}
+            ownerDusty={ownerDusty}
+            holders={holders}
+            stakedCnt={stakedCnt}
+            totalReward={totalReward}
+            loading={loading}
+            unstakedCnt={unstakedCnt}
+          />
+        </div>
+      </MainContent>
     </>
   )
 }

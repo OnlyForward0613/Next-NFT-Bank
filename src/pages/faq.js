@@ -1,70 +1,181 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Collapse } from '@mui/material'
 import Head from 'next/head'
 import FAQItem from '../components/FAQItem'
 import Sidebar from '../components/Sidebar'
+import Web3Modal from 'web3modal'
+import Web3 from 'web3'
+import WalletConnectProvider from '@walletconnect/web3-provider'
+import MainContent from '../components/MainContent'
+import Header from '../components/Header'
+import { providers, ethers } from 'ethers'
+import { CHAIN_ID, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
+import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 
-export default function FAQ({ connected, ...props }) {
+const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
+
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider, // required
+    options: {
+      infuraId: INFURA_ID, // required
+    },
+  },
+}
+
+let web3Modal = undefined
+
+const error = [
+  "The wrong network, please switch to the Binance Smart Chain network.",
+  "You need MetaMask to interact with this site!"
+]
+
+export default function FAQ() {
   const [open, setOpen] = useState(false)
+  const [connected, setConnected] = useState(false)
+  const [signerAddress, setSignerAddress] = useState("")
+  const [signerBalance, setSignerBalance] = useState(0)
+
+  const checkNetwork = async (alert) => {
+    const web3 = new Web3(Web3.givenProvider)
+    const chainId = await web3.eth.getChainId()
+    if (chainId === CHAIN_ID) {
+      return true
+    } else {
+      if (alert !== "no-alert")
+        errorAlert(error[0])
+      return false
+    }
+  }
+  const connectWallet = async () => {
+    if (await checkNetwork()) {
+      web3Modal = new Web3Modal({
+        network: 'mainnet', // optional
+        cacheProvider: true,
+        providerOptions, // required
+      })
+      const provider = await web3Modal.connect()
+      const web3Provider = new providers.Web3Provider(provider)
+
+      const signer = web3Provider.getSigner()
+      const address = await signer.getAddress()
+
+      const contract_20 = new ethers.Contract(
+        SMARTCONTRACT_ADDRESS_ERC20,
+        SMARTCONTRACT_ABI_ERC20,
+        signer
+      )
+
+      const bal = await contract_20.balanceOf(address)
+      setSignerBalance(ethers.utils.formatEther(bal))
+
+      setConnected(true)
+      setSignerAddress(address)
+
+      // Subscribe to accounts change
+      provider.on("accountsChanged", (accounts) => {
+        setSignerAddress(accounts[0])
+      });
+
+      // Subscribe to chainId change
+      provider.on("chainChanged", (chainId) => {
+        window.location.reload()
+      });
+    }
+  }
+
+  useEffect(async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      if (await checkNetwork()) {
+        connectWallet()
+        ethereum.on('accountsChanged', function (accounts) {
+          window.location.reload()
+        })
+        if (ethereum.selectedAddress !== null) {
+          setSignerAddress(ethereum.selectedAddress)
+          setConnected(true)
+        }
+        ethereum.on('chainChanged', (chainId) => {
+          if (parseInt(chainId) === CHAIN_ID) {
+            connectWallet()
+          } else {
+            setConnected(false)
+            errorAlert(error)
+          }
+        })
+      }
+    } else {
+      errorAlertCenter(error[1])
+    }
+    // eslint-disable-next-line
+  }, [])
   return (
     <>
-      <Sidebar
+      <Header
+        signerAddress={signerAddress}
+        connectWallet={connectWallet}
         connected={connected}
+        signerBalance={signerBalance}
       />
-      <div id="faq" className="faq page-content">
-        <Head>
-          <title>NFT Bank | Frequently answered questions</title>
-          <meta name="description" content="Frequently answered questions" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Container>
-          <div className="section-title">
-            <h1>Frequently asked questions</h1>
-            <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
-            <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>
-          </div>
-          <div className="faq-content">
-
-
-            <div className="faq-item">
-              <div className="faq-question" onClick={() => setOpen(!open)}>
-                {!open ?
-                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 10C20 9.66667 19.8 9 19 9H11V1C11 0.5 10.5 0 10 0C9.5 0 9 0.5 9 1V9H1C0.5 9 0 9.5 0 10C0 10.5 0.5 11 1 11H9V19C9 19.5 9.5 20 10 20C10.5 20 11 19.5 11 19V11H19C19.8 11 20 10.3333 20 10Z" fill="white" />
-                  </svg>
-                  :
-                  <svg width="12" height="2" viewBox="0 0 20 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="20" width="2" height="20" rx="1" transform="rotate(90 20 0)" fill="white" />
-                  </svg>
-                }
-                <p>Who am I?</p>
-              </div>
-              <div className="faq-answer">
-                <Collapse in={open}>
-                  <p>
-                    Very existential! You have bought a bunch of pretty pictures (NFT&apos;s) because&nbsp;<span>you read a tweet from a stranger telling you they would go to the moon</span>&nbsp;you have done extensive due diligence and believe in the artistic integrity and the long term viability of the project. However, currently the rest of the world hasn&apos;t caught up and the values are languishing. You have decided to put them in storage and earn some money off them in the meantime.
-                  </p>
-                </Collapse>
-              </div>
+      <MainContent>
+        <Sidebar
+          connected={connected}
+        />
+        <div id="faq" className="faq page-content">
+          <Head>
+            <title>Dusty Vaults | Frequently answered questions</title>
+            <meta name="description" content="Frequently answered questions" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <Container>
+            <div className="section-title">
+              <h1>Frequently asked questions</h1>
+              <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
+              <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>
             </div>
-            {questions.map((item, key) => (
-              <FAQItem
-                question={item.question}
-                answer={item.answer}
-                key={key}
-              />
-            ))
-            }
+            <div className="faq-content">
 
-          </div>
-          <div className="partnership">
-            <p>For partnerships please email </p>
-            <a href="mailto:dustyvaults@gmail.com">
-              dustyvaults@gmail.com
-            </a>
-          </div>
-        </Container>
-      </div>
+
+              <div className="faq-item">
+                <div className="faq-question" onClick={() => setOpen(!open)}>
+                  {!open ?
+                    <svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 10C20 9.66667 19.8 9 19 9H11V1C11 0.5 10.5 0 10 0C9.5 0 9 0.5 9 1V9H1C0.5 9 0 9.5 0 10C0 10.5 0.5 11 1 11H9V19C9 19.5 9.5 20 10 20C10.5 20 11 19.5 11 19V11H19C19.8 11 20 10.3333 20 10Z" fill="white" />
+                    </svg>
+                    :
+                    <svg width="12" height="2" viewBox="0 0 20 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="20" width="2" height="20" rx="1" transform="rotate(90 20 0)" fill="white" />
+                    </svg>
+                  }
+                  <p>Who am I?</p>
+                </div>
+                <div className="faq-answer">
+                  <Collapse in={open}>
+                    <p>
+                      Very existential! You have bought a bunch of pretty pictures (NFT&apos;s) because&nbsp;<span>you read a tweet from a stranger telling you they would go to the moon</span>&nbsp;you have done extensive due diligence and believe in the artistic integrity and the long term viability of the project. However, currently the rest of the world hasn&apos;t caught up and the values are languishing. You have decided to put them in storage and earn some money off them in the meantime.
+                    </p>
+                  </Collapse>
+                </div>
+              </div>
+              {questions.map((item, key) => (
+                <FAQItem
+                  question={item.question}
+                  answer={item.answer}
+                  key={key}
+                />
+              ))
+              }
+
+            </div>
+            <div className="partnership">
+              <p>For partnerships please email </p>
+              <a href="mailto:dustyvaults@gmail.com">
+                dustyvaults@gmail.com
+              </a>
+            </div>
+          </Container>
+        </div>
+      </MainContent>
     </>
   )
 }
