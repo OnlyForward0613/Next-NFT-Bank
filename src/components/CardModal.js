@@ -25,7 +25,7 @@ export default function CardModal({
   useForceUpdate,
   ...props }) {
   const [agree, setAgree] = useState(false)
-  const [amount, setAmount] = useState(10)
+  const [amount, setAmount] = useState(1)
   const [loading, setLoading] = useState(false)
   const [agreeVali, setAgreeVali] = useState(false)
 

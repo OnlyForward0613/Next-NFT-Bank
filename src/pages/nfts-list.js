@@ -37,9 +37,6 @@ export default function NFTLIST({
   let stakedNfts = []
   let unStakedNfts = []
   const { data: NFTBalances } = useNFTBalances()
-  const [nfts, setNfts] = useState([])
-  const [total, setTotal] = useState(0)
-  const [groupNFT, setGruopNFT] = useState([])
   const [filterState, setFilterState] = useState(2)
 
   const [stakedList, setStakedList] = useState([])
@@ -134,10 +131,9 @@ export default function NFTLIST({
   }
 
   const getNFTLIST = () => {
-    setNfts([])
-    setPastNFTs()
     startLoading()
-    setStakedNFTs()
+    setPastNFTs()
+    // setStakedNFTs()
   }
 
   const setPastNFTs = () => {
@@ -221,8 +217,6 @@ export default function NFTLIST({
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <NFTMap
-            groupNFT={groupNFT}
-            total={total}
             address={signerAddress}
             signer={currentSigner}
             setForce={(e) => setForceRender(e)}

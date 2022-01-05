@@ -77,8 +77,6 @@ export default function NFTCard({
       SMARTCONTRACT_ABI_ERC20,
       signer
     )
-    const bal = await contract_20.balanceOf(address)
-    setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
     const contractTmp = new ethers.Contract(
       data.token_address,
       SMARCONTRACT_INI_ABI,
@@ -86,15 +84,15 @@ export default function NFTCard({
     )
     setIndiContract(contractTmp)
 
-    const urdd = data.token_uri && data.token_uri.split("://")
-
+    const bal = await contract_20.balanceOf(address)
+    setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
+    const urdd = data.token_uri.split("://")
     let uri = ''
     if (urdd[0] === "ipfs") {
       uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
     } else {
       uri = data.token_uri
     }
-
     await fetch(uri)
       .then(resp =>
         resp.json()
@@ -108,7 +106,6 @@ export default function NFTCard({
         }
         setImage(img)
         setDescription(json.description)
-        setImage(data.image !== undefined ? data.image : img)
         setDescription(data.description !== undefined ? data.description : json.description)
       })
   }
@@ -119,7 +116,6 @@ export default function NFTCard({
     setMinute(e.minutes < 10 ? `0${e.minutes}` : e.minutes)
     setSecond(e.seconds < 10 ? `0${e.seconds}` : e.seconds)
   }
-
 
   const unstake = async () => {
     setUnloading(true)
