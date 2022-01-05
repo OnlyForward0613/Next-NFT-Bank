@@ -17,12 +17,12 @@ export default function Home({
   holders,
   earlyRemoved,
   contractcontract,
+  ownerDusty,
   totalDusty,
   dbalance,
   homeLoading,
   ...props
 }) {
-  let allNFT = []
   const { data: NFTBalances } = useNFTBalances()
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -103,6 +103,7 @@ export default function Home({
           homeLoading={homeLoading}
           address={address}
           totalDusty={totalDusty}
+          ownerDusty={ownerDusty}
           holders={holders}
           stakedCnt={stakedCnt}
           totalReward={totalReward}

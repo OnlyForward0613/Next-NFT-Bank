@@ -40,12 +40,10 @@ export default function NFTCard({
   const [balance, setBalance] = useState(0)
   const [realName, setRealName] = useState("")
   const [indiContract, setIndiContract] = useState([])
-  const [contract20, setContract20] = useState([])
 
   const [unloading, setUnloading] = useState(false)
 
   const alertBox = (err) => {
-    console.log(err)
     setUnloading(false)
     if (err.code === 4001) {
       warningAlert("You denied the Action!")
@@ -79,7 +77,6 @@ export default function NFTCard({
       SMARTCONTRACT_ABI_ERC20,
       signer
     )
-
     const bal = await contract_20.balanceOf(address)
     setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
     const contractTmp = new ethers.Contract(
@@ -89,28 +86,21 @@ export default function NFTCard({
     )
     setIndiContract(contractTmp)
 
-    const contractE20 = new ethers.Contract(
-      SMARTCONTRACT_ADDRESS_ERC20,
-      SMARTCONTRACT_ABI_ERC20,
-      signer
-    )
-    setContract20(contractE20)
     const urdd = data.token_uri && data.token_uri.split("://")
-    console.log(data.token_uri, "data.token_uri")
+
     let uri = ''
     if (urdd[0] === "ipfs") {
       uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
     } else {
       uri = data.token_uri
     }
-    console.log(data.token_uri, "token_uri")
+
     await fetch(uri)
       .then(resp =>
         resp.json()
       ).then((json) => {
         let img = json.image
-        console.log(json.image, "json_image")
-        const urddd = json.image && json.image.split("://")
+        const urddd = json.image.split("://")
         if (urddd[0] === "ipfs") {
           img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
         } else {

@@ -1,5 +1,5 @@
 export const CHAIN_ID = 56
-export const SMARTCONTRACT_ADDRESS = "0x0bB0d05f40A80b1ffF12555241e18790536189d0"
+export const SMARTCONTRACT_ADDRESS = "0xd11A2aa5450A8c7cb17fE26341D3d5e4037141d8"
 export const SMARTCONTRACT_ABI = [
     {
         "inputs": [],
@@ -90,6 +90,19 @@ export const SMARTCONTRACT_ABI = [
     },
     {
         "inputs": [],
+        "name": "bonusPool",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "earlyRemoved",
         "outputs": [
             {
@@ -99,6 +112,13 @@ export const SMARTCONTRACT_ABI = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "giveBack",
+        "outputs": [],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {

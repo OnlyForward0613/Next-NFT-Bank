@@ -6,25 +6,28 @@ import { styled } from '@mui/material/styles'
 const marks = [
   {
     value: 0,
+    label: '$1',
+  },
+  {
+    value: 3,
     label: '$10',
   },
   {
-    value: 5,
+    value: 7,
     label: '$20',
   },
   {
-    value: 10,
+    value: 12,
     label: '$30',
   },
   {
-    value: 15,
+    value: 18,
     label: '$50',
   },
   {
-    value: 22,
+    value: 24,
     label: '$100',
   },
-
   {
     value: 32,
     label: '$500',
@@ -46,15 +49,17 @@ function calculateValue(value) {
 
 function valueLabelFormat(value) {
   let label = ""
-  if (value >= 0 && value < 5) {
+  if (value >= 0 && value < 3) {
+    label = "11%"
+  } else if (value >= 3 && value < 7) {
     label = "10%"
-  } else if (value >= 5 && value < 10) {
+  } else if (value >= 7 && value < 12) {
     label = "12%"
-  } else if (value >= 10 && value < 15) {
+  } else if (value >= 12 && value < 18) {
     label = "15%"
-  } else if (value >= 15 && value < 22) {
+  } else if (value >= 18 && value < 24) {
     label = "20%"
-  } else if (value >= 22 && value < 32) {
+  } else if (value >= 24 && value < 32) {
     label = "25%"
   } else if (value >= 32 && value < 42) {
     label = "35%"
@@ -75,25 +80,27 @@ export default function CostSlider({
 }) {
   const [real, setReal] = React.useState(10)
   const [step, setStep] = React.useState(0)
-  const steps = [0.1, 0.12, 0.15, 0.2, 0.25, 0.35, 0.42, 0.5]
+  const steps = [0.01, 0.1, 0.12, 0.15, 0.2, 0.25, 0.35, 0.42, 0.5]
 
   const handleChange = (event, newValue) => {
-    if (newValue < 5) {
-      setData(10 + newValue * 2, 0)
-    } else if (newValue >= 5 && newValue < 10) {
-      setData(20 + (newValue - 5) * 2, 1)
-    } else if (newValue >= 10 && newValue < 15) {
-      setData(30 + (newValue - 10) * 4, 2)
-    } else if (newValue >= 15 && newValue < 22) {
-      setData(50 + (newValue - 15) * 7, 3)
-    } else if (newValue >= 22 && newValue < 32) {
-      setData(100 + (newValue - 22) * 40, 4)
+    if (newValue < 3) {
+      setData(1 + newValue * 3.33, 0)
+    } else if (newValue >= 3 && newValue < 7) {
+      setData(10 + (newValue - 3) * 2.5, 1)
+    } else if (newValue >= 7 && newValue < 12) {
+      setData(20 + (newValue - 7) * 2.5, 2)
+    } else if (newValue >= 12 && newValue < 18) {
+      setData(30 + (newValue - 12) * 4.67, 3)
+    } else if (newValue >= 18 && newValue < 24) {
+      setData(50 + (newValue - 18) * 8.33, 4)
+    } else if (newValue >= 24 && newValue < 32) {
+      setData(100 + (newValue - 24) * 30, 5)
     } else if (newValue >= 32 && newValue < 42) {
-      setData(500 + (newValue - 32) * 30, 5)
+      setData(500 + (newValue - 32) * 30, 6)
     } else if (newValue >= 42 && newValue < 50) {
-      setData(800 + (newValue - 42) * 25, 6)
+      setData(800 + (newValue - 42) * 25, 7)
     } else if (newValue === 50) {
-      setData(1000, 7)
+      setData(1000, 8)
     }
   }
   const setData = (count, step) => {

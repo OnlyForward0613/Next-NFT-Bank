@@ -9,7 +9,6 @@ import { ethers } from 'ethers'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import { MoralisProvider } from "react-moralis"
 import { APP_ID, CHAIN_ID, SERVER_URL, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
-import Sidebar from '../components/Sidebar'
 import MainContent from '../components/MainContent'
 
 let provider = undefined
@@ -33,6 +32,7 @@ function MyApp({ Component, pageProps }) {
   const [dbalance, setdBalance] = useState(0)
   const [holders, setHolders] = useState(0)
   const [homeLoading, setHomeloading] = useState(false)
+  const [ownerDusty, setTotalOwnerDusty] = useState(false)
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
@@ -64,12 +64,14 @@ function MyApp({ Component, pageProps }) {
       const totlass = await contract_20.holders()
       setHolders(totlass.toString())
 
-
       const early = await contract.earlyRemoved()
       setEarlyRemoved(early.toString())
 
       const totalN = await contract_20.balanceOf(SMARTCONTRACT_ADDRESS)
       setTotalDusty(totalN.toString())
+
+      const Obal = await contract.bonusPool()
+      setTotalOwnerDusty(parseFloat(Obal.toString()) + parseFloat(1114))
 
       const sta = await contract.totalStaked()
       setStaked(sta.toString())
@@ -136,6 +138,7 @@ function MyApp({ Component, pageProps }) {
           staked={staked}
           dbalance={dbalance}
           holders={holders}
+          ownerDusty={ownerDusty}
           earlyRemoved={earlyRemoved}
           totalDusty={totalDusty}
           contractcontract={contract}

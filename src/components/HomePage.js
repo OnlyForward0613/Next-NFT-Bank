@@ -14,6 +14,7 @@ export default function HomePage({
   unstakedCnt,
   loading,
   totalReward,
+  ownerDusty,
   homeLoading,
   ...props
 }) {
@@ -99,7 +100,7 @@ export default function HomePage({
             </div>
             <div className="dashboard-item">
               <h2>How much $Dusty is currently in the bonus/charity pool</h2>
-              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(parseFloat(ethers.utils.formatEther(totalDusty))) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
+              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(parseFloat(ownerDusty)) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
               <svg width="80" height="80" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_7_20)">
                   <path d="M88.7766 77.8113L71.2494 60.2877C70.4584 59.4967 69.3861 59.0572 68.2611 59.0572H65.3959C70.2475 52.8521 73.1303 45.0492 73.1303 36.559C73.1303 16.3635 56.7633 0 36.566 0C16.3688 0 0 16.3635 0 36.559C0 56.7545 16.367 73.118 36.566 73.118C45.0563 73.118 52.8627 70.2352 59.0678 65.3836V68.2488C59.0678 69.3738 59.5072 70.4461 60.2982 71.2371L77.8254 88.7607C79.4777 90.4131 82.1496 90.4131 83.7844 88.7607L88.759 83.7861C90.4113 82.1338 90.4113 79.4637 88.7766 77.8113V77.8113ZM36.566 61.868C22.5844 61.868 11.2535 50.5582 11.2535 36.559C11.2535 22.5791 22.565 11.25 36.566 11.25C50.5477 11.25 61.8785 22.5598 61.8785 36.559C61.8785 50.5389 50.567 61.868 36.566 61.868ZM41.3314 35.0543L33.4195 32.6812C32.5125 32.4088 31.8779 31.4895 31.8779 30.4436C31.8779 29.1656 32.8096 28.125 33.9521 28.125H38.8934C39.6949 28.125 40.4684 28.3518 41.1469 28.7789C41.7164 29.1357 42.4406 29.1146 42.9275 28.6506L44.993 26.6801C45.6135 26.0877 45.5783 25.0611 44.8928 24.5461C43.2932 23.3455 41.3631 22.6529 39.3785 22.551V19.6875C39.3785 18.9105 38.7492 18.2812 37.9723 18.2812H35.1598C34.3828 18.2812 33.7535 18.9105 33.7535 19.6875V22.5211C29.5998 22.6318 26.2512 26.1334 26.2512 30.4436C26.2512 33.9539 28.5346 37.0898 31.8023 38.0707L39.7143 40.4438C40.6213 40.7162 41.2559 41.6355 41.2559 42.6814C41.2559 43.9594 40.3242 45 39.1816 45H34.2422C33.4406 45 32.6672 44.7732 31.9887 44.3461C31.4191 43.9893 30.6949 44.0104 30.208 44.4744L28.1426 46.4449C27.5221 47.0373 27.5572 48.0639 28.2428 48.5789C29.8424 49.7795 31.7725 50.4721 33.757 50.574V53.4375C33.757 54.2145 34.3863 54.8438 35.1633 54.8438H37.9758C38.7527 54.8438 39.382 54.2145 39.382 53.4375V50.6039C43.5357 50.4932 46.8844 46.9934 46.8844 42.6814C46.8844 39.1711 44.601 36.0352 41.3314 35.0543V35.0543Z" fill="white" />
@@ -116,11 +117,11 @@ export default function HomePage({
           <div className="home-row">
             <div className="dashboard-item">
               <h2>Total $Dusty Supply</h2>
-              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(totalSupply) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
+              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(10000000) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
             </div>
             <div className="dashboard-item">
               <h2>Total $Dusty locked</h2>
-              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(10000000 - totalSupply) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
+              <p>{connected ? (!homeLoading ? new Intl.NumberFormat().format(10000000 - parseFloat(totalSupply) + parseFloat(ethers.utils.formatEther(totalDusty))) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={50} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />) : <span>N/A</span>}</p>
             </div>
           </div>
         </div>
