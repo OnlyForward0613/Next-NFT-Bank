@@ -50,7 +50,7 @@ function calculateValue(value) {
 function valueLabelFormat(value) {
   let label = ""
   if (value >= 0 && value < 3) {
-    label = "11%"
+    label = "1%"
   } else if (value >= 3 && value < 7) {
     label = "10%"
   } else if (value >= 7 && value < 12) {

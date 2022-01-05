@@ -14,6 +14,9 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
+let contract = undefined
+let contract_20 = undefined
+
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
@@ -24,8 +27,6 @@ const providerOptions = {
 }
 
 let web3Modal = undefined
-let contract = undefined
-let contract_20 = undefined
 
 const error = [
   "The wrong network, please switch to the Binance Smart Chain network.",
@@ -93,7 +94,6 @@ export default function Home() {
         SMARTCONTRACT_ABI_ERC20,
         signer
       )
-
       const bal = await contract_20.balanceOf(address)
       setSignerBalance(ethers.utils.formatEther(bal))
 
@@ -134,7 +134,7 @@ export default function Home() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(
+    contract = new ethers.Contract(
       SMARTCONTRACT_ADDRESS,
       SMARTCONTRACT_ABI,
       signer
@@ -174,8 +174,8 @@ export default function Home() {
   useEffect(async () => {
     if (typeof window.ethereum !== 'undefined') {
       if (await checkNetwork("no-alert")) {
-        setLoading(true)
-        connectWallet()
+        // setLoading(true)
+        await connectWallet()
         ethereum.on('accountsChanged', function (accounts) {
           window.location.reload()
         })
@@ -201,8 +201,10 @@ export default function Home() {
   useEffect(async () => {
     if (typeof window.ethereum !== 'undefined') {
       if (await checkNetwork()) {
-        setLoading(true)
-        getNFTLIST()
+        if (contract !== undefined) {
+          setLoading(true)
+          getNFTLIST()
+        }
       }
     }
     // eslint-disable-next-line
