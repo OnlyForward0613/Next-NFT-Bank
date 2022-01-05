@@ -78,7 +78,7 @@ export default function CostSlider({
   disabled,
   ...props
 }) {
-  const [real, setReal] = React.useState(10)
+  const [real, setReal] = React.useState(1)
   const [step, setStep] = React.useState(0)
   const steps = [0.01, 0.1, 0.12, 0.15, 0.2, 0.25, 0.35, 0.42, 0.5]
 
