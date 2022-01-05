@@ -76,7 +76,6 @@ export default function NFTLIST({
     unStakedNfts = []
     if (NFTBalances && NFTBalances.result.length !== 0) {
       startLoading()
-      console.log(NFTBalances)
       for (var i = 0; i < NFTBalances.result.length; i++) {
         unStakedNfts.push({
           cid: -1,

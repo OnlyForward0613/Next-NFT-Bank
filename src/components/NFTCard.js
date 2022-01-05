@@ -70,7 +70,6 @@ export default function NFTCard({
     setTokenId(data.token_id)
     setHash(data.token_uri)
 
-
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
@@ -95,10 +94,9 @@ export default function NFTCard({
       SMARTCONTRACT_ABI_ERC20,
       signer
     )
-
     setContract20(contractE20)
-    console.log(data.token_uri, "token_ui")
     const urdd = data.token_uri && data.token_uri.split("://")
+    console.log(data.token_uri, "data.token_uri")
     let uri = ''
     if (urdd[0] === "ipfs") {
       uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
@@ -112,7 +110,7 @@ export default function NFTCard({
       ).then((json) => {
         let img = json.image
         console.log(json.image, "json_image")
-        const urddd = img.split("://")
+        const urddd = json.image && json.image.split("://")
         if (urddd[0] === "ipfs") {
           img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
         } else {
@@ -120,8 +118,8 @@ export default function NFTCard({
         }
         setImage(img)
         setDescription(json.description)
-        setImage(data.image ? data.image : img)
-        setDescription(data.description ? data.description : json.description)
+        setImage(data.image !== undefined ? data.image : img)
+        setDescription(data.description !== undefined ? data.description : json.description)
       })
   }
 
