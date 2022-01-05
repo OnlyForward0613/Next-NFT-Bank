@@ -14,7 +14,6 @@ export default function NFTMap({
   setFilterState,
   checkAble,
   setCheckAble,
-  totalDusty,
   getNFTLIST,
   unstakedList,
   stakedList,

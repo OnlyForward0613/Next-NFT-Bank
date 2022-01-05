@@ -187,6 +187,7 @@ export default function NFTCard({
     <>
       {(filterState === action || filterState === 2) &&
         <div className={action !== 1 ? "nft-card" : "nft-card nft-card-active"}>
+          {/* eslint-disable-next-line */}
           <img
             alt=""
             src={image}

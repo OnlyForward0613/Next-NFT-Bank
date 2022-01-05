@@ -26,6 +26,7 @@ export default function HomePage({
         {/* eslint-disable-next-line */}
         <img
           src="./safe.png"
+          data-nsfw-filter-status
           alt=""
         />
       </div>
