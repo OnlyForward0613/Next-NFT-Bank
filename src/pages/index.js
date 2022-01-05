@@ -31,7 +31,6 @@ export default function Home({
   const [unstakedCnt, setUnstakedCnt] = useState(0)
 
   const setStakedNFTs = async () => {
-    allNFT = []
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
