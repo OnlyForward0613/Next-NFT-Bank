@@ -68,6 +68,16 @@ export default function NFTCard({
     setTokenId(data.token_id)
     setHash(data.token_uri)
 
+    const urdd = data.image.split("://")
+    let image = ''
+    if (urdd[0] === "ipfs") {
+      image = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+    } else {
+      image = data.image
+    }
+    setImage(image)
+    setDescription(data.description)
+
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
@@ -84,33 +94,9 @@ export default function NFTCard({
     )
     setIndiContract(contractTmp)
 
-    console.log(data, "test data")
-
     const bal = await contract_20.balanceOf(address)
     setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
-    const urdd = data.token_uri.split("://")
-    let uri = ''
-    if (urdd[0] === "ipfs") {
-      uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
-    } else {
-      uri = data.token_uri
-    }
-    console.log(uri, "test data")
-    await fetch("https://blooming-wildwood-02009.herokuapp.com/" + uri)
-      .then(resp =>
-        resp.json()
-      ).then((json) => {
-        let img = json.image
-        const urddd = json.image.split("://")
-        if (urddd[0] === "ipfs") {
-          img = "https://ipfs.io/ipfs/" + urddd[urddd.length - 1]
-        } else {
-          img = data.token_uri
-        }
-        setImage(img)
-        setDescription(json.description)
-        setDescription(data.description !== undefined ? data.description : json.description)
-      })
+
   }
 
   const handleTime = (e) => {
@@ -180,6 +166,10 @@ export default function NFTCard({
 
   useEffect(() => {
     setDetail(data)
+    const now = new Date()
+    if (action === 1 && new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000) >= now) {
+      autoClaim()
+    }
     // eslint-disable-next-line
   }, [])
   return (

@@ -257,4 +257,20 @@ const questions = [
     question: "Is there a white paper?",
     answer: "You’re reading it."
   },
+  {
+    question: "Why do I have to give 3 separate permissions every time I store an NFT?",
+    answer: "This is for your security and the security of your NFT.  However, we are looking to change it in the future so you only need one."
+  },
+  {
+    question: "Can I select multiple NFT’s to save at one time?",
+    answer: "Unfortunately that functionality is not yet available but will be coming in the next version."
+  },
+  {
+    question: "I can only see a black box where my NFT should be?",
+    answer: "This happens with certain NFT’s.  We are looking to fix it, but it does not impact your ability to store it safely and earn $Dusty on it."
+  },
+  {
+    question: "What happens at the end of 12 months?",
+    answer: "The vault will automatically send your NFT & your $Dusty to your wallet.  You are then free to restake it or sell it for millions!"
+  }
 ]

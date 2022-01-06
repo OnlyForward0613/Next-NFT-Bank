@@ -448,14 +448,14 @@ h3.empty-text {
 
 .sidebar {
   position: fixed;
-  width: 240px;
+  width: 160px;
   height: 100vh;
   background: #121827;
   box-shadow: 0 4px 20px #00000082;
 }
 .page-content {
-  width: calc(100% - 240px);
-  margin-left: 240px;
+  width: calc(100% - 160px);
+  margin-left: 160px;
 }
 
 .sidebar-content {
@@ -562,15 +562,15 @@ h3.empty-text {
 .token-info {
   position: absolute;
   bottom: 0;
-  padding: 15px;
+  padding: 15px 10px;
   border-top: 1px solid #000000a3;
   width: 100%;
   h5 {
     color: #fff;
-    font-size: 18px;
+    font-size: 14px;
   }
   p {
-    font-size: 24px;
+    font-size: 20px;
     color: #fff;
     font-weight: 800;
   }
@@ -581,7 +581,7 @@ h3.empty-text {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 14px;
     padding: 5px 0;
   }
 }

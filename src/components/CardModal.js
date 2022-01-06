@@ -34,7 +34,6 @@ export default function CardModal({
     setAgreeVali(false)
   }
   const stake = async () => {
-    // console.log(parseFloat(balance), parseFloat(amount))
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)

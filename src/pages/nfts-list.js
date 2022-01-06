@@ -91,7 +91,6 @@ export default function NFTLIST({
     }
   }
 
-
   const setStakedNFTs = async () => {
     stakedNfts = []
     startLoading()
@@ -124,6 +123,8 @@ export default function NFTLIST({
             token_uri: nftData.hash,
             reward: nftData.reward.toString(),
             action: nftData.action,
+            image: nftData.image,
+            description: nftData.description,
             reward: nftData.reward.toString(),
             percent: nftData.percent.toString(),
             timestamp: nftData.timestamp.toString()
@@ -151,8 +152,8 @@ export default function NFTLIST({
           token_address: userNFTs.result[i].token_address,
           token_id: userNFTs.result[i].token_id,
           reward: 0,
-          image: userNFTs.result[i].image,
-          description: userNFTs.result[i].description,
+          image: JSON.parse(userNFTs.result[i].metadata).image,
+          description: JSON.parse(userNFTs.result[i].metadata).description,
           timestamp: "0",
           percent: 0,
           token_uri: userNFTs.result[i].token_uri,
