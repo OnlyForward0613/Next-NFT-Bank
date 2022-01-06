@@ -160,7 +160,7 @@ export default function NFTLIST({
   const getNFTLIST = async () => {
     startLoading()
     await setPastNFTs()
-    // setStakedNFTs()
+    setStakedNFTs()
   }
 
   useEffect(() => {
