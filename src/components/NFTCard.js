@@ -84,6 +84,8 @@ export default function NFTCard({
     )
     setIndiContract(contractTmp)
 
+    console.log(data, "test data")
+
     const bal = await contract_20.balanceOf(address)
     setBalance(parseFloat(ethers.utils.formatEther(bal.toString())).toFixed(2))
     const urdd = data.token_uri.split("://")

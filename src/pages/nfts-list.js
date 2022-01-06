@@ -13,7 +13,7 @@ import Header from '../components/Header'
 import Moralis from 'moralis'
 var _ = require('lodash')
 
-const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
+const INFURA_ID = '64717d650b53400f950297f481c826a8'
 
 const providerOptions = {
   walletconnect: {

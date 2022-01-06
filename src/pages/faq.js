@@ -12,7 +12,7 @@ import { providers, ethers } from 'ethers'
 import { CHAIN_ID, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 
-const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
+const INFURA_ID = '64717d650b53400f950297f481c826a8'
 
 const providerOptions = {
   walletconnect: {
