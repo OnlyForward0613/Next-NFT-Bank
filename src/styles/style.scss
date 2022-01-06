@@ -9,7 +9,10 @@ $light-gray: #777;
   font-family: "Open Sans", sans-serif;
   box-sizing: border-box;
 }
-
+.swal2-title {
+  font-size: 18px !important;
+  padding-top: 20px !important;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -27,7 +30,7 @@ a {
   height: 100vh;
   z-index: 99;
   position: fixed;
-  background: #121827d1;
+  background: #121827;
   width: 100%;
   left: 0;
   top: 0;
@@ -217,6 +220,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 10px #00000059;
   position: relative;
+  background: #101626;
   img {
     object-fit: cover;
     width: 100%;
