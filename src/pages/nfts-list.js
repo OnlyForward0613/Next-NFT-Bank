@@ -11,12 +11,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
-import { SERVER_URL, APP_ID } from '../../config'
 var _ = require('lodash')
-
-let contract = undefined
-let contract_20 = undefined
-let web3Modal = undefined
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -61,14 +56,13 @@ export default function NFTLIST({
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
-      web3Modal = new Web3Modal({
+      const web3Modal = new Web3Modal({
         network: 'mainnet', // optional
         cacheProvider: true,
         providerOptions, // required
       })
       const provider = await web3Modal.connect()
       const web3Provider = new providers.Web3Provider(provider)
-
       const signer = web3Provider.getSigner()
       setCurrentSigner(signer)
       const address = await signer.getAddress()
@@ -76,12 +70,7 @@ export default function NFTLIST({
       setConnected(true)
       setSignerAddress(address)
 
-      contract = new ethers.Contract(
-        SMARTCONTRACT_ADDRESS,
-        SMARTCONTRACT_ABI,
-        signer
-      )
-      contract_20 = new ethers.Contract(
+      const contract_20 = new ethers.Contract(
         SMARTCONTRACT_ADDRESS_ERC20,
         SMARTCONTRACT_ABI_ERC20,
         signer
@@ -106,10 +95,26 @@ export default function NFTLIST({
   const setStakedNFTs = async () => {
     stakedNfts = []
     startLoading()
-    const total = await contract.staked(signerAddress)
+    const web3 = new Web3(Web3.givenProvider)
+    const accounts = await web3.eth.getAccounts()
+
+    const web3Modal = new Web3Modal({
+      network: 'mainnet', // optional
+      cacheProvider: true,
+      providerOptions, // required
+    })
+    const provider = await web3Modal.connect()
+    const web3Provider = new providers.Web3Provider(provider)
+    const signer = web3Provider.getSigner()
+    const contract = new ethers.Contract(
+      SMARTCONTRACT_ADDRESS,
+      SMARTCONTRACT_ABI,
+      signer
+    )
+    const total = await contract.staked(accounts[0])
     if (parseInt(total.toString()) !== 0) {
       for (var i = 0; i < total; i++) {
-        const nftData = await contract.activities(signerAddress, i)
+        const nftData = await contract.activities(accounts[0], i)
         if (nftData.action === 1) {
           stakedNfts.push({
             cid: i,
@@ -157,9 +162,9 @@ export default function NFTLIST({
     }
   }
 
-  const getNFTLIST = async () => {
+  const getNFTLIST = () => {
     startLoading()
-    await setPastNFTs()
+    setPastNFTs()
     setStakedNFTs()
   }
 
