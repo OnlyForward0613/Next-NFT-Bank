@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import { useNFTBalances } from 'react-moralis'
 import HomePage from '../components/HomePage'
 import Web3Modal from 'web3modal'
 import Web3 from 'web3'
@@ -11,6 +10,7 @@ import Header from '../components/Header'
 import { ethers, providers } from 'ethers'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import WalletConnectProvider from '@walletconnect/web3-provider'
+import Moralis from 'moralis'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -35,7 +35,6 @@ const error = [
 
 export default function Home() {
 
-  const { data: NFTBalances } = useNFTBalances()
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -158,57 +157,49 @@ export default function Home() {
     setLoading(false)
   }
 
-  const setPastNFTs = () => {
+  const setPastNFTs = async () => {
     setLoading(true)
-    if (NFTBalances && NFTBalances.result.length !== 0) {
-      setUnstakedCnt(NFTBalances.total)
-    } else if (NFTBalances && NFTBalances.result.length === 0) {
-      // setLoading(false)
-    }
+    const web3 = new Web3(Web3.givenProvider)
+    const accounts = await web3.eth.getAccounts()
+    const userNFTs = await Moralis.Web3API.account.getNFTs({ chain: 'bsc', address: accounts[0] })
+    setUnstakedCnt(userNFTs.total)
+    setLoading(false)
   }
   const getNFTLIST = () => {
     setPastNFTs()
     setStakedNFTs()
   }
 
-  useEffect(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      if (await checkNetwork("no-alert")) {
-        // setLoading(true)
-        await connectWallet()
-        ethereum.on('accountsChanged', function (accounts) {
-          window.location.reload()
-        })
-        if (ethereum.selectedAddress !== null) {
-          setSignerAddress(ethereum.selectedAddress)
-          setConnected(true)
-        }
-        ethereum.on('chainChanged', (chainId) => {
-          if (parseInt(chainId) === CHAIN_ID) {
-            connectWallet()
-          } else {
-            setConnected(false)
-            errorAlert(error)
-          }
-        })
-      }
-    } else {
-      errorAlertCenter(error[1])
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      if (await checkNetwork()) {
-        if (contract !== undefined) {
-          setLoading(true)
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window.ethereum !== 'undefined') {
+        if (await checkNetwork("no-alert")) {
+          // setLoading(true)
+          await connectWallet()
           getNFTLIST()
+          ethereum.on('accountsChanged', function (accounts) {
+            window.location.reload()
+          })
+          if (ethereum.selectedAddress !== null) {
+            setSignerAddress(ethereum.selectedAddress)
+            setConnected(true)
+          }
+          ethereum.on('chainChanged', (chainId) => {
+            if (parseInt(chainId) === CHAIN_ID) {
+              connectWallet()
+            } else {
+              setConnected(false)
+              errorAlert(error)
+            }
+          })
         }
+      } else {
+        errorAlertCenter(error[1])
       }
     }
+    fetchData();
     // eslint-disable-next-line
-  }, [NFTBalances])
+  }, []);
 
   return (
     <>

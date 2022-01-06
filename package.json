@@ -16,7 +16,7 @@
     "@walletconnect/web3-provider": "^1.7.0",
     "ethers": "^5.5.2",
     "lodash": "^4.17.21",
-    "moralis": "^0.0.182",
+    "moralis": "^0.0.183",
     "next": "12.0.7",
     "postcss": "^8.4.5",
     "postcss-preset-env": "^7.1.0",

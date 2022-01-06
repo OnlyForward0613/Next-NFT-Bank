@@ -84,31 +84,35 @@ export default function FAQ() {
     }
   }
 
-  useEffect(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      if (await checkNetwork()) {
-        connectWallet()
-        ethereum.on('accountsChanged', function (accounts) {
-          window.location.reload()
-        })
-        if (ethereum.selectedAddress !== null) {
-          setSignerAddress(ethereum.selectedAddress)
-          setConnected(true)
-        }
-        ethereum.on('chainChanged', (chainId) => {
-          if (parseInt(chainId) === CHAIN_ID) {
-            connectWallet()
-          } else {
-            setConnected(false)
-            errorAlert(error)
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window.ethereum !== 'undefined') {
+        if (await checkNetwork()) {
+          connectWallet()
+          ethereum.on('accountsChanged', function (accounts) {
+            window.location.reload()
+          })
+          if (ethereum.selectedAddress !== null) {
+            setSignerAddress(ethereum.selectedAddress)
+            setConnected(true)
           }
-        })
+          ethereum.on('chainChanged', (chainId) => {
+            if (parseInt(chainId) === CHAIN_ID) {
+              connectWallet()
+            } else {
+              setConnected(false)
+              errorAlert(error)
+            }
+          })
+        }
+      } else {
+        errorAlertCenter(error[1])
       }
-    } else {
-      errorAlertCenter(error[1])
     }
+    fetchData();
     // eslint-disable-next-line
-  }, [])
+  }, []);
+
   return (
     <>
       <Header

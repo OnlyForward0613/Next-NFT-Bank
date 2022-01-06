@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useNFTBalances } from 'react-moralis'
 import NFTMap from '../components/NFTMap'
 import Web3Modal from "web3modal"
 import Web3 from 'web3'
@@ -11,6 +10,8 @@ import Sidebar from '../components/Sidebar'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
+import Moralis from 'moralis'
+import { SERVER_URL, APP_ID } from '../../config'
 var _ = require('lodash')
 
 let contract = undefined
@@ -36,7 +37,6 @@ export default function NFTLIST({
   const router = useRouter()
   let stakedNfts = []
   let unStakedNfts = []
-  const { data: NFTBalances } = useNFTBalances()
   const [filterState, setFilterState] = useState(2)
 
   const [stakedList, setStakedList] = useState([])
@@ -130,74 +130,69 @@ export default function NFTLIST({
     closeLoading()
   }
 
-  const getNFTLIST = () => {
+  const setPastNFTs = async () => {
+    unStakedNfts = []
+    const web3 = new Web3(Web3.givenProvider)
+    const accounts = await web3.eth.getAccounts()
+    const userNFTs = await Moralis.Web3API.account.getNFTs({ chain: 'bsc', address: accounts[0] })
+    if (userNFTs.total !== 0) {
+      startLoading()
+      for (var i = 0; i < userNFTs.result.length; i++) {
+        unStakedNfts.push({
+          cid: -1,
+          name: userNFTs.result[i].name,
+          action: 0,
+          token_address: userNFTs.result[i].token_address,
+          token_id: userNFTs.result[i].token_id,
+          reward: 0,
+          image: userNFTs.result[i].image,
+          description: userNFTs.result[i].description,
+          timestamp: "0",
+          percent: 0,
+          token_uri: userNFTs.result[i].token_uri,
+        })
+      }
+      closeLoading()
+      setUnstakedList(unStakedNfts)
+    }
+  }
+
+  const getNFTLIST = async () => {
     startLoading()
-    setPastNFTs()
+    await setPastNFTs()
     // setStakedNFTs()
   }
 
-  const setPastNFTs = () => {
-    unStakedNfts = []
-    if (NFTBalances && NFTBalances.result.length !== 0) {
-      startLoading()
-      for (var i = 0; i < NFTBalances.result.length; i++) {
-        unStakedNfts.push({
-          cid: -1,
-          name: NFTBalances.result[i].name,
-          action: 0,
-          token_address: NFTBalances.result[i].token_address,
-          token_id: NFTBalances.result[i].token_id,
-          reward: 0,
-          image: NFTBalances.result[i].image,
-          description: NFTBalances.result[i].description,
-          timestamp: "0",
-          percent: 0,
-          token_uri: NFTBalances.result[i].token_uri,
-        })
-      }
-      setUnstakedList(unStakedNfts)
-      closeLoading()
-    }
-  }
-
-  useEffect(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      if (connected) {
-        if (await checkNetwork()) {
-          if (contract !== undefined) {
-            getNFTLIST()
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window.ethereum !== 'undefined') {
+        if (await checkNetwork("no-alert")) {
+          connectWallet()
+          getNFTLIST()
+          ethereum.on('accountsChanged', function (accounts) {
+            window.location.reload()
+          })
+          if (ethereum.selectedAddress !== null) {
+            setSignerAddress(ethereum.selectedAddress)
+            setConnected(true)
           }
+          ethereum.on('chainChanged', (chainId) => {
+            if (parseInt(chainId) === CHAIN_ID) {
+              connectWallet()
+            } else {
+              setConnected(false)
+              errorAlert(error)
+            }
+          })
         }
+      } else {
+        errorAlertCenter(error[1])
       }
     }
+    fetchData();
     // eslint-disable-next-line
-  }, [NFTBalances, contract])
+  }, []);
 
-  useEffect(async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      if (await checkNetwork("no-alert")) {
-        connectWallet()
-        ethereum.on('accountsChanged', function (accounts) {
-          window.location.reload()
-        })
-        if (ethereum.selectedAddress !== null) {
-          setSignerAddress(ethereum.selectedAddress)
-          setConnected(true)
-        }
-        ethereum.on('chainChanged', (chainId) => {
-          if (parseInt(chainId) === CHAIN_ID) {
-            connectWallet()
-          } else {
-            setConnected(false)
-            errorAlert(error)
-          }
-        })
-      }
-    } else {
-      errorAlertCenter(error[1])
-    }
-    // eslint-disable-next-line
-  }, [])
   return (
     <>
       <Header

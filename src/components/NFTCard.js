@@ -93,7 +93,8 @@ export default function NFTCard({
     } else {
       uri = data.token_uri
     }
-    await fetch(uri)
+    console.log(uri, "test data")
+    await fetch("https://blooming-wildwood-02009.herokuapp.com/" + uri)
       .then(resp =>
         resp.json()
       ).then((json) => {
