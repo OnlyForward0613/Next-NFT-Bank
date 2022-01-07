@@ -267,9 +267,12 @@ export const SidebarButton = styled(Button)(({ theme }) => ({
   borderRadius: 0,
   textTransform: "uppercase",
   padding: "10px 24px",
-  marginRight: 20,
   color: "#fff",
   position: "relative",
   fontFamily: "Open Sans",
   borderBottom: "1px solid #00000052",
+  justifyContent: "flex-start",
+  "& svg": {
+    marginRight: 10
+  }
 }));
