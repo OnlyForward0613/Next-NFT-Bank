@@ -116,7 +116,7 @@ export default function CardModal({
       open={open}
     // onClose={close}
     >
-      <Box sx={style}>
+      <Box sx={style} className="modal-box">
         <div className="stake-modal">
           <div className="modal-close">
             <IconButton onClick={() => close()} disabled={loading}>
