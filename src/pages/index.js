@@ -12,7 +12,7 @@ import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Moralis from 'moralis'
 
-const INFURA_ID = '64717d650b53400f950297f481c826a8'
+const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
 let contract = undefined
 let contract_20 = undefined

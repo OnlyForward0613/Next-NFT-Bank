@@ -30,7 +30,9 @@ export default function Header({
         <ul>
           {connected &&
             <li>
-              <p className="signer-balance"><span>Your $Dusty:</span>&nbsp;<span>{signerBalance}</span></p>
+              <p className="signer-balance"><span>Your $Dusty:</span>&nbsp;
+                <span>{new Intl.NumberFormat().format(parseFloat(signerBalance).toFixed(2))}</span>
+              </p>
             </li>
           }
           <li className="connect-button">

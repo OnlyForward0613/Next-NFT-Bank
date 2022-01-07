@@ -110,7 +110,9 @@ export default function CostSlider({
   }
   return (
     <Box>
-      <p className="your-balance">Your balance:&nbsp;$Dusty&nbsp;<span>{balance}</span></p>
+      <p className="your-balance">Your balance:&nbsp;$Dusty&nbsp;
+        <span>{new Intl.NumberFormat().format(parseFloat(balance).toFixed(2))}</span>
+      </p>
       <PrettoSlider
         defaultValue={1}
         scale={calculateValue}

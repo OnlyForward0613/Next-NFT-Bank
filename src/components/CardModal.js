@@ -33,7 +33,6 @@ export default function CardModal({
     setAgree(e.target.checked)
     setAgreeVali(false)
   }
-  console.log(image, description)
   const stake = async () => {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -63,8 +62,7 @@ export default function CardModal({
             await erc20Approve.wait()
             try {
               const isr = amount * Math.pow(10, 18)
-              // const nftApprove = await contract.stakebyHash(hash, realName, tokenAddress, tokenId, isr.toLocaleString('fullwide', { useGrouping: false }))
-              console.log(hash, realName, tokenAddress, tokenId, isr.toLocaleString('fullwide', { useGrouping: false }), image, description)
+              const nftApprove = await contract.stakebyHash(hash, realName, tokenAddress, tokenId, isr.toLocaleString('fullwide', { useGrouping: false }), image, description)
               await nftApprove.wait()
               successAlert("Congratulation! You staked successfully.")
               close()
@@ -102,7 +100,6 @@ export default function CardModal({
   }
 
   const alertBox = (err) => {
-    console.log(err)
     setLoading(false)
     if (err.code === 4001) {
       warningAlert("You denied the Action!")
