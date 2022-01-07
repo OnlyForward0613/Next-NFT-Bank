@@ -11,7 +11,6 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
-var _ = require('lodash')
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
