@@ -75,16 +75,12 @@ export default function NFTLIST({
         SMARTCONTRACT_ABI_ERC20,
         signer
       )
-
       const bal = await contract_20.balanceOf(address)
       setSignerBalance(ethers.utils.formatEther(bal))
 
-      // Subscribe to accounts change
       provider.on("accountsChanged", (accounts) => {
         setSignerAddress(accounts[0])
       });
-
-      // Subscribe to chainId change
       provider.on("chainChanged", (chainId) => {
         window.location.reload()
       });
