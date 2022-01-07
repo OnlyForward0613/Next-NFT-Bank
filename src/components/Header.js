@@ -20,7 +20,7 @@ export default function Header({
             {/* eslint-disable-next-line */}
             <img
               src="./logo.png"
-              alt=""
+              alt="Dusty Vaults"
             />
             <i>Dusty Vaults</i>
           </a>
