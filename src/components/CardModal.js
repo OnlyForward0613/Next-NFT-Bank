@@ -138,6 +138,7 @@ export default function CardModal({
               src={image}
               alt=""
             />
+            <p className="modal-info">For security reasons, you will need 3 separate contract confirmations</p>
           </div>
           <div className="modal-content">
             <p>Name</p>
