@@ -307,6 +307,15 @@ body {
     object-fit: cover;
     border-radius: 6px;
   }
+  p {
+    font-size: 11px;
+    color: #fff;
+    margin-top: 10px;
+    border: 1px solid #00dae3;
+    background-color: #85ebf94a;
+    padding: 7px;
+    border-radius: 4px;
+  }
 }
 .modal-content {
   width: calc(100% - 220px);
@@ -784,6 +793,7 @@ p.signer-balance {
   }
   .modal-image {
     margin-bottom: 20px;
+    height: auto;
   }
   .modal-content {
     width: 100% !important;
