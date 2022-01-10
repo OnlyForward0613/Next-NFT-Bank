@@ -138,8 +138,6 @@ export default function FAQ() {
               <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>
             </div>
             <div className="faq-content">
-
-
               <div className="faq-item">
                 <div className="faq-question" onClick={() => setOpen(!open)}>
                   {!open ?
@@ -272,5 +270,9 @@ const questions = [
   {
     question: "What happens at the end of 12 months?",
     answer: "The vault will automatically send your NFT & your $Dusty to your wallet.  You are then free to restake it or sell it for millions!"
+  },
+  {
+    question: "I can't get to the site on my mobile MetaMask browser?",
+    answer: "Try going to this link instead: https://dusty-vaults.vercel.app/"
   }
 ]
