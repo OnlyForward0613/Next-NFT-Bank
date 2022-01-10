@@ -11,6 +11,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
+import MobileFooter from '../components/MobileFooter'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -227,6 +228,7 @@ export default function NFTLIST({
           />
         </div>
       </MainContent>
+      <MobileFooter connected={connected} />
     </>
   )
 }

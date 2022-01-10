@@ -11,6 +11,7 @@ import { ethers, providers } from 'ethers'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Moralis from 'moralis'
+import MobileFooter from '../components/MobileFooter'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -237,6 +238,7 @@ export default function Home() {
           />
         </div>
       </MainContent>
+      <MobileFooter connected={connected} />
     </>
   )
 }
