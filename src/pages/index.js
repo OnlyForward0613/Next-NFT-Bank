@@ -209,6 +209,7 @@ export default function Home() {
         connectWallet={connectWallet}
         connected={connected}
         signerBalance={signerBalance}
+        loading={homeLoading}
       />
       <MainContent>
         <Sidebar

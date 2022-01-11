@@ -1,12 +1,14 @@
 import { useState } from "react"
 import Link from 'next/link'
 import { ConnectButton } from "./styleHook"
+import { Skeleton } from "@mui/material"
 
 export default function Header({
   signerAddress,
   connectWallet,
   connected,
   signerBalance,
+  loading,
   ...props
 }) {
 
@@ -31,7 +33,11 @@ export default function Header({
           {connected &&
             <li>
               <p className="signer-balance"><span>Your $Dusty:</span>&nbsp;
-                <span>{new Intl.NumberFormat().format(parseFloat(signerBalance).toFixed(2))}</span>
+                {loading ?
+                  <Skeleton width={90} sx={{ bgcolor: '#ffffff20' }} height={32} style={{ backgroundColor: "ffffff3d" }} />
+                  :
+                  <span>{new Intl.NumberFormat().format(parseFloat(signerBalance).toFixed(2))}</span>
+                }
               </p>
             </li>
           }
