@@ -11,6 +11,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
+import MobileFooter from '../components/MobileFooter'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -40,6 +41,7 @@ export default function NFTLIST({
   const [signerAddress, setSignerAddress] = useState("")
   const [currentSigner, setCurrentSigner] = useState()
   const [signerBalance, setSignerBalance] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const checkNetwork = async (alert) => {
     const web3 = new Web3(Web3.givenProvider)
@@ -54,6 +56,7 @@ export default function NFTLIST({
   }
 
   const connectWallet = async () => {
+    setLoading(true)
     if (await checkNetwork()) {
       const web3Modal = new Web3Modal({
         network: 'mainnet', // optional
@@ -76,7 +79,7 @@ export default function NFTLIST({
       )
       const bal = await contract_20.balanceOf(address)
       setSignerBalance(ethers.utils.formatEther(bal))
-
+      setLoading(false)
       provider.on("accountsChanged", (accounts) => {
         setSignerAddress(accounts[0])
       });
@@ -202,6 +205,7 @@ export default function NFTLIST({
         connectWallet={connectWallet}
         connected={connected}
         signerBalance={signerBalance}
+        loading={loading}
       />
       <MainContent>
         <Sidebar
@@ -227,6 +231,7 @@ export default function NFTLIST({
           />
         </div>
       </MainContent>
+      <MobileFooter connected={connected} />
     </>
   )
 }

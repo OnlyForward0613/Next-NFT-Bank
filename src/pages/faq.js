@@ -11,6 +11,7 @@ import Header from '../components/Header'
 import { providers, ethers } from 'ethers'
 import { CHAIN_ID, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
+import MobileFooter from '../components/MobileFooter'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -35,6 +36,7 @@ export default function FAQ() {
   const [connected, setConnected] = useState(false)
   const [signerAddress, setSignerAddress] = useState("")
   const [signerBalance, setSignerBalance] = useState(0)
+  const [loading, setLoading] = useState(false)
 
   const checkNetwork = async (alert) => {
     const web3 = new Web3(Web3.givenProvider)
@@ -48,6 +50,7 @@ export default function FAQ() {
     }
   }
   const connectWallet = async () => {
+    setLoading(true)
     if (await checkNetwork()) {
       web3Modal = new Web3Modal({
         network: 'mainnet', // optional
@@ -68,7 +71,7 @@ export default function FAQ() {
 
       const bal = await contract_20.balanceOf(address)
       setSignerBalance(ethers.utils.formatEther(bal))
-
+      setLoading(false)
       setConnected(true)
       setSignerAddress(address)
 
@@ -119,6 +122,7 @@ export default function FAQ() {
         signerAddress={signerAddress}
         connectWallet={connectWallet}
         connected={connected}
+        loading={loading}
         signerBalance={signerBalance}
       />
       <MainContent>
@@ -178,6 +182,7 @@ export default function FAQ() {
           </Container>
         </div>
       </MainContent>
+      <MobileFooter connected={connected} />
     </>
   )
 }
@@ -205,7 +210,7 @@ const questions = [
   },
   {
     question: "What happens at the end of 12 months?",
-    answer: "You decide.  When you place your NFT’s in storage you can pick an option:@@- The contract just rolls on accruing $Dusty on a daily basis until you choose to withdraw (no penalty, you get to keep all the $Dustry accumulated to this point@@- We automatically send the NFT + $Dusty back to their wallets, airdrop style"
+    answer: "We automatically send the NFT + $Dusty back to their wallets, airdrop style"
   },
   {
     question: "Why don’t you have a Telegram or Discord group?",

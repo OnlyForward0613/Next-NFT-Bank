@@ -1,11 +1,35 @@
-import { useRouter } from "next/router";
-import { SidebarButton } from "./styleHook";
+import { Skeleton } from "@mui/material"
+import { useRouter } from "next/router"
+import { useState, useEffect } from 'react'
+import { PANCAKE_LINK, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
+import { SidebarButton } from "./styleHook"
 
 export default function Sidebar({ connected, ...props }) {
   const router = useRouter()
   const goto = (url) => {
     router.push(url)
   }
+  const [price, setPrice] = useState(1)
+  const [loading, setLoading] = useState(false)
+
+  const getPrice = async () => {
+    await fetch('https://api.pancakeswap.info/api/v2/tokens/' + SMARTCONTRACT_ADDRESS_ERC20)
+      .then(response => response.json())
+      .then((data) => {
+        setPrice(data.data.price)
+        setLoading(false)
+      }
+      )
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    const interval_id = setInterval(getPrice, 10000);
+    return () => {
+      clearInterval(interval_id)
+    }
+  }, [])
+
   return (
     <div className="sidebar">
       <div className="sidebar-content">
@@ -69,10 +93,16 @@ export default function Sidebar({ connected, ...props }) {
           </a>
           <div>
             <h5>$Dusty</h5>
-            <p>$ 1</p>
+            <p>
+              {loading ?
+                <Skeleton width={70} sx={{ bgcolor: '#ffffff20' }} height={40} style={{ marginLeft: "auto", backgroundColor: "ffffff3d" }} />
+                :
+                <>$ {parseFloat(price).toFixed(3)}</>
+              }
+            </p>
           </div>
           <a
-            href="https://pancakeswap.finance/swap"
+            href={PANCAKE_LINK}
             target="_blank"
             rel="noreferrer"
             className="buy-link"
