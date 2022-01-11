@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
             <Html lang="en">
                 <Head>
                     {/* Not exactly required, but this is the PWA primary color */}
+                    <link rel="shortcut icon" href="https://dusty-vaults.vercel.app/logo32x32.png" />
                 </Head>
                 <body>
                     <Main />
