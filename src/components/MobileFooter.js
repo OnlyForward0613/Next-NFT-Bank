@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PANCAKE_LINK } from '../../config'
 
 export default function MobileFooter({ connected, ...props }) {
   return (
@@ -60,7 +61,7 @@ export default function MobileFooter({ connected, ...props }) {
         </li>
         <li>
           <a
-            href="https://pancakeswap.finance/swap"
+            href={PANCAKE_LINK}
             target="_blank"
             rel="noreferrer"
           >

@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { PANCAKE_LINK } from "../../config";
 import { SidebarButton } from "./styleHook";
 
 export default function Sidebar({ connected, ...props }) {
@@ -72,7 +73,7 @@ export default function Sidebar({ connected, ...props }) {
             <p>$ 1</p>
           </div>
           <a
-            href="https://pancakeswap.finance/swap"
+            href={PANCAKE_LINK}
             target="_blank"
             rel="noreferrer"
             className="buy-link"
