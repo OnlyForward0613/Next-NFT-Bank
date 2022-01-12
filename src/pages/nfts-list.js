@@ -140,7 +140,6 @@ export default function NFTLIST({
     const web3 = new Web3(Web3.givenProvider)
     const accounts = await web3.eth.getAccounts()
     const userNFTs = await Moralis.Web3API.account.getNFTs({ chain: 'bsc', address: accounts[0] })
-    console.log(userNFTs.result)
     if (userNFTs.total !== 0) {
       startLoading()
       for (var i = 0; i < userNFTs.result.length; i++) {
@@ -151,8 +150,6 @@ export default function NFTLIST({
           token_address: userNFTs.result[i].token_address,
           token_id: userNFTs.result[i].token_id,
           reward: 0,
-          // image: JSON.parse(userNFTs.result[i].metadata).image,
-          // description: JSON.parse(userNFTs.result[i].metadata).description,
           timestamp: "0",
           percent: 0,
           token_uri: userNFTs.result[i].token_uri,
