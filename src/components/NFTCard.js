@@ -90,7 +90,6 @@ export default function NFTCard({
         setImage(img)
         setDescription(json.description)
       })
-    setDescription(data.description)
 
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
