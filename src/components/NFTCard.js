@@ -8,6 +8,7 @@ import { SMARCONTRACT_INI_ABI, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMART
 import Swal from 'sweetalert2'
 import CardModal from "./CardModal"
 import Web3Modal from "web3modal"
+import { Skeleton } from "@mui/material"
 
 export default function NFTCard({
   state,
@@ -176,12 +177,18 @@ export default function NFTCard({
     <>
       {(filterState === action || filterState === 2) &&
         <div className={action !== 1 ? "nft-card" : "nft-card nft-card-active"}>
-          {/* eslint-disable-next-line */}
-          <img
-            alt=""
-            src={image}
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+          {image === "" ?
+            <Skeleton sx={{ bgcolor: '#ffffff20' }} style={{ width: "100%", height: "240px", borderRadius: 6, backgroundColor: "ffffff3d" }} variant="retangle" />
+            :
+            <>
+              {/* eslint-disable-next-line */}
+              <img
+                alt=""
+                src={image}
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </>
+          }
           <p className="name">{name}</p>
           {action === 1 &&
             <>

@@ -159,6 +159,8 @@ export default function NFTLIST({
       }
       closeLoading()
       setUnstakedList(unStakedNfts)
+    } else {
+      closeLoading()
     }
   }
 
@@ -228,6 +230,8 @@ export default function NFTLIST({
             getNFTLIST={() => getNFTLIST()}
             stakedList={stakedList}
             unstakedList={unstakedList}
+            startLoading={startLoading}
+            closeLoading={closeLoading}
           />
         </div>
       </MainContent>

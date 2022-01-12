@@ -17,6 +17,8 @@ export default function NFTMap({
   getNFTLIST,
   unstakedList,
   stakedList,
+  startLoading,
+  closeLoading,
   ...props
 }) {
   const [pageRerender, setPageRerender] = useState("")
@@ -27,6 +29,9 @@ export default function NFTMap({
     setAll(unstakedList.length + stakedList.length)
     setUnstaked(unstakedList.length)
     setStaked(stakedList.length)
+    if ((unstakedList.length + stakedList.length) === 0) {
+      closeLoading()
+    }
   }, [unstakedList, stakedList])
   return (
     <div className="map-page">
