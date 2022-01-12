@@ -69,14 +69,27 @@ export default function NFTCard({
     setTokenId(data.token_id)
     setHash(data.token_uri)
 
-    const urdd = data.image.split("://")
-    let image = ''
+    const urdd = data.token_uri.split("://")
+    let uri = ''
     if (urdd[0] === "ipfs") {
-      image = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+      uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
     } else {
-      image = data.image
+      uri = data.token_uri
     }
-    setImage(image)
+    await fetch(uri)
+      .then(resp =>
+        resp.json()
+      ).then((json) => {
+        let img = json.image
+        const imgString = img.split("://")
+        if (imgString[0] === "ipfs") {
+          img = "https://ipfs.io/ipfs/" + imgString[imgString.length - 1]
+        } else {
+          img = json.image
+        }
+        setImage(img)
+        setDescription(json.description)
+      })
     setDescription(data.description)
 
     const web3Modal = new Web3Modal()
