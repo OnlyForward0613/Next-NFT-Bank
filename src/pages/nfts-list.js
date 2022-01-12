@@ -159,6 +159,8 @@ export default function NFTLIST({
       }
       closeLoading()
       setUnstakedList(unStakedNfts)
+    } else {
+      closeLoading()
     }
   }
 
