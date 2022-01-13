@@ -31,7 +31,7 @@ const error = [
   "You need MetaMask to interact with this site!"
 ]
 
-export default function FAQ() {
+export default function FAQ({ headerAlert, closeAlert }) {
   const [open, setOpen] = useState(false)
   const [connected, setConnected] = useState(false)
   const [signerAddress, setSignerAddress] = useState("")
@@ -124,10 +124,13 @@ export default function FAQ() {
         connected={connected}
         loading={loading}
         signerBalance={signerBalance}
+        headerAlert={headerAlert}
+        closeAlert={closeAlert}
       />
       <MainContent>
         <Sidebar
           connected={connected}
+          headerAlert={headerAlert}
         />
         <div id="faq" className="faq page-content">
           <Head>
@@ -171,6 +174,32 @@ export default function FAQ() {
                 />
               ))
               }
+              <div className="faq-item">
+                <div className="faq-question" onClick={() => setOpen(!open)}>
+                  {!open ?
+                    <svg width="12" height="12" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M20 10C20 9.66667 19.8 9 19 9H11V1C11 0.5 10.5 0 10 0C9.5 0 9 0.5 9 1V9H1C0.5 9 0 9.5 0 10C0 10.5 0.5 11 1 11H9V19C9 19.5 9.5 20 10 20C10.5 20 11 19.5 11 19V11H19C19.8 11 20 10.3333 20 10Z" fill="white" />
+                    </svg>
+                    :
+                    <svg width="12" height="2" viewBox="0 0 20 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="20" width="2" height="20" rx="1" transform="rotate(90 20 0)" fill="white" />
+                    </svg>
+                  }
+                  <p>What is the contract address of $Dusty?</p>
+                </div>
+                <div className="faq-answer">
+                  <Collapse in={open}>
+                    <a
+                      href="https://bscscan.com/token/0xc6f82B6922Ad6484c69BBE5f0c52751cE7F15EF2"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="social-link discord"
+                    >
+                      0x76e2c75fb2a78d30e09369dd0219c5509151819e
+                    </a>
+                  </Collapse>
+                </div>
+              </div>
 
             </div>
             <div className="partnership">
@@ -211,18 +240,6 @@ const questions = [
   {
     question: "What happens at the end of 12 months?",
     answer: "We automatically send the NFT + $Dusty back to their wallets, airdrop style"
-  },
-  {
-    question: "Why don’t you have a Telegram or Discord group?",
-    answer: "Honestly, this is the most boring NFT/Defi project you will ever be a part of.  You store your NFT’s in a vault and then you forget about it for a year.  What’s to talk about?  At the end of the year you either re-stake or withdraw.  That’s it.  There are no other options. If you want drama, rumours, gossip, scandal and to drive yourself nuts because an anonymous account tried to fud a project, go elsewhere.  We are safe, calm and dull (and dusty!).  All communications will come from our official Twitter account (https://twitter.com/DustyVaultsNFT).  Everything else can be ignored."
-  },
-  {
-    question: "But, but, but, on Discord someone said that if the blockchain gets $Dusty my NFT will get creased (or insert other unsubstantiated rumour…)",
-    answer: "Deep breaths.  You do not have to believe everything you read on the Internet.  And we will not address every crazy rumour because, well, we’re grown ups."
-  },
-  {
-    question: "I joined your Telegram & Discord group anyway.",
-    answer: "See above. It has nothing to do with us. it is unsanctioned, unlicensed and uninteresting to us.  Join at your peril. @@ Follow us on Twitter if you must, but we’re a boring, dusty vault, you’re not going to learn anything earth shattering."
   },
   {
     question: "A friendly admin is asking for my seed phrase.",

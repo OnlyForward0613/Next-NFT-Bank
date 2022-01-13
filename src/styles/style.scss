@@ -45,10 +45,6 @@ a {
 }
 
 header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px;
   position: fixed;
   background-color: #00021d;
   left: 0;
@@ -59,6 +55,30 @@ header {
     font-size: 24px;
     font-weight: 900;
     color: #fff;
+  }
+}
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.header-alert {
+  background: linear-gradient(90deg, #0033b7 0%, #7c45f2 38.02%, #5515dd 73.96%, #00bec8 100%);
+  color: #fff;
+  font-size: 14px;
+  padding: 5px 15px;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background-color: transparent;
   }
 }
 
@@ -444,6 +464,20 @@ h3.empty-text {
   }
 }
 @media (max-width: 776px) {
+  .header-alert {
+    font-size: 12px;
+    padding: 5px 5px;
+    text-align: left;
+    svg {
+      width: 10px;
+      height: 10px;
+    }
+  }
+  .filter-item button {
+    font-size: 16px;
+    padding: 10px 5px;
+    margin: 0 6px;
+  }
   .nft-card {
     width: 100%;
     margin-right: 0;
@@ -712,7 +746,8 @@ p.signer-balance {
   .faq-answer {
     padding-left: 10px;
     transition: all 0.3s;
-    p {
+    p,
+    a {
       font-size: 16px;
       font-weight: 300;
       color: #fff;
@@ -722,6 +757,11 @@ p.signer-balance {
       }
       span {
         text-decoration: line-through;
+      }
+    }
+    a {
+      &:hover {
+        text-decoration: underline;
       }
     }
   }

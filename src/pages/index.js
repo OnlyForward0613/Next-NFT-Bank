@@ -34,7 +34,7 @@ const error = [
   "You need MetaMask to interact with this site!"
 ]
 
-export default function Home() {
+export default function Home({ headerAlert, closeAlert }) {
 
   const [totalReward, setTotalReward] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -210,10 +210,13 @@ export default function Home() {
         connected={connected}
         signerBalance={signerBalance}
         loading={homeLoading}
+        headerAlert={headerAlert}
+        closeAlert={closeAlert}
       />
       <MainContent>
         <Sidebar
           connected={connected}
+          headerAlert={headerAlert}
         />
         <div className="page-content">
           <Head>

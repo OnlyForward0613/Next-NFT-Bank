@@ -26,6 +26,8 @@ const providerOptions = {
 export default function NFTLIST({
   startLoading,
   closeLoading,
+  headerAlert,
+  closeAlert,
   ...props
 }) {
 
@@ -206,10 +208,13 @@ export default function NFTLIST({
         connected={connected}
         signerBalance={signerBalance}
         loading={loading}
+        headerAlert={headerAlert}
+        closeAlert={closeAlert}
       />
       <MainContent>
         <Sidebar
           connected={connected}
+          headerAlert={headerAlert}
         />
         <div className='page-content'>
           <Head>

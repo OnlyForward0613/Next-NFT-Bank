@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { PANCAKE_LINK, SMARTCONTRACT_ADDRESS_ERC20 } from "../../config"
 import { SidebarButton } from "./styleHook"
 
-export default function Sidebar({ connected, ...props }) {
+export default function Sidebar({ connected, headerAlert, ...props }) {
   const router = useRouter()
   const goto = (url) => {
     router.push(url)
@@ -32,7 +32,7 @@ export default function Sidebar({ connected, ...props }) {
 
   return (
     <div className="sidebar">
-      <div className="sidebar-content">
+      <div className="sidebar-content" style={{ paddingTop: !headerAlert ? 70 : 95 }}>
         <ul>
           <li>
             <SidebarButton fullWidth onClick={() => goto("/")}>
