@@ -525,6 +525,9 @@ h3.empty-text {
     font-weight: 900;
     position: relative;
     z-index: 4;
+    background: -webkit-linear-gradient(45deg, #f6ff45, #f981e5 80%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
   }
   p {
     font-size: 16px;

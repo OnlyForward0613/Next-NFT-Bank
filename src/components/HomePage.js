@@ -35,7 +35,7 @@ export default function HomePage({
         <div className="homepage">
           {connected &&
             <div className="home-row">
-              <div className="dashboard-item user-box">
+              <div className="dashboard-item user-box" style={{ background: "linear-gradient(135deg, #8a00ff, #450a8f" }}>
                 <h2>Your Total NFTs&nbsp;({address.slice(0, 4) + "..." + address.slice(39, 42)})</h2>
                 <p>
                   {connected ?
@@ -57,7 +57,7 @@ export default function HomePage({
                   </div>
                 </div>
               </div>
-              <div className="dashboard-item user-box display-center">
+              <div className="dashboard-item user-box display-center" style={{ background: "linear-gradient(135deg, #4f00ff, #450a8f" }}>
                 <h2>Total Reward&nbsp;($Dusty)</h2>
                 <p>
                   {!loading ? parseFloat(totalReward).toFixed(2) : <Skeleton width={120} sx={{ bgcolor: '#ffffff20' }} height={45} style={{ margin: "5px auto", backgroundColor: "ffffff3d" }} />}
