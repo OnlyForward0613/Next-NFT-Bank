@@ -1,10 +1,9 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import NFTMap from '../components/NFTMap'
 import Web3Modal from "web3modal"
 import Web3 from 'web3'
-import { CHAIN_ID, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
+import { CHAIN_ID, SITE_ERROR, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { ethers, providers } from 'ethers'
 import Sidebar from '../components/Sidebar'
 import WalletConnectProvider from '@walletconnect/web3-provider'
@@ -12,6 +11,7 @@ import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
 import MobileFooter from '../components/MobileFooter'
+import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 
 const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
 
@@ -31,7 +31,6 @@ export default function NFTLIST({
   ...props
 }) {
 
-  const router = useRouter()
   let stakedNfts = []
   let unStakedNfts = []
   const [filterState, setFilterState] = useState(2)
@@ -52,7 +51,7 @@ export default function NFTLIST({
       return true
     } else {
       if (alert !== "no-alert")
-        errorAlert(error[0])
+        errorAlert(SITE_ERROR[0])
       return false
     }
   }
@@ -188,12 +187,12 @@ export default function NFTLIST({
               connectWallet()
             } else {
               setConnected(false)
-              errorAlert(error)
+              errorAlert(SITE_ERROR[0])
             }
           })
         }
       } else {
-        errorAlertCenter(error[1])
+        errorAlertCenter(SITE_ERROR[1])
       }
     }
     fetchData();

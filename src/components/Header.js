@@ -48,6 +48,7 @@ export default function Header({
             </a>
           </Link>
         </div>
+
         <div className="nav">
           <ul>
             {connected &&
@@ -71,6 +72,7 @@ export default function Header({
             </li>
           </ul>
         </div>
+
         <div className="mobile-nav">
           <div className="mobile-action">
             <ConnectButton onClick={connectWallet} disabled={connected} style={{ marginRight: 50 }}>

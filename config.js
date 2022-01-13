@@ -1096,3 +1096,9 @@ export const SMARCONTRACT_INI_ABI = [
 ]
 
 export const PANCAKE_LINK = "https://pancakeswap.finance/swap?outputCurrency=0xc6f82B6922Ad6484c69BBE5f0c52751cE7F15EF2"
+
+
+export const SITE_ERROR = [
+    "The wrong network, please switch to the Binance Smart Chain network.",
+    "You need MetaMask to interact with this site!"
+]

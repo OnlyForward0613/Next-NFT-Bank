@@ -9,7 +9,7 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import { providers, ethers } from 'ethers'
-import { CHAIN_ID, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
+import { CHAIN_ID, SITE_ERROR, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import MobileFooter from '../components/MobileFooter'
 
@@ -26,11 +26,6 @@ const providerOptions = {
 
 let web3Modal = undefined
 
-const error = [
-  "The wrong network, please switch to the Binance Smart Chain network.",
-  "You need MetaMask to interact with this site!"
-]
-
 export default function FAQ({ headerAlert, closeAlert }) {
   const [open, setOpen] = useState(false)
   const [connected, setConnected] = useState(false)
@@ -45,7 +40,7 @@ export default function FAQ({ headerAlert, closeAlert }) {
       return true
     } else {
       if (alert !== "no-alert")
-        errorAlert(error[0])
+        errorAlert(SITE_ERROR[0])
       return false
     }
   }
@@ -104,12 +99,12 @@ export default function FAQ({ headerAlert, closeAlert }) {
               connectWallet()
             } else {
               setConnected(false)
-              errorAlert(error)
+              errorAlert(SITE_ERROR[0])
             }
           })
         }
       } else {
-        errorAlertCenter(error[1])
+        errorAlertCenter(SITE_ERROR[1])
       }
     }
     fetchData();

@@ -634,14 +634,30 @@ h3.empty-text {
     text-align: center;
     display: flex;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     padding: 5px 0;
+    align-items: center;
     span {
-      color: #fecc1e;
       margin-left: 5px;
+    }
+    .token-name {
+      color: #fecc1e;
     }
     &:hover {
       text-decoration: underline;
+    }
+  }
+  button.add-token {
+    border: 1px solid #fecc1e;
+    background: transparent;
+    color: #fecc1e;
+    font-weight: bold;
+    padding: 5px 0;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+      background: #fecd1e1a;
+      transition: all 0.3s;
     }
   }
 
@@ -838,6 +854,10 @@ p.signer-balance {
           width: 20px !important;
         }
       }
+      button {
+        border: none;
+        background: transparent;
+      }
     }
   }
 }
@@ -972,41 +992,6 @@ p.signer-balance {
   left: 0;
   top: 0;
   border-radius: 10px;
-}
-
-.token-info {
-  button {
-    border: none;
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid transparent;
-    width: 100%;
-    padding: 10px;
-    cursor: pointer;
-    span {
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      margin-left: 10px;
-    }
-    &::after,
-    &::before {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      border-radius: inherit;
-      visibility: hidden;
-    }
-    animation: pulse ease-out 1s;
-    transition: 0.4;
-    &:hover {
-      border: 1px solid #ccc;
-    }
-  }
 }
 
 @keyframes pulse {

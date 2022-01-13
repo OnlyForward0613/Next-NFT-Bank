@@ -114,7 +114,8 @@ export default function CardModal({
   return (
     <Modal
       open={open}
-    // onClose={close}
+      // onClose={close}
+      style={{ backdropFilter: "blur(3px)" }}
     >
       <Box sx={style} className="modal-box">
         <div className="stake-modal">
