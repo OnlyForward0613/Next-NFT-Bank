@@ -613,16 +613,15 @@ h3.empty-text {
     align-items: center;
     color: #fff;
     margin-bottom: 10px;
-    border-bottom: 1px solid #575b66;
     padding-bottom: 10px;
     .social-icon {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      padding: 6px !important;
+      padding: 5px !important;
       background: #55acee;
       margin-right: 10px;
       svg {
@@ -632,9 +631,19 @@ h3.empty-text {
     span {
       font-weight: bold;
       color: #55acee;
+      font-size: 14px;
     }
     &:hover {
       text-decoration: underline;
+    }
+  }
+  .social-link.discord {
+    border-bottom: 1px solid #575b66;
+    .social-icon {
+      background: #40b3e0 !important;
+    }
+    span {
+      color: #40b3e0;
     }
   }
 }
