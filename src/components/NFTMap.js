@@ -32,6 +32,7 @@ export default function NFTMap({
     if ((unstakedList.length + stakedList.length) === 0) {
       closeLoading()
     }
+    // eslint-disable-next-line
   }, [unstakedList, stakedList])
   return (
     <div className="map-page">
