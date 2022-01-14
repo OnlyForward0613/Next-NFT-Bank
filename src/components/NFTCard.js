@@ -178,7 +178,9 @@ export default function NFTCard({
   }
 
   useEffect(() => {
-    setDetail(data)
+    setTimeout(() => {
+      setDetail(data)
+    }, 2000);
     const now = new Date()
     if (action === 1 && new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000) >= now) {
       autoClaim()
