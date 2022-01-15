@@ -143,7 +143,6 @@ export default function NFTLIST({
     const userNFTs = await Moralis.Web3API.account.getNFTs({ chain: 'bsc', address: accounts[0] })
     if (userNFTs.total !== 0) {
       startLoading()
-      console.log(userNFTs, "user NFTs")
       for (var i = 0; i < userNFTs.result.length; i++) {
         unStakedNfts.push({
           cid: -1,
