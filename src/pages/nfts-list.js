@@ -6,23 +6,14 @@ import Web3 from 'web3'
 import { CHAIN_ID, SITE_ERROR, SMARTCONTRACT_ABI, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { ethers, providers } from 'ethers'
 import Sidebar from '../components/Sidebar'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import Moralis from 'moralis'
 import MobileFooter from '../components/MobileFooter'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
+import { providerOptions } from '../hook/connectWallet'
+import { checkNetwork } from '../hook/ethereum'
 
-const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: INFURA_ID, // required
-    },
-  },
-}
 export default function NFTLIST({
   startLoading,
   closeLoading,
@@ -43,18 +34,6 @@ export default function NFTLIST({
   const [currentSigner, setCurrentSigner] = useState()
   const [signerBalance, setSignerBalance] = useState(0)
   const [loading, setLoading] = useState(false)
-
-  const checkNetwork = async (alert) => {
-    const web3 = new Web3(Web3.givenProvider)
-    const chainId = await web3.eth.getChainId()
-    if (chainId === CHAIN_ID) {
-      return true
-    } else {
-      if (alert !== "no-alert")
-        errorAlert(SITE_ERROR[0])
-      return false
-    }
-  }
 
   const connectWallet = async () => {
     setLoading(true)

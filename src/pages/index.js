@@ -9,23 +9,10 @@ import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import { ethers, providers } from 'ethers'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import Moralis from 'moralis'
 import MobileFooter from '../components/MobileFooter'
-
-const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
-
-let contract = undefined
-let contract_20 = undefined
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: INFURA_ID, // required
-    },
-  },
-}
+import { providerOptions } from '../hook/connectWallet'
+import { checkNetwork } from '../hook/ethereum'
 
 let web3Modal = undefined
 
@@ -48,18 +35,6 @@ export default function Home({ headerAlert, closeAlert }) {
   const [holders, setHolders] = useState(0)
   const [homeLoading, setHomeloading] = useState(false)
   const [ownerDusty, setTotalOwnerDusty] = useState(false)
-
-  const checkNetwork = async (alert) => {
-    const web3 = new Web3(Web3.givenProvider)
-    const chainId = await web3.eth.getChainId()
-    if (chainId === CHAIN_ID) {
-      return true
-    } else {
-      if (alert !== "no-alert")
-        errorAlert(SITE_ERROR[0])
-      return false
-    }
-  }
 
   const connectWallet = async () => {
     if (await checkNetwork()) {
