@@ -41,7 +41,6 @@ export default function NFTCard({
   const [balance, setBalance] = useState(0)
   const [realName, setRealName] = useState("")
   const [indiContract, setIndiContract] = useState([])
-
   const [unloading, setUnloading] = useState(false)
 
   const alertBox = (err) => {
@@ -69,13 +68,25 @@ export default function NFTCard({
     setTokenId(data.token_id)
     setHash(data.token_uri)
 
-    const urdd = data.token_uri.split("://")
+    let urdd = data.token_uri.split("://")
     let uri = ''
+    let ipfsIssue = 0
+
     if (urdd[0] === "ipfs") {
       uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+      ipfsIssue = 1
     } else {
       uri = data.token_uri
     }
+    if (ipfsIssue === 0) {
+      urdd = data.token_uri.split('ipfs/')
+      if (urdd[0] === "https://ipfs.moralis.io:2053/") {
+        uri = "https://ipfs.io/ipfs/" + urdd[urdd.length - 1]
+      } else {
+        uri = data.token_uri
+      }
+    }
+
     await fetch(uri)
       .then(resp =>
         resp.json()
