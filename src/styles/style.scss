@@ -513,7 +513,8 @@ h3.empty-text {
   }
 }
 .map-page {
-  padding: 80px 15px;
+  padding: 0px 15px 100px;
+  margin-top: 60px;
 }
 .homebanner {
   padding: 100px 10px 30px;
@@ -1156,4 +1157,56 @@ p.signer-balance {
 #WEB3_CONNECT_MODAL_ID {
   position: relative;
   z-index: 999;
+}
+.more-option {
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
+.more-menu {
+  position: absolute;
+  right: 0;
+  width: 200px;
+  z-index: 99;
+  background: #fff;
+  border-radius: 5px;
+  // padding: 10px;
+  margin-top: 10px;
+  box-shadow: 2px 1px 14px #000000;
+}
+
+.multi-infobox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    span {
+      margin-right: 5px;
+      font-size: 20px;
+    }
+    margin-right: 20px;
+  }
+}
+.infobox-button {
+  margin-left: 5px;
+}
+.card-checkbox {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  background-color: #0000008c;
+  border-radius: 12px;
+  left: 0;
+  top: 0;
+  button {
+    position: absolute;
+    border: none;
+    background: transparent;
+    top: 20px;
+    left: 20px;
+  }
 }

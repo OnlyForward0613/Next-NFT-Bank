@@ -113,7 +113,7 @@ export default function FAQ({ headerAlert, closeAlert }) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Container>
-            <div className="section-title">
+            <div className="section-title" style={{ paddingTop: !headerAlert ? 35 : 60 }}>
               <h1>Frequently asked questions</h1>
               <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
               <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>

@@ -213,6 +213,7 @@ export default function NFTLIST({
             unstakedList={unstakedList}
             startLoading={startLoading}
             closeLoading={closeLoading}
+            headerAlert={headerAlert}
           />
         </div>
       </MainContent>
