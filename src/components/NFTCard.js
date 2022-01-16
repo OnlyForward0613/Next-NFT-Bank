@@ -87,7 +87,7 @@ export default function NFTCard({
       }
     }
     if (uri !== undefined) {
-      fetch(uri)
+      await fetch(uri)
         .then(resp =>
           resp.json()
         ).then((json) => {
