@@ -90,21 +90,22 @@ export default function NFTCard({
         uri = data.token_uri
       }
     }
-
-    await fetch(uri)
-      .then(resp =>
-        resp.json()
-      ).then((json) => {
-        let img = json.image
-        const imgString = img.split("://")
-        if (imgString[0] === "ipfs") {
-          img = "https://ipfs.io/ipfs/" + imgString[imgString.length - 1]
-        } else {
-          img = json.image
-        }
-        setImage(img)
-        setDescription(json.description)
-      })
+    if (uri !== undefined) {
+      await fetch(uri)
+        .then(resp =>
+          resp.json()
+        ).then((json) => {
+          let img = json.image
+          const imgString = img.split("://")
+          if (imgString[0] === "ipfs") {
+            img = "https://ipfs.io/ipfs/" + imgString[imgString.length - 1]
+          } else {
+            img = json.image
+          }
+          setImage(img)
+          setDescription(json.description)
+        })
+    }
 
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
