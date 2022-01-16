@@ -86,7 +86,7 @@ export default function NFTCard({
         uri = data.token_uri
       }
     }
-
+    console.log(uri)
     await fetch(uri)
       .then(resp =>
         resp.json()
@@ -189,9 +189,7 @@ export default function NFTCard({
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setDetail(data)
-    }, 2000);
+    setDetail(data)
     const now = new Date()
     if (action === 1 && new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000) >= now) {
       autoClaim()
