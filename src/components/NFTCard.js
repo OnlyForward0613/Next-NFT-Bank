@@ -87,12 +87,12 @@ export default function NFTCard({
       }
     }
     if (uri !== undefined) {
-      await fetch(uri)
+      fetch(uri)
         .then(resp =>
           resp.json()
         ).then((json) => {
           let img = json.image
-          if (img !== "") {
+          if (img !== undefined) {
             const imgString = img.split("://")
             if (imgString[0] === "ipfs") {
               img = "https://ipfs.io/ipfs/" + imgString[imgString.length - 1]
