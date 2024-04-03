@@ -92,10 +92,12 @@ export default function NFTCard({
     }
     if (uri !== undefined) {
       await fetch(uri)
+
         .then(resp =>
           resp.json()
         ).then((json) => {
           let img = json.image
+
           const imgString = img.split("://")
           if (imgString[0] === "ipfs") {
             img = "https://ipfs.io/ipfs/" + imgString[imgString.length - 1]
@@ -106,6 +108,7 @@ export default function NFTCard({
           setDescription(json.description)
         })
     }
+
 
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -194,9 +197,7 @@ export default function NFTCard({
   }
 
   useEffect(() => {
-    setTimeout(() => {
-      setDetail(data)
-    }, 2000);
+    setDetail(data)
     const now = new Date()
     if (action === 1 && new Date(parseInt(stakedTime) * 1000 + 365 * 24 * 3600 * 1000 + 7000) >= now) {
       autoClaim()
