@@ -5,24 +5,14 @@ import FAQItem from '../components/FAQItem'
 import Sidebar from '../components/Sidebar'
 import Web3Modal from 'web3modal'
 import Web3 from 'web3'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import MainContent from '../components/MainContent'
 import Header from '../components/Header'
 import { providers, ethers } from 'ethers'
 import { CHAIN_ID, SITE_ERROR, SMARTCONTRACT_ABI_ERC20, SMARTCONTRACT_ADDRESS_ERC20 } from '../../config'
 import { errorAlert, errorAlertCenter } from '../components/toastGroup'
 import MobileFooter from '../components/MobileFooter'
-
-const INFURA_ID = '460f40a260564ac4a4f4b3fffb032dad'
-
-const providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider, // required
-    options: {
-      infuraId: INFURA_ID, // required
-    },
-  },
-}
+import { providerOptions } from '../hook/connectWallet'
+import { checkNetwork } from '../hook/ethereum'
 
 let web3Modal = undefined
 
@@ -33,17 +23,6 @@ export default function FAQ({ headerAlert, closeAlert }) {
   const [signerBalance, setSignerBalance] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  const checkNetwork = async (alert) => {
-    const web3 = new Web3(Web3.givenProvider)
-    const chainId = await web3.eth.getChainId()
-    if (chainId === CHAIN_ID) {
-      return true
-    } else {
-      if (alert !== "no-alert")
-        errorAlert(SITE_ERROR[0])
-      return false
-    }
-  }
   const connectWallet = async () => {
     setLoading(true)
     if (await checkNetwork()) {
@@ -134,7 +113,7 @@ export default function FAQ({ headerAlert, closeAlert }) {
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Container>
-            <div className="section-title">
+            <div className="section-title" style={{ paddingTop: !headerAlert ? 35 : 60 }}>
               <h1>Frequently asked questions</h1>
               <p>If the answer to your question isn&apos;t here then ask it on <a href="https://twitter.com/DustyVaultsNFT" target="_blank" rel="noreferrer">Twitter</a>, we&apos;ll answer it and add it.</p>
               <p>Store your NFT&apos;s in our vaults and they will get $Dusty</p>

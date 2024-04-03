@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { green, red, blueGrey, blue } from '@mui/material/colors';
+import { green, red, blueGrey, blue, grey } from '@mui/material/colors';
 import { styled } from '@mui/system';
 
 export const ConnectButton = styled(Button)(({ theme }) => ({
@@ -85,6 +85,27 @@ export const DoActionButton = styled(Button)(({ theme }) => ({
   }
 }));
 
+export const CancelButton = styled(Button)(({ theme }) => ({
+  color: "#fff",
+  borderRadius: 3,
+  fontSize: 12,
+  fontWeight: 600,
+  textTransform: "uppercase",
+  backgroundColor: grey[600],
+  height: 30,
+  position: "relative",
+  zIndex: 2,
+  fontFamily: "Open Sans",
+  borderColor: `${grey[800]} !important`,
+  '&:hover': {
+    backgroundColor: grey[800],
+  },
+  '&:disabled': {
+    color: "#fff",
+    backgroundColor: grey[600],
+  }
+}));
+
 export const UnstakeButton = styled(Button)(({ theme }) => ({
   color: "#fff",
   borderRadius: 3,
@@ -132,10 +153,25 @@ export const MenuButton = styled(Button)(({ theme }) => ({
   fontWeight: 900,
   textTransform: "uppercase",
   padding: "10px 24px",
-  marginRight: 20,
   position: "relative",
   borderBottom: "1px solid #ccc",
   fontFamily: "Open Sans",
+}));
+
+export const MoreMenuButton = styled(Button)(({ theme }) => ({
+  fontSize: 14,
+  fontWeight: 900,
+  textTransform: "capitalize",
+  padding: "5px 24px",
+  marginRight: 0,
+  position: "relative",
+  fontFamily: "Open Sans",
+  borderRadius: 0,
+  display: "flex",
+  justifyContent: "left",
+  color: "#333",
+  marginTop: 5,
+  marginBottom: 5
 }));
 
 export const ActionButton = styled(Button)(({ theme }) => ({
